@@ -1,0 +1,58 @@
+---
+---
+
+<section class="relative py-16 md:py-20">
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="reveal mb-10 text-center">
+      <h2 class="mb-4 text-3xl font-bold md:text-4xl">Get started in 3 steps</h2>
+    </div>
+
+    <div class="reveal-stagger space-y-6">
+      <!-- Step 1 -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <div class="mb-4 flex items-center gap-3">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold">1</span>
+          <h3 class="text-lg font-semibold">Install the compiler</h3>
+        </div>
+        <div class="overflow-hidden rounded-xl bg-slate-950 p-4">
+          <pre class="text-sm"><code class="text-slate-300"><span class="text-slate-500"># macOS (Apple Silicon)</span>
+curl -L https://github.com/rfunix/kodo/releases/latest/download/kodoc-macos-aarch64 -o kodoc
+chmod +x kodoc && sudo mv kodoc /usr/local/bin/</code></pre>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <div class="mb-4 flex items-center gap-3">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold">2</span>
+          <h3 class="text-lg font-semibold">Write hello.ko</h3>
+        </div>
+        <div class="overflow-hidden rounded-xl bg-slate-950 p-4">
+          <pre class="text-sm"><code><span class="text-violet-400">module</span> <span class="text-blue-300">hello</span> {'{'}
+    <span class="text-violet-400">meta</span> {'{'}
+        purpose: <span class="text-amber-300">"My first Kōdo program"</span>
+        version: <span class="text-amber-300">"0.1.0"</span>
+    {'}'}
+
+    <span class="text-violet-400">fn</span> <span class="text-blue-300">main</span>() {'{'}
+        println(<span class="text-amber-300">"Hello from Kōdo!"</span>)
+    {'}'}
+{'}'}</code></pre>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <div class="mb-4 flex items-center gap-3">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold">3</span>
+          <h3 class="text-lg font-semibold">Build & run</h3>
+        </div>
+        <div class="overflow-hidden rounded-xl bg-slate-950 p-4">
+          <pre class="text-sm"><code class="text-slate-300">kodoc build hello.ko -o hello
+./hello
+<span class="text-emerald-400">Hello from Kōdo!</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+const stats = [
+  { value: "127", label: "Examples", detail: "covering the full language" },
+  { value: "1,923", label: "Tests passing", detail: "unit + integration + snapshot" },
+  { value: "25", label: "Guide pages", detail: "from basics to advanced" },
+  { value: "14", label: "Compiler crates", detail: "modular architecture" },
+  { value: "700+", label: "Error codes", detail: "with structured JSON output" },
+  { value: "0", label: "Implicit conversions", detail: "by design" },
+];
+---
+
+<section class="relative py-16 md:py-20">
+  <div class="mx-auto max-w-5xl px-6">
+    <div class="reveal rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/40 via-slate-900/40 to-violet-950/40 p-10 md:p-12">
+      <div class="mb-8 text-center">
+        <p class="text-sm font-semibold uppercase tracking-widest text-indigo-400">By the numbers</p>
+      </div>
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
+        {stats.map((stat) => (
+          <div class="text-center">
+            <div class="text-3xl font-bold text-white md:text-4xl">{stat.value}</div>
+            <div class="mt-1 text-sm font-medium text-slate-300">{stat.label}</div>
+            <div class="mt-0.5 text-[11px] text-slate-500">{stat.detail}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

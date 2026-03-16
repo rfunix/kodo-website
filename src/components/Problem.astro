@@ -1,0 +1,272 @@
+---
+---
+
+<section class="relative py-16 md:py-20">
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950"></div>
+
+  <div class="relative mx-auto max-w-6xl px-6">
+    <div class="reveal mb-6 text-center">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">The problem</p>
+      <h2 class="mb-4 text-3xl font-bold md:text-4xl">
+        AI agents are writing production code.<br />
+        <span class="text-slate-400">In languages that weren't built for them.</span>
+      </h2>
+      <p class="mx-auto max-w-2xl text-base text-slate-500">
+        Every existing language was designed for humans typing at keyboards. Click any row to see how Kōdo solves it.
+      </p>
+    </div>
+
+    <div class="reveal-stagger mt-12 space-y-3">
+
+      <!-- 1. No correctness guarantees -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">No correctness guarantees</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">AI generates code that "looks right" but has subtle bugs</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">Contracts (requires/ensures) verified by Z3 SMT solver at compile time</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-violet-400">fn</span> <span class="text-blue-300">safe_divide</span>(a: <span class="text-cyan-300">Int</span>, b: <span class="text-cyan-300">Int</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Int</span>
+    <span class="text-violet-400">requires</span> {'{'} b <span class="text-slate-400">!=</span> <span class="text-orange-300">0</span> {'}'}        <span class="text-slate-500">// precondition — verified by Z3</span>
+    <span class="text-violet-400">ensures</span>  {'{'} result <span class="text-slate-400">!=</span> <span class="text-orange-300">0</span> {'}'}  <span class="text-slate-500">// postcondition — guaranteed</span>
+{'{'}
+    <span class="text-violet-400">return</span> a <span class="text-slate-400">/</span> b
+{'}'}</code></pre>
+        </div>
+      </div>
+
+      <!-- 2. No authorship tracking -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">No authorship tracking</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">You can't tell which agent wrote which function</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">@authored_by, @confidence, @reviewed_by — compiler-enforced</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>)
+<span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.92</span>)
+<span class="text-violet-400">fn</span> <span class="text-blue-300">process_payment</span>(amount: <span class="text-cyan-300">Int</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Bool</span> {'{'}
+    <span class="text-slate-500">// compiler knows: claude wrote this, 92% confident</span>
+    <span class="text-violet-400">return</span> amount <span class="text-slate-400">&gt;</span> <span class="text-orange-300">0</span>
+{'}'}</code></pre>
+        </div>
+      </div>
+
+      <!-- 3. No trust enforcement -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">No trust enforcement</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">Low-quality AI code ships without review</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">Code below 0.8 confidence won't compile without human sign-off</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.5</span>)                   <span class="text-slate-500">// too low!</span>
+<span class="text-violet-400">fn</span> <span class="text-blue-300">risky</span>() {'{'} ... {'}'}
+
+<span class="text-red-400">error[E0260]</span>: confidence 0.50 below threshold 0.80
+  <span class="text-slate-400">help:</span> add <span class="text-emerald-400">@reviewed_by</span>(human: <span class="text-amber-300">"..."</span>) to compile</code></pre>
+        </div>
+      </div>
+
+      <!-- 4. Ambiguous semantics -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">Ambiguous semantics</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">AI hallucinates APIs, misunderstands ownership</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">Zero-ambiguity LL(1) grammar, linear ownership, no implicit conversions</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-violet-400">fn</span> <span class="text-blue-300">consume</span>(<span class="text-violet-400">own</span> s: <span class="text-cyan-300">String</span>) {'{'} println(s) {'}'}
+
+<span class="text-violet-400">fn</span> <span class="text-blue-300">main</span>() {'{'}
+    <span class="text-violet-400">let</span> msg: <span class="text-cyan-300">String</span> = <span class="text-amber-300">"hello"</span>
+    consume(msg)      <span class="text-slate-500">// msg is moved</span>
+    <span class="text-slate-500">// println(msg)   // <span class="text-red-400">E0240</span>: use-after-move</span>
+{'}'}</code></pre>
+        </div>
+      </div>
+
+      <!-- 5. Boilerplate generation -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">Boilerplate generation</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">AI generates repetitive glue code that rots</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">Intent blocks: declare what, compiler generates how</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-slate-500">// No main(), no boilerplate — just declare intent</span>
+<span class="text-violet-400">intent</span> <span class="text-blue-300">console_app</span> {'{'}
+    greeting: <span class="text-amber-300">"Hello from Kōdo!"</span>
+{'}'}
+<span class="text-slate-500">// Compiler expands to full program at AST level</span></code></pre>
+        </div>
+      </div>
+
+      <!-- 6. Opaque modules -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">Opaque modules</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">AI generates code without explaining purpose</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">Mandatory meta blocks — every module is self-describing</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">payments</span> {'{'}
+    <span class="text-violet-400">meta</span> {'{'}
+        purpose: <span class="text-amber-300">"Process recurring subscription payments"</span>
+        version: <span class="text-amber-300">"2.1.0"</span>
+    {'}'}
+    <span class="text-slate-500">// Compiler rejects modules without meta block</span>
+{'}'}</code></pre>
+        </div>
+      </div>
+
+      <!-- 7. Useless error messages -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">Useless error messages</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">Compiler errors are prose for humans, not data for agents</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">Structured JSON errors with machine-applicable fix patches</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-slate-500">// kodoc check --json-errors</span>
+{'{'} <span class="text-indigo-400">"code"</span>: <span class="text-amber-300">"E0201"</span>,
+  <span class="text-indigo-400">"message"</span>: <span class="text-amber-300">"undefined type `conter`"</span>,
+  <span class="text-indigo-400">"suggestion"</span>: <span class="text-amber-300">"did you mean `counter`?"</span>,
+  <span class="text-indigo-400">"fix_patch"</span>: {'{'}
+    <span class="text-indigo-400">"start_offset"</span>: <span class="text-orange-300">42</span>,
+    <span class="text-indigo-400">"end_offset"</span>: <span class="text-orange-300">48</span>,
+    <span class="text-indigo-400">"replacement"</span>: <span class="text-amber-300">"counter"</span>
+  {'}'} {'}'}</code></pre>
+        </div>
+      </div>
+
+      <!-- 8. No repair loop -->
+      <div class="problem-card group overflow-hidden rounded-xl border border-slate-800 transition hover:border-indigo-500/30">
+        <button class="problem-toggle flex w-full items-start gap-4 p-5 text-left" aria-expanded="false">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-400 transition group-hover:bg-indigo-500/10 group-hover:text-indigo-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+              <h3 class="shrink-0 text-sm font-semibold text-slate-200 md:w-52">No repair loop</h3>
+              <p class="text-sm text-red-400/70 line-through decoration-red-500/30 md:flex-1">Agent gets an error, guesses the fix, hopes it works</p>
+            </div>
+            <div class="mt-2 flex items-start gap-2">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              <span class="text-sm font-medium text-emerald-300">kodoc fix applies patches automatically — zero guessing</span>
+            </div>
+          </div>
+          <svg class="problem-chevron mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <div class="problem-content hidden border-t border-slate-800/50 bg-slate-950/50 px-5 py-4">
+          <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-slate-400">$</span> kodoc check app.ko --json-errors
+<span class="text-red-400">2 errors found</span>
+
+<span class="text-slate-400">$</span> kodoc fix app.ko
+<span class="text-emerald-400">Applied 2 patches:</span>
+  <span class="text-slate-400">- E0201: renamed `conter` → `counter`</span>
+  <span class="text-slate-400">- E0103: added missing `return`</span>
+
+<span class="text-slate-400">$</span> kodoc build app.ko -o app
+<span class="text-emerald-400">Build succeeded.</span></code></pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.problem-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.problem-card');
+        if (!card) return;
+        const content = card.querySelector('.problem-content');
+        const chevron = card.querySelector('.problem-chevron');
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        content?.classList.toggle('hidden');
+        chevron?.classList.toggle('rotate-180');
+      });
+    });
+  });
+</script>

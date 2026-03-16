@@ -1,0 +1,211 @@
+---
+title: "Grammar (EBNF)"
+sidebar:
+  order: 2
+---
+
+The formal grammar of Kōdo in Extended Backus-Naur Form (EBNF). Kōdo is an LL(1) language with zero syntactic ambiguity.
+
+```ebnf
+(* Kōdo Formal Grammar — EBNF *)
+(* Version: 0.1.0 (initial subset) *)
+(* This grammar is LL(1)-parseable with zero ambiguity. *)
+
+(* ===== Academic References ===== *)
+(* This grammar follows LL(1) construction principles from:                    *)
+(*   [EC]  Engineering a Compiler, Ch. 3 — LL(1) condition, FIRST/FOLLOW sets  *)
+(*   [CI]  Crafting Interpreters, Ch. 6 — Recursive descent implementation     *)
+(*   [PLP] Programming Language Pragmatics, Ch. 2.3 — Top-down parsing        *)
+(* The contract clauses (requires/ensures) are novel syntax for embedding      *)
+(* Hoare-style pre/postconditions directly in function signatures:             *)
+(*   [SF]  Software Foundations, Vol. 1–2 — Hoare logic foundations            *)
+(*   [CC]  The Calculus of Computation, Ch. 1–6 — Logical contract language    *)
+(* The intent system (intent_decl) is a novel construct with no direct         *)
+(* precedent in the literature — it bridges AI agent goals and verified code.  *)
+(* See docs/REFERENCES.md for the full bibliography.                           *)
+
+(* ===== Top Level ===== *)
+
+module          = "module" IDENT "{" meta_block? declaration* "}" ;
+
+meta_block      = "meta" "{" meta_entry ("," meta_entry)* ","? "}" ;
+meta_entry      = IDENT ":" STRING_LIT ;
+
+declaration     = function_decl
+                | type_decl
+                | struct_decl
+                | enum_decl
+                | trait_decl
+                | impl_block
+                | intent_decl
+                | invariant_decl
+                | import_decl
+                | test_decl ;
+
+(* ===== Imports ===== *)
+
+import_decl     = "import" module_path import_names? ;
+module_path     = IDENT ( "::" IDENT )* ;
+import_names    = "{" IDENT ( "," IDENT )* ","? "}" ;
+
+(* ===== Types ===== *)
+
+type_decl       = "pub"? "type" IDENT generic_params? "{" field_list "}" ;
+enum_decl       = "pub"? "enum" IDENT generic_params? "{" variant_list "}" ;
+
+generic_params  = "<" generic_param ("," generic_param)* ">" ;
+generic_param   = IDENT ( ":" IDENT ( "+" IDENT )* )? ;
+field_list      = ( field ("," field)* ","? )? ;
+field           = IDENT ":" type_expr ;
+variant_list    = ( variant ("," variant)* ","? )? ;
+variant         = IDENT ( "(" type_expr ("," type_expr)* ")" )?
+                | IDENT "{" field_list "}" ;
+
+type_expr       = IDENT generic_args?           (* named type: Int, List<T> *)
+                | "(" type_list? ")" "->" type_expr  (* function type *)
+                | "(" type_expr ("," type_expr)+ ")"  (* tuple type: (Int, String) *)
+                | "(" type_expr "," ")"           (* single-element tuple: (Int,) *)
+                | "(" ")" ;                      (* unit type *)
+
+generic_args    = "<" type_expr ("," type_expr)* ">" ;
+type_list       = type_expr ("," type_expr)* ;
+
+(* ===== Traits and Impl Blocks ===== *)
+
+trait_decl      = "trait" IDENT "{" trait_member* "}" ;
+trait_member    = assoc_type_decl
+                | trait_method_decl ;
+
+assoc_type_decl = "type" IDENT ( ":" type_bound )? ;
+type_bound      = IDENT ( "+" IDENT )* ;
+
+trait_method_decl = "fn" IDENT "(" param_list? ")" return_type? block?  ;
+                (* A method without a block is abstract; with a block is a default method. *)
+
+impl_block      = "impl" IDENT "for" IDENT "{" impl_member* "}" ;
+impl_member     = type_binding
+                | function_decl ;
+type_binding    = "type" IDENT "=" type_expr ;
+
+struct_decl     = "pub"? "struct" IDENT "{" field_list "}" ;
+
+(* ===== Functions ===== *)
+
+function_decl   = annotation* "pub"? "async"? "fn" IDENT "(" param_list? ")" return_type? contract* block ;
+
+param_list      = param ("," param)* ;
+param           = IDENT ":" type_expr ;
+return_type     = "->" type_expr ;
+
+contract        = "requires" "{" expr "}"
+                | "ensures"  "{" expr "}" ;
+
+annotation      = "@" IDENT ( "(" annotation_args ")" )? ;
+annotation_args = annotation_arg ("," annotation_arg)* ;
+annotation_arg  = IDENT ":" expr
+                | expr ;
+
+(* ===== Tests ===== *)
+
+test_decl       = annotation* "test" STRING_LIT block ;
+
+(* ===== Intent System ===== *)
+
+intent_decl     = "intent" IDENT "{" intent_config* "}" ;
+intent_config   = IDENT ":" expr ;
+
+(* ===== Module Invariants ===== *)
+
+invariant_decl  = "invariant" "{" expr "}" ;
+
+(* ===== Statements ===== *)
+
+block           = "{" statement* "}" ;
+
+statement       = let_stmt
+                | assign_stmt
+                | while_stmt
+                | for_stmt
+                | for_in_stmt
+                | return_stmt
+                | break_stmt
+                | continue_stmt
+                | spawn_stmt
+                | expr_stmt ;
+
+spawn_stmt      = "spawn" block ;
+
+let_stmt        = "let" "mut"? IDENT (":" type_expr)? "=" expr
+                | "let" "mut"? pattern (":" type_expr)? "=" expr ;
+assign_stmt     = IDENT "=" expr ;
+while_stmt      = "while" expr block ;
+for_stmt        = "for" IDENT "in" range_expr block ;
+for_in_stmt     = "for" IDENT "in" expr block ;
+return_stmt     = "return" expr? ;
+break_stmt      = "break" ;
+continue_stmt   = "continue" ;
+expr_stmt       = expr ;
+
+(* ===== Expressions ===== *)
+(* Precedence (lowest to highest): *)
+(*   || *)
+(*   && *)
+(*   == != *)
+(*   < > <= >= *)
+(*   + - *)
+(*   * / % *)
+(*   unary (! -) *)
+(*   call, field access *)
+(*   primary *)
+
+expr            = or_expr ( ( ".." | "..=" ) or_expr )? ;
+range_expr      = or_expr ( ".." | "..=" ) or_expr ;
+
+or_expr         = and_expr ( "||" and_expr )* ;
+and_expr        = equality_expr ( "&&" equality_expr )* ;
+equality_expr   = comparison_expr ( ( "==" | "!=" ) comparison_expr )* ;
+comparison_expr = additive_expr ( ( "<" | ">" | "<=" | ">=" ) additive_expr )* ;
+additive_expr   = multiplicative_expr ( ( "+" | "-" ) multiplicative_expr )* ;
+multiplicative_expr = unary_expr ( ( "*" | "/" | "%" ) unary_expr )* ;
+
+unary_expr      = ( "!" | "-" ) unary_expr
+                | postfix_expr ;
+
+postfix_expr    = primary_expr ( call_suffix | field_suffix )* ;
+call_suffix     = "(" arg_list? ")" ;
+field_suffix    = "." IDENT
+                | "." INT_LIT ;                   (* tuple index: pair.0 *)
+arg_list        = expr ("," expr)* ;
+
+primary_expr    = FLOAT_LIT
+                | INT_LIT
+                | STRING_LIT
+                | "true" | "false"
+                | IDENT
+                | if_expr
+                | match_expr
+                | block
+                | "(" expr ")"                    (* grouping *)
+                | "(" expr ("," expr)+ ")"        (* tuple literal: (1, "hello") *)
+                | "(" expr "," ")" ;              (* single-element tuple: (42,) *)
+
+if_expr         = "if" expr block ( "else" ( if_expr | block ) )? ;
+
+match_expr      = "match" expr "{" match_arm ("," match_arm)* ","? "}" ;
+match_arm       = pattern "=>" expr ;
+pattern         = IDENT ( "(" pattern_list? ")" )?
+                | "(" pattern ("," pattern)+ ")"  (* tuple pattern: (a, b, c) *)
+                | INT_LIT
+                | STRING_LIT
+                | "_" ;
+pattern_list    = pattern ("," pattern)* ;
+
+(* ===== Lexical Elements ===== *)
+
+IDENT           = [a-zA-Z_] [a-zA-Z0-9_]* ;
+INT_LIT         = [0-9] [0-9_]* ;
+FLOAT_LIT       = [0-9] [0-9_]* "." [0-9] [0-9_]* ;
+STRING_LIT      = '"' [^"]* '"' ;
+LINE_COMMENT    = "//" [^\n]* ;
+
+```

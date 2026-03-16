@@ -1,0 +1,426 @@
+---
+title: "CLI Reference"
+sidebar:
+  order: 22
+---
+
+# CLI Reference
+
+`kodoc` is the Kōdo compiler. It compiles `.ko` source files to native executables and provides tools for inspecting the compilation pipeline.
+
+## Commands
+
+### `kodoc build`
+
+Compile a Kōdo source file to a native executable.
+
+```bash
+kodoc build <file> [options]
+```
+
+**Arguments:**
+
+| Argument | Description |
+|----------|-------------|
+| `<file>` | Path to the `.ko` source file |
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-o, --output <path>` | Output file path | Input filename without `.ko` extension |
+| `--json-errors` | Emit errors as JSON (for AI agent consumption) | `false` |
+| `--contracts <mode>` | Contract checking mode: `static`, `runtime`, `both`, `recoverable`, `none` | `runtime` |
+| `--emit-mir` | Print the MIR (Mid-level IR) to stdout before code generation | `false` |
+
+**Examples:**
+
+```bash
+# Compile hello.ko to ./hello
+kodoc build hello.ko -o hello
+
+# Compile with default output name (produces ./hello from hello.ko)
+kodoc build hello.ko
+
+# Compile with JSON error output
+kodoc build hello.ko --json-errors
+```
+
+### `kodoc check`
+
+Type-check and verify contracts without generating a binary. Useful for fast feedback during development.
+
+```bash
+kodoc check <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json-errors` | Emit errors as JSON | `false` |
+| `--contracts <mode>` | Contract checking mode: `static`, `runtime`, `both`, `recoverable`, `none` | `runtime` |
+| `--emit-cert` | Emit a `.ko.cert.json` compilation certificate alongside diagnostics | `false` |
+| `--repair-plan` | Emit repair plans as JSON for each error (for AI agent consumption) | `false` |
+
+**Example:**
+
+```bash
+kodoc check my_program.ko
+# Output: Check passed for module `my_program`
+```
+
+### `kodoc lex`
+
+Tokenize a source file and print the token stream. Useful for debugging the lexer.
+
+```bash
+kodoc lex <file>
+```
+
+**Example:**
+
+```bash
+kodoc lex hello.ko
+# Output:
+# Module @ 0..6
+# Identifier @ 7..12
+# LeftBrace @ 13..14
+# ...
+# 42 token(s)
+```
+
+### `kodoc parse`
+
+Parse a source file and print the AST (Abstract Syntax Tree). Useful for debugging the parser.
+
+```bash
+kodoc parse <file>
+```
+
+**Example:**
+
+```bash
+kodoc parse hello.ko
+# Output: Debug representation of the AST
+```
+
+### `kodoc mir`
+
+Lower a source file to MIR (Mid-level IR) and print it without generating code. Useful for inspecting the compiler's intermediate representation.
+
+```bash
+kodoc mir <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--contracts <mode>` | Contract checking mode: `static`, `runtime`, `both`, `recoverable`, `none` | `runtime` |
+
+**Example:**
+
+```bash
+kodoc mir hello.ko
+# Output: MIR representation of the program
+```
+
+### `kodoc explain`
+
+Explain an error code in detail with examples. Useful for understanding what caused a specific compiler error.
+
+```bash
+kodoc explain <code> [options]
+```
+
+**Arguments:**
+
+| Argument | Description |
+|----------|-------------|
+| `<code>` | The error code to explain (e.g., `E0200`) |
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json` | Output as JSON instead of human-readable format | `false` |
+
+**Example:**
+
+```bash
+kodoc explain E0200
+# Output: Detailed explanation of the error with examples and fix suggestions
+
+kodoc explain E0200 --json
+# Output: JSON explanation for agent consumption
+```
+
+### `kodoc describe`
+
+Inspect metadata embedded in a compiled Kōdo binary. Shows the compilation certificate stored in the binary.
+
+```bash
+kodoc describe <binary> [options]
+```
+
+**Arguments:**
+
+| Argument | Description |
+|----------|-------------|
+| `<binary>` | Path to the compiled binary |
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json` | Output as raw JSON instead of human-readable format | `false` |
+
+**Example:**
+
+```bash
+kodoc describe ./hello
+# Output: Module name, purpose, version, functions, contracts, confidence scores
+
+kodoc describe ./hello --json
+# Output: JSON metadata for agent consumption
+```
+
+### `kodoc test`
+
+Run tests defined in a Kōdo source file. See [Testing](testing.md) for details on writing tests.
+
+```bash
+kodoc test <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--filter <pattern>` | Filter tests by name substring | (none — run all) |
+| `--json` | Output results as JSON for agent consumption | `false` |
+| `--contracts <mode>` | Contract checking mode: `static`, `runtime`, `both`, `recoverable`, `none` | `runtime` |
+
+**Examples:**
+
+```bash
+# Run all tests
+kodoc test examples/testing.ko
+
+# Run only tests matching a pattern
+kodoc test examples/testing.ko --filter "add"
+
+# JSON output for agents
+kodoc test examples/testing.ko --json
+```
+
+### `kodoc intent-explain`
+
+Show the code generated by intent resolvers without compiling. Useful for understanding what an `intent` block produces.
+
+```bash
+kodoc intent-explain <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json` | Output as JSON | `false` |
+
+**Example:**
+
+```bash
+kodoc intent-explain intent_demo.ko
+# Output: Shows the generated kodo_main() function from the console_app resolver
+```
+
+### `kodoc fmt`
+
+Format a Kōdo source file according to the standard style.
+
+```bash
+kodoc fmt <file>
+```
+
+**Example:**
+
+```bash
+kodoc fmt my_program.ko
+# Output: Formatted output of my_program.ko
+```
+
+### `kodoc confidence-report`
+
+Generate a confidence report showing declared and computed confidence for each function in a module.
+
+```bash
+kodoc confidence-report <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json` | Output as JSON instead of human-readable table | `false` |
+| `--threshold <float>` | Confidence threshold — functions below this value are flagged | `0.8` |
+
+**Example:**
+
+```bash
+kodoc confidence-report agent_traceability.ko
+# Output: Table of function confidences
+
+kodoc confidence-report agent_traceability.ko --json
+# Output: JSON confidence report
+```
+
+### `kodoc fix`
+
+Automatically apply fix patches suggested by the compiler.
+
+```bash
+kodoc fix <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--dry-run` | Show patches without applying them | `false` |
+
+**Example:**
+
+```bash
+# Show what would be fixed
+kodoc fix my_program.ko --dry-run
+
+# Apply fixes
+kodoc fix my_program.ko
+```
+
+### `kodoc repl`
+
+Start an interactive Read-Eval-Print Loop. Each input is compiled and executed through the full pipeline (parse, type-check, desugar, MIR, codegen, link, run).
+
+```bash
+kodoc repl
+```
+
+Definitions (functions, structs, enums, types) persist across inputs — define a function on one line, call it on the next. Multi-line input is detected automatically when braces are unbalanced. Command history is persisted to `~/.kodo_history` across sessions.
+
+**REPL commands:**
+
+| Command | Alias | Description |
+|---------|-------|-------------|
+| `:help` | `:h` | Show available commands |
+| `:quit` | `:q`, `:exit` | Exit the REPL |
+| `:reset` | `:clear` | Clear all accumulated definitions |
+| `:type <expr>` | `:t <expr>` | Show the type of an expression without executing it |
+| `:ast <expr>` | | Show the AST of an expression |
+| `:mir <expr>` | | Show the MIR of an expression |
+
+**Examples:**
+
+```bash
+kodoc repl
+kōdo> println("Hello from the REPL!")
+kōdo> let x: Int = 2 + 3
+kōdo> fn double(n: Int) -> Int { return n * 2 }
+kōdo> double(x)
+kōdo> :type 42
+kōdo> :reset
+kōdo> :quit
+```
+
+### `kodoc lsp`
+
+Start the Kōdo Language Server Protocol server on stdin/stdout. Connect it to any LSP-compatible editor (VS Code, Neovim, etc.) or AI agent.
+
+```bash
+kodoc lsp
+```
+
+**Features:**
+- Real-time diagnostics (parse errors, type errors)
+- Hover information (function signatures, contracts, full annotations with args — e.g., `@confidence(0.85)`, `@authored_by(agent: "claude")`)
+- Code actions from FixPatch — automatic quick-fix suggestions for type errors with machine-applicable patches
+- Completions for 31 built-in functions with signature details, user-defined functions with contract info (`requires`/`ensures`)
+- Goto definition (functions, variables, parameters, structs, enums), find references, rename, signature help, document symbols
+
+### `kodoc audit`
+
+Generate a consolidated audit report combining confidence scores, contract verification status, and annotations.
+
+```bash
+kodoc audit <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json` | Output as JSON | `false` |
+| `--contracts <mode>` | Contract checking mode: `static`, `runtime`, `both`, `recoverable`, `none` | `runtime` |
+| `--policy <criteria>` | Enforce a deployment policy and exit non-zero if not met | (none) |
+
+The `--policy` flag accepts a comma-separated list of criteria:
+
+| Criterion | Description |
+|-----------|-------------|
+| `min_confidence=<float>` | All functions must have effective confidence >= the given threshold |
+| `contracts=all_verified` | All contracts must be statically verified by Z3 |
+| `contracts=all_present` | Every function must have at least one contract |
+| `reviewed=all` | Every function must have a `@reviewed_by` annotation |
+
+**Example:**
+
+```bash
+# Human-readable audit
+kodoc audit my_module.ko
+
+# JSON for agents
+kodoc audit my_module.ko --json --contracts both
+```
+
+The audit report includes:
+- Per-function confidence scores (declared and effective after transitive propagation)
+- Contract verification summary (static verified, runtime checks, failures)
+- Deployability status (`true` if min confidence > 0.9 and zero contract failures)
+- All annotations per function
+
+## Running via Cargo
+
+If you haven't installed `kodoc` to your PATH, run it through Cargo:
+
+```bash
+cargo run -p kodoc -- build hello.ko -o hello
+cargo run -p kodoc -- check hello.ko
+cargo run -p kodoc -- lex hello.ko
+cargo run -p kodoc -- parse hello.ko
+cargo run -p kodoc -- mir hello.ko
+cargo run -p kodoc -- explain E0200
+cargo run -p kodoc -- describe ./hello
+cargo run -p kodoc -- test examples/testing.ko
+cargo run -p kodoc -- intent-explain intent_demo.ko
+cargo run -p kodoc -- fmt hello.ko
+cargo run -p kodoc -- repl
+cargo run -p kodoc -- lsp
+```
+
+The `--` separates Cargo's arguments from `kodoc`'s arguments.
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `KODO_RUNTIME_LIB` | Path to `libkodo_runtime.a`. If not set, `kodoc` searches relative to its own binary and common `target/` directories. |
+| `RUST_LOG` | Controls tracing output (e.g., `RUST_LOG=info kodoc build hello.ko`) |
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | Compilation error (parse, type, contract, codegen, or link error) |

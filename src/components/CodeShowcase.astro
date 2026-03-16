@@ -1,0 +1,82 @@
+---
+---
+
+<section class="relative py-16 md:py-20">
+  <div class="mx-auto max-w-5xl px-6">
+    <div class="reveal mb-4 text-center">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">Code examples</p>
+      <h2 class="mb-4 text-3xl font-bold md:text-4xl">See Kōdo in action</h2>
+      <p class="text-lg text-slate-400">Real code. Real features. No boilerplate.</p>
+    </div>
+
+    <div class="reveal mt-12 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 shadow-2xl">
+      <!-- Tabs -->
+      <div class="flex overflow-x-auto border-b border-slate-800" id="code-tabs">
+        <button data-tab="contracts" class="code-tab shrink-0 border-b-2 border-indigo-500 px-6 py-3 text-sm font-medium text-white transition">Contracts</button>
+        <button data-tab="traceability" class="code-tab shrink-0 px-6 py-3 text-sm font-medium text-slate-400 transition hover:text-slate-200">Agent Traceability</button>
+        <button data-tab="intents" class="code-tab shrink-0 px-6 py-3 text-sm font-medium text-slate-400 transition hover:text-slate-200">Intents</button>
+        <button data-tab="testing" class="code-tab shrink-0 px-6 py-3 text-sm font-medium text-slate-400 transition hover:text-slate-200">Testing</button>
+      </div>
+
+      <!-- Contracts -->
+      <div data-panel="contracts" class="code-panel">
+        <div class="border-b border-slate-800/50 bg-slate-950/30 px-6 py-2">
+          <span class="text-xs text-slate-500">Preconditions verified by Z3 SMT solver at compile time — logical errors caught before code runs</span>
+        </div>
+        <pre class="overflow-x-auto p-6 text-sm leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">math</span> {'{'}<br/>    <span class="text-violet-400">meta</span> {'{'}<br/>        purpose: <span class="text-amber-300">"Safe math operations"</span><br/>        version: <span class="text-amber-300">"1.0.0"</span><br/>    {'}'}<br/><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">safe_divide</span>(a: <span class="text-cyan-300">Int</span>, b: <span class="text-cyan-300">Int</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Int</span><br/>        <span class="text-violet-400">requires</span> {'{'} b <span class="text-slate-400">!=</span> <span class="text-orange-300">0</span> {'}'}<br/>    {'{'}<br/>        <span class="text-violet-400">return</span> a <span class="text-slate-400">/</span> b<br/>    {'}'}<br/><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">clamp</span>(value: <span class="text-cyan-300">Int</span>, min: <span class="text-cyan-300">Int</span>, max: <span class="text-cyan-300">Int</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Int</span><br/>        <span class="text-violet-400">requires</span> {'{'} min <span class="text-slate-400">&lt;=</span> max {'}'}<br/>        <span class="text-violet-400">ensures</span> {'{'} result <span class="text-slate-400">&gt;=</span> min <span class="text-slate-400">&amp;&amp;</span> result <span class="text-slate-400">&lt;=</span> max {'}'}<br/>    {'{'}<br/>        <span class="text-violet-400">if</span> value <span class="text-slate-400">&lt;</span> min {'{'} <span class="text-violet-400">return</span> min {'}'}<br/>        <span class="text-violet-400">if</span> value <span class="text-slate-400">&gt;</span> max {'{'} <span class="text-violet-400">return</span> max {'}'}<br/>        <span class="text-violet-400">return</span> value<br/>    {'}'}<br/>{'}'}</code></pre>
+      </div>
+
+      <!-- Agent Traceability -->
+      <div data-panel="traceability" class="code-panel hidden">
+        <div class="border-b border-slate-800/50 bg-slate-950/30 px-6 py-2">
+          <span class="text-xs text-slate-500">@confidence below 0.8 requires @reviewed_by or compilation fails (E0260) — this is enforcement, not suggestion</span>
+        </div>
+        <pre class="overflow-x-auto p-6 text-sm leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">auth</span> {'{'}<br/>    <span class="text-violet-400">meta</span> {'{'}<br/>        purpose: <span class="text-amber-300">"Authentication service"</span><br/>        version: <span class="text-amber-300">"2.0.0"</span><br/>        min_confidence: <span class="text-orange-300">0.8</span><br/>    {'}'}<br/><br/>    <span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>)<br/>    <span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.95</span>)     <span class="text-slate-500">// High confidence — compiles freely</span><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">validate_token</span>(<span class="text-violet-400">ref</span> token: <span class="text-cyan-300">String</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Bool</span> {'{'}<br/>        <span class="text-violet-400">return</span> len(token) <span class="text-slate-400">&gt;</span> <span class="text-orange-300">0</span><br/>    {'}'}<br/><br/>    <span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>)<br/>    <span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.5</span>)      <span class="text-slate-500">// Low confidence — WON'T COMPILE without:</span><br/>    <span class="text-emerald-400">@reviewed_by</span>(human: <span class="text-amber-300">"rafael"</span>)  <span class="text-slate-500">// Human sign-off required</span><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">experimental_auth</span>(<span class="text-violet-400">ref</span> token: <span class="text-cyan-300">String</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Bool</span> {'{'}<br/>        <span class="text-violet-400">return</span> validate_token(token)<br/>    {'}'}<br/>{'}'}</code></pre>
+      </div>
+
+      <!-- Intents -->
+      <div data-panel="intents" class="code-panel hidden">
+        <div class="border-b border-slate-800/50 bg-slate-950/30 px-6 py-2">
+          <span class="text-xs text-slate-500">Declare what you want — the compiler generates the implementation with full type checking</span>
+        </div>
+        <pre class="overflow-x-auto p-6 text-sm leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">api</span> {'{'}<br/>    <span class="text-violet-400">meta</span> {'{'}<br/>        purpose: <span class="text-amber-300">"REST API server"</span><br/>        version: <span class="text-amber-300">"1.0.0"</span><br/>    {'}'}<br/><br/>    <span class="text-slate-500">// No main(), no boilerplate — just declare intent</span><br/>    <span class="text-violet-400">intent</span> <span class="text-blue-300">http_server</span> {'{'}<br/>        port: <span class="text-orange-300">8080</span><br/>        routes: [<br/>            {'{'} method: <span class="text-amber-300">"GET"</span>,  path: <span class="text-amber-300">"/health"</span> {'}'}<br/>            {'{'} method: <span class="text-amber-300">"POST"</span>, path: <span class="text-amber-300">"/users"</span>  {'}'}<br/>        ]<br/>    {'}'}<br/><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">handle_health</span>() <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">String</span> {'{'}<br/>        <span class="text-violet-400">return</span> <span class="text-amber-300">"OK"</span><br/>    {'}'}<br/>{'}'}</code></pre>
+      </div>
+
+      <!-- Testing -->
+      <div data-panel="testing" class="code-panel hidden">
+        <div class="border-b border-slate-800/50 bg-slate-950/30 px-6 py-2">
+          <span class="text-xs text-slate-500">Built-in test keyword with assertions — no external framework needed. Run with kodoc test</span>
+        </div>
+        <pre class="overflow-x-auto p-6 text-sm leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">math_tests</span> {'{'}<br/>    <span class="text-violet-400">meta</span> {'{'}<br/>        purpose: <span class="text-amber-300">"Tests for math operations"</span><br/>        version: <span class="text-amber-300">"1.0.0"</span><br/>    {'}'}<br/><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">add</span>(a: <span class="text-cyan-300">Int</span>, b: <span class="text-cyan-300">Int</span>) <span class="text-slate-400">-&gt;</span> <span class="text-cyan-300">Int</span> {'{'}<br/>        <span class="text-violet-400">return</span> a <span class="text-slate-400">+</span> b<br/>    {'}'}<br/><br/>    <span class="text-violet-400">test</span> <span class="text-amber-300">"addition works"</span> {'{'}<br/>        assert_eq(add(<span class="text-orange-300">2</span>, <span class="text-orange-300">3</span>), <span class="text-orange-300">5</span>)<br/>        assert_eq(add(<span class="text-orange-300">-1</span>, <span class="text-orange-300">1</span>), <span class="text-orange-300">0</span>)<br/>    {'}'}<br/><br/>    <span class="text-violet-400">test</span> <span class="text-amber-300">"addition is commutative"</span> {'{'}<br/>        assert_eq(add(<span class="text-orange-300">3</span>, <span class="text-orange-300">7</span>), add(<span class="text-orange-300">7</span>, <span class="text-orange-300">3</span>))<br/>    {'}'}<br/><br/>    <span class="text-violet-400">fn</span> <span class="text-blue-300">main</span>() {'{'}<br/>        println(<span class="text-amber-300">"Run tests with: kodoc test"</span>)<br/>    {'}'}<br/>{'}'}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.code-tab');
+    const panels = document.querySelectorAll('.code-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = (tab as HTMLElement).dataset.tab;
+
+        tabs.forEach(t => {
+          t.classList.remove('border-b-2', 'border-indigo-500', 'text-white');
+          t.classList.add('text-slate-400');
+        });
+        tab.classList.add('border-b-2', 'border-indigo-500', 'text-white');
+        tab.classList.remove('text-slate-400');
+
+        panels.forEach(p => {
+          if ((p as HTMLElement).dataset.panel === target) {
+            p.classList.remove('hidden');
+          } else {
+            p.classList.add('hidden');
+          }
+        });
+      });
+    });
+  });
+</script>

@@ -1,0 +1,35 @@
+---
+title: "Kōdo Documentation"
+description: "Learn the programming language designed for AI agents"
+template: splash
+hero:
+  title: "Kōdo Documentation"
+  tagline: "The programming language designed for AI agents — transparent for humans."
+  image:
+    file: ../../assets/kodo.png
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: Take the Tour
+      link: /tour/
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+  <Card title="Contracts" icon="approve-check">
+    Preconditions and postconditions verified by Z3 at compile time. Mathematical proof of correctness.
+  </Card>
+  <Card title="Agent Traceability" icon="pencil">
+    @authored_by, @confidence, @reviewed_by — compiler-enforced authorship tracking for AI-generated code.
+  </Card>
+  <Card title="Intent-Driven" icon="rocket">
+    Declare what you want with intent blocks. The compiler generates the implementation.
+  </Card>
+  <Card title="Linear Ownership" icon="setting">
+    own/ref/mut — every value has exactly one owner. Aliasing bugs caught at compile time.
+  </Card>
+</CardGrid>

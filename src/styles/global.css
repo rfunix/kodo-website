@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* Starlight custom theme tokens */
+:root {
+  --sl-color-accent-low: #1e1b4b;
+  --sl-color-accent: #4f46e5;
+  --sl-color-accent-high: #a5b4fc;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #eceef2;
+  --sl-color-gray-2: #c0c2c7;
+  --sl-color-gray-3: #888b96;
+  --sl-color-gray-4: #545861;
+  --sl-color-gray-5: #353841;
+  --sl-color-gray-6: #24272f;
+  --sl-color-black: #17181c;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #e0e7ff;
+  --sl-color-accent: #4f46e5;
+  --sl-color-accent-high: #312e81;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Landing page typography */
+body:has(.landing-page) h1,
+body:has(.landing-page) h2,
+body:has(.landing-page) h3,
+body:has(.landing-page) h4,
+body:has(.landing-page) nav {
+  font-family: var(--font-display);
+}
+
+body:has(.landing-page) pre,
+body:has(.landing-page) code {
+  font-family: var(--font-mono);
+}
+
+/* Starlight code blocks */
+.expressive-code pre {
+  border-radius: 0.75rem !important;
+}
+
+/* ============================================
+   Scroll-triggered reveal animations
+   ============================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 60ms; }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 120ms; }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 180ms; }
+.reveal-stagger.visible > *:nth-child(5) { transition-delay: 240ms; }
+.reveal-stagger.visible > *:nth-child(6) { transition-delay: 300ms; }
+.reveal-stagger.visible > *:nth-child(7) { transition-delay: 360ms; }
+.reveal-stagger.visible > *:nth-child(8) { transition-delay: 420ms; }
+
+.reveal-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero entrance */
+.hero-enter {
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-enter-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.hero-enter-delay-2 { animation-delay: 0.2s; opacity: 0; }
+.hero-enter-delay-3 { animation-delay: 0.35s; opacity: 0; }
+.hero-enter-delay-4 { animation-delay: 0.5s; opacity: 0; }
+.hero-enter-delay-5 { animation-delay: 0.7s; opacity: 0; }
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,105 @@
+---
+---
+
+<section class="relative py-16 md:py-20">
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950 via-indigo-950/10 to-slate-950"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
+
+  <div class="relative mx-auto max-w-6xl px-6">
+    <div class="reveal mb-6 text-center">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">Compiler-as-Reviewer</p>
+      <h2 class="mb-4 text-3xl font-bold md:text-4xl">Trust enforcement that no other language has</h2>
+      <p class="mx-auto max-w-2xl text-base text-slate-400">
+        Kōdo doesn't just track authorship — it <strong class="text-slate-200">blocks compilation</strong> when trust policies are violated. Three mechanisms work together.
+      </p>
+    </div>
+
+    <div class="reveal-stagger mt-12 grid gap-8 lg:grid-cols-3">
+
+      <!-- 1. Confidence Threshold -->
+      <div class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-6 transition hover:border-red-500/30">
+        <div class="mb-4 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10 text-red-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+          </div>
+          <h3 class="text-lg font-semibold">Compilation Blocking</h3>
+        </div>
+        <p class="mb-4 text-sm leading-relaxed text-slate-400">
+          @confidence below 0.8 without @reviewed_by? <strong class="text-red-400">Compilation fails with E0260.</strong> This isn't a warning — the binary doesn't get produced.
+        </p>
+        <div class="overflow-hidden rounded-lg bg-slate-950/80 p-4">
+          <pre class="text-xs leading-relaxed"><code><span class="text-slate-500">// This WON'T compile:</span>
+<span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.5</span>)
+<span class="text-violet-400">fn</span> <span class="text-blue-300">risky</span>() {'{'} ... {'}'}
+
+<span class="text-red-400">error[E0260]</span>: confidence 0.50
+  below threshold 0.80
+  <span class="text-slate-500">add:</span> <span class="text-emerald-400">@reviewed_by</span>(human: <span class="text-amber-300">"..."</span>)</code></pre>
+        </div>
+      </div>
+
+      <!-- 2. Transitive Confidence -->
+      <div class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-6 transition hover:border-amber-500/30">
+        <div class="mb-4 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          </div>
+          <h3 class="text-lg font-semibold">Transitive Propagation</h3>
+        </div>
+        <p class="mb-4 text-sm leading-relaxed text-slate-400">
+          If <strong class="text-slate-200">fn A (0.95)</strong> calls <strong class="text-slate-200">fn B (0.5)</strong>, A's effective confidence drops to <strong class="text-amber-400">0.5</strong>. You can't hide low-quality code behind a high-confidence wrapper.
+        </p>
+        <div class="overflow-hidden rounded-lg bg-slate-950/80 p-4">
+          <pre class="text-xs leading-relaxed"><code><span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.95</span>)  <span class="text-slate-500">// declared</span>
+<span class="text-violet-400">fn</span> <span class="text-blue-300">process</span>() {'{'}
+    risky()       <span class="text-slate-500">// calls 0.5</span>
+{'}'}
+<span class="text-slate-500">// effective confidence: <span class="text-amber-400">0.5</span></span>
+<span class="text-slate-500">// kodoc confidence-report</span>
+<span class="text-slate-500">// shows full call graph</span></code></pre>
+        </div>
+      </div>
+
+      <!-- 3. Compilation Certificates -->
+      <div class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-6 transition hover:border-emerald-500/30">
+        <div class="mb-4 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+          </div>
+          <h3 class="text-lg font-semibold">Build Certificates</h3>
+        </div>
+        <p class="mb-4 text-sm leading-relaxed text-slate-400">
+          Every build produces a <strong class="text-slate-200">.ko.cert.json</strong> with SHA-256 hashes, per-function confidence scores, and contract verification status. Deploy policies can gate on this.
+        </p>
+        <div class="overflow-hidden rounded-lg bg-slate-950/80 p-4">
+          <pre class="text-xs leading-relaxed"><code><span class="text-slate-500">// .ko.cert.json</span>
+{'{'} <span class="text-indigo-400">"functions"</span>: [
+    {'{'} <span class="text-indigo-400">"name"</span>: <span class="text-amber-300">"validate"</span>,
+      <span class="text-indigo-400">"confidence"</span>: <span class="text-orange-300">0.95</span>,
+      <span class="text-indigo-400">"contracts"</span>: <span class="text-amber-300">"static_verified"</span>,
+      <span class="text-indigo-400">"sha256"</span>: <span class="text-amber-300">"a1b2c3..."</span> {'}'}
+  ] {'}'}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy examples -->
+    <div class="mx-auto mt-12 max-w-3xl rounded-2xl border border-indigo-500/20 bg-indigo-950/20 p-6">
+      <h4 class="mb-3 text-sm font-semibold text-indigo-300">Enforced policies — violations are compilation errors, not warnings:</h4>
+      <div class="grid gap-3 md:grid-cols-3">
+        <div class="flex items-start gap-2">
+          <code class="shrink-0 rounded bg-red-500/10 px-1.5 py-0.5 text-xs font-mono text-red-400">E0260</code>
+          <span class="text-xs text-slate-400">@confidence &lt; 0.8 without @reviewed_by</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <code class="shrink-0 rounded bg-red-500/10 px-1.5 py-0.5 text-xs font-mono text-red-400">E0261</code>
+          <span class="text-xs text-slate-400">Function below module min_confidence</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <code class="shrink-0 rounded bg-red-500/10 px-1.5 py-0.5 text-xs font-mono text-red-400">E0262</code>
+          <span class="text-xs text-slate-400">@security_sensitive without contracts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

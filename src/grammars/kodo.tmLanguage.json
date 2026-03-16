@@ -1,0 +1,165 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "kodo",
+  "displayName": "Kōdo",
+  "scopeName": "source.kodo",
+  "fileTypes": ["ko"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#annotations" },
+    { "include": "#strings" },
+    { "include": "#fstrings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#functions" },
+    { "include": "#operators" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.kodo",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "annotations": {
+      "patterns": [
+        {
+          "name": "meta.annotation.kodo",
+          "match": "@(authored_by|confidence|reviewed_by|security_sensitive|deprecated|agent_generated|verified)\\b",
+          "captures": {
+            "0": { "name": "entity.other.attribute-name.kodo" }
+          }
+        },
+        {
+          "name": "entity.other.attribute-name.kodo",
+          "match": "@[a-zA-Z_][a-zA-Z0-9_]*"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.kodo",
+          "begin": "\"",
+          "end": "\"",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.kodo" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.kodo" } },
+          "patterns": [
+            {
+              "name": "constant.character.escape.kodo",
+              "match": "\\\\[nrt\\\\\"0]"
+            }
+          ]
+        }
+      ]
+    },
+    "fstrings": {
+      "patterns": [
+        {
+          "name": "string.interpolated.kodo",
+          "begin": "f\"",
+          "end": "\"",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.kodo" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.kodo" } },
+          "patterns": [
+            {
+              "name": "constant.character.escape.kodo",
+              "match": "\\\\[nrt\\\\\"0]"
+            },
+            {
+              "name": "meta.interpolation.kodo",
+              "begin": "\\{",
+              "end": "\\}",
+              "beginCaptures": { "0": { "name": "punctuation.section.interpolation.begin.kodo" } },
+              "endCaptures": { "0": { "name": "punctuation.section.interpolation.end.kodo" } },
+              "patterns": [
+                { "include": "source.kodo" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.kodo",
+          "match": "\\b[0-9][0-9_]*\\.[0-9][0-9_]*\\b"
+        },
+        {
+          "name": "constant.numeric.integer.kodo",
+          "match": "\\b[0-9][0-9_]*\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.kodo",
+          "match": "\\b(if|else|while|for|break|continue|match|return|in)\\b"
+        },
+        {
+          "name": "keyword.declaration.kodo",
+          "match": "\\b(module|meta|fn|let|struct|enum|type|trait|impl|intent|test|import|from|pub)\\b"
+        },
+        {
+          "name": "keyword.other.kodo",
+          "match": "\\b(requires|ensures|invariant|own|ref|mut|async|await|spawn|parallel|actor|self|is)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.kodo",
+          "match": "\\b(Int|Int8|Int16|Int32|Int64|Uint|Uint8|Uint16|Uint32|Uint64|Float32|Float64|Bool|String|Byte|Option|Result|List|Map|Void)\\b"
+        },
+        {
+          "name": "entity.name.type.kodo",
+          "match": "\\b[A-Z][a-zA-Z0-9]*\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.kodo",
+          "match": "\\b(true|false|None|Some)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.kodo",
+          "match": "\\b(println|print|push|pop|get|len|contains|keys|values|entries|to_string|parse|abs|sqrt|min|max|assert|assert_eq|assert_ne|assert_gt|assert_lt|assert_contains)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.kodo",
+          "match": "(->|=>|::|\\|>|\\?\\.|\\.\\.|\\.\\.=|&&|\\|\\||==|!=|<=|>=|[+\\-*/%<>!=\\?])"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.kodo",
+          "match": "[,;\\.]"
+        },
+        {
+          "name": "punctuation.bracket.kodo",
+          "match": "[\\(\\)\\{\\}\\[\\]]"
+        }
+      ]
+    }
+  }
+}

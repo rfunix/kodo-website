@@ -1,0 +1,88 @@
+---
+const examples = [
+  {
+    name: "Todo App",
+    file: "todo_app.ko",
+    description: "Full CRUD application with struct methods, pattern matching on Options, and list operations.",
+    features: ["Structs", "Methods", "Option<T>", "List<T>"],
+  },
+  {
+    name: "Config Validator",
+    file: "config_validator.ko",
+    description: "Validates configuration with contracts ensuring all invariants hold before the system starts.",
+    features: ["Contracts", "Struct Predicates", "Result<T,E>"],
+  },
+  {
+    name: "Health Checker",
+    file: "health_checker.ko",
+    description: "HTTP health check service with JSON responses, error handling, and structured logging.",
+    features: ["HTTP Server", "JSON", "Error Handling"],
+  },
+  {
+    name: "URL Shortener",
+    file: "url_shortener.ko",
+    description: "REST API with Map<String, String> storage, HTTP routing, and JSON request/response handling.",
+    features: ["HTTP", "Map<K,V>", "JSON", "Intents"],
+  },
+  {
+    name: "Word Counter",
+    file: "word_counter.ko",
+    description: "File processing with string splitting, map aggregation, and sorted output.",
+    features: ["File I/O", "Map<K,V>", "Iterators", "Sorting"],
+  },
+  {
+    name: "CRUD API",
+    file: "crud_api.ko",
+    description: "Complete REST API with create, read, update, delete operations and JSON serialization.",
+    features: ["HTTP Server", "JSON", "Map<K,V>", "CRUD"],
+  },
+];
+---
+
+<section class="relative py-16 md:py-20">
+  <div class="relative mx-auto max-w-6xl px-6">
+    <div class="reveal mb-6 text-center">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">Real programs</p>
+      <h2 class="mb-4 text-3xl font-bold md:text-4xl">Not just hello world</h2>
+      <p class="mx-auto max-w-2xl text-base text-slate-400">
+        127 examples covering the full language. These are real programs with HTTP servers, JSON APIs, file processing, and data structures.
+      </p>
+    </div>
+
+    <div class="reveal-stagger mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {examples.map((example) => (
+        <a
+          href={`https://github.com/rfunix/kodo/blob/main/examples/${example.file}`}
+          target="_blank"
+          rel="noopener"
+          class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5 transition hover:border-indigo-500/30 hover:bg-slate-900/80"
+        >
+          <div class="mb-3 flex items-center justify-between">
+            <h3 class="text-base font-semibold">{example.name}</h3>
+            <svg class="h-4 w-4 text-slate-600 transition group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </div>
+          <p class="mb-3 text-sm leading-relaxed text-slate-400">{example.description}</p>
+          <div class="flex flex-wrap gap-1.5">
+            {example.features.map((feat) => (
+              <span class="rounded-md bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-400">{feat}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-8 text-center">
+      <a
+        href="https://github.com/rfunix/kodo/tree/main/examples"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 transition hover:text-indigo-300"
+      >
+        Browse all 127 examples on GitHub
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
