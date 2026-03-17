@@ -556,21 +556,27 @@ Returns `1` if the map has no entries, `0` otherwise.
 let empty: Int = map_is_empty(scores)
 ```
 
-### Map Access
+### Map Iteration
 
-Use `map_contains_key` and `map_get` for key-based lookups:
+Use `for-in` to iterate over Map keys:
 
 ```rust
 let m: Map<Int, Int> = map_new()
 map_insert(m, 1, 100)
 map_insert(m, 2, 200)
 
+for key in m {
+    print_int(key)
+}
+```
+
+You can also use `map_contains_key` and `map_get` for direct lookups:
+
+```rust
 if map_contains_key(m, 1) {
     print_int(map_get(m, 1))  // 100
 }
 ```
-
-> **Known limitation:** `for-in` iteration over Maps and `.keys()`/`.values()` methods are not yet fully functional. Use explicit key lookups with `map_contains_key` and `map_get` instead.
 
 ## JSON
 

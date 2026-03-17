@@ -47,21 +47,27 @@ for item in items {
 
 > **Note:** `for-in` currently works with `List<Int>`. Support for `List<String>` iteration is planned but not yet available — `list_new()` always creates a `List<Int>` at the runtime level.
 
-## Map Access
+## Iterating Over Map Keys
 
-Use `map_contains_key` and `map_get` for key-based lookups:
+`for-in` on a `Map<Int, Int>` iterates over the keys:
 
 ```rust
 let scores: Map<Int, Int> = map_new()
 map_insert(scores, 1, 95)
 map_insert(scores, 2, 87)
 
+for key in scores {
+    print_int(key)
+}
+```
+
+You can also use `map_contains_key` and `map_get` for direct lookups:
+
+```rust
 if map_contains_key(scores, 1) {
     print_int(map_get(scores, 1))
 }
 ```
-
-> **Known limitation:** `for-in` iteration over Maps and `.keys()`/`.values()` methods are not yet fully functional. Use explicit key lookups with `map_contains_key` and `map_get` instead.
 
 ## Iterator Protocol
 
