@@ -11,43 +11,12 @@ Kōdo supports closures (anonymous functions) that can capture variables from th
 A closure is defined with `|params| { body }` syntax:
 
 ```rust
-let double = |x: Int| -> Int { return x * 2 }
-```
-
-## Closures as Function Parameters
-
-Closures are most useful when passed to higher-order functions:
-
-```rust
-fn apply(f: (Int) -> Int, x: Int) -> Int {
-    return f(x)
-}
-
-fn main() {
-    let result: Int = apply(|x: Int| -> Int { return x * 3 }, 10)
-    print_int(result)  // 30
-}
-```
-
-## Function Types
-
-Function types use the `(ParamTypes) -> ReturnType` syntax:
-
-```rust
-fn apply_twice(f: (Int) -> Int, x: Int) -> Int {
-    let once: Int = f(x)
-    return f(once)
-}
-
-fn main() {
-    let result: Int = apply_twice(|x: Int| -> Int { return x + 1 }, 5)
-    print_int(result)  // 7
-}
+let double = |x: Int| -> Int { x * 2 }
 ```
 
 ## Passing Named Functions
 
-Named functions can also be passed where a function type is expected:
+Named functions can be passed where a function type is expected. This is the most reliable way to use higher-order functions:
 
 ```rust
 fn square(x: Int) -> Int {
@@ -64,22 +33,44 @@ fn main() {
 }
 ```
 
-## Capturing Variables
+## Function Types
 
-Closures can capture variables from their enclosing scope. The compiler performs **capture analysis** and transforms the closure into a top-level function with the captured variables passed as extra parameters (lambda lifting):
+Function types use the `(ParamTypes) -> ReturnType` syntax:
 
 ```rust
-fn make_adder(n: Int) -> (Int) -> Int {
-    return |x: Int| -> Int { return x + n }
+fn double(x: Int) -> Int {
+    return x * 2
+}
+
+fn apply_twice(f: (Int) -> Int, x: Int) -> Int {
+    let once: Int = f(x)
+    return f(once)
 }
 
 fn main() {
-    let add5 = make_adder(5)
-    print_int(add5(10))  // 15
+    let result: Int = apply_twice(double, 5)
+    print_int(result)  // 20
 }
 ```
 
-Internally, the closure `|x| { x + n }` is lifted to a function `__closure_0(x: Int, n: Int) -> Int` and the captured variable `n` is passed automatically at the call site.
+## Closures with Built-in Methods
+
+Closures work seamlessly with built-in list methods like `.map()`, `.filter()`, and `.fold()`:
+
+```rust
+fn main() {
+    let nums: List<Int> = list_new()
+    list_push(nums, 1)
+    list_push(nums, 2)
+    list_push(nums, 3)
+
+    let doubled: List<Int> = nums.map(|x: Int| -> Int { x * 2 })
+    let sum: Int = doubled.fold(0, |acc: Int, x: Int| -> Int { acc + x })
+    print_int(sum)  // 12
+}
+```
+
+> **Known limitation:** Passing inline closures as arguments to **custom** higher-order functions may produce type errors. Closures work correctly with built-in list methods (`.map()`, `.filter()`, `.fold()`, etc.) and when assigned to variables. Passing named functions as arguments always works.
 
 ## How Lambda Lifting Works
 
@@ -100,6 +91,14 @@ module closures_demo {
         version: "0.1.0"
     }
 
+    fn double(x: Int) -> Int {
+        return x * 2
+    }
+
+    fn increment(x: Int) -> Int {
+        return x + 1
+    }
+
     fn apply(f: (Int) -> Int, x: Int) -> Int {
         return f(x)
     }
@@ -110,16 +109,18 @@ module closures_demo {
     }
 
     fn main() {
-        // Direct closure call
-        let double: Int = apply(|x: Int| -> Int { return x * 2 }, 5)
-        print_int(double)  // 10
+        // Named function as argument
+        let result: Int = apply(double, 5)
+        print_int(result)  // 10
 
         // Apply twice
-        let result: Int = apply_twice(|x: Int| -> Int { return x + 3 }, 0)
-        print_int(result)  // 6
+        let result2: Int = apply_twice(increment, 0)
+        print_int(result2)  // 2
 
-        // Named function as argument
-        print_int(apply(|x: Int| -> Int { return x * x }, 4))  // 16
+        // Closures with built-in methods
+        let nums: List<Int> = list_new()
+        list_push(nums, 4)
+        print_int(apply(double, list_get(nums, 0)))  // 8
     }
 }
 ```

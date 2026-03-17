@@ -47,12 +47,14 @@ Marks a function as security-sensitive, requiring formal contracts:
 
 ```rust
 @security_sensitive
-fn validate_input(data: String) -> Bool
-    requires { data != "" }
+fn validate_input(value: Int) -> Bool
+    requires { value > 0 }
 {
     return true
 }
 ```
+
+> **Note:** Contract expressions currently support integer and boolean comparisons. String comparisons in `requires`/`ensures` are not yet supported.
 
 ## Trust Policies
 

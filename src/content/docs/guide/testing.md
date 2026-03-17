@@ -142,7 +142,7 @@ module string_utils {
     }
 
     fn is_empty(s: String) -> Bool {
-        return string_length(s) == 0
+        return s.length() == 0
     }
 
     test "repeat_string builds repeated output" {

@@ -64,12 +64,12 @@ module math {
 
 ```rust
 module main {
+    import math
+
     meta {
         purpose: "Main program"
         version: "0.1.0"
     }
-
-    import math
 
     fn main() {
         let sum: Int = add(3, 4)
@@ -113,9 +113,11 @@ module my_program {
 
     fn maybe_double(x: Int) -> Option<Int> {
         if x > 0 {
-            return Option::Some(x * 2)
+            let val: Option<Int> = Option::Some(x * 2)
+            return val
         }
-        return Option::None
+        let none: Option<Int> = Option::None
+        return none
     }
 
     fn main() {
@@ -166,29 +168,16 @@ let has: Bool = list_contains(nums, 10)  // true
 
 ### Map\<K, V\>
 
-A generic key-value hash map. Keys and values can be `Int` or `String` in any combination. The type is determined by the annotation on the `let` binding:
+A generic key-value hash map. The type is determined by the annotation on the `let` binding:
 
 ```rust
-// Map<Int, Int>
+// Map<Int, Int> — fully supported
 let scores: Map<Int, Int> = map_new()
 map_insert(scores, 1, 100)
 let val: Int = map_get(scores, 1)           // 100
-
-// Map<String, Int>
-let config: Map<String, Int> = map_new()
-map_insert(config, "port", 8080)
-let port: Int = map_get(config, "port")     // 8080
-
-// Map<Int, String>
-let names: Map<Int, String> = map_new()
-map_insert(names, 1, "one")
-let first: String = map_get(names, 1)       // "one"
-
-// Map<String, String>
-let headers: Map<String, String> = map_new()
-map_insert(headers, "Content-Type", "application/json")
-let ct: String = map_get(headers, "Content-Type")
 ```
+
+> **Note:** `Map<Int, Int>` is fully supported. Other type combinations (`Map<String, Int>`, `Map<Int, String>`, `Map<String, String>`) pass type checking but may produce link errors at build time. Full Map type variant support is being implemented.
 
 #### Map API
 
@@ -214,23 +203,15 @@ Splits a string by a separator, returning a `List<String>`:
 let parts: List<String> = "a,b,c".split(",")
 ```
 
-#### `lines()`
-
-Splits a string by newline characters, returning a `List<String>`:
-
-```rust
-let text: String = "line1\nline2\nline3"
-let all_lines: List<String> = text.lines()
-let count: Int = list_length(all_lines)  // 3
-```
+> **Known limitation:** `split()` and `lines()` pass type checking but may produce code generation errors at build time. This is being fixed.
 
 #### `parse_int()`
 
-Parses a string as an integer, returning an `Option<Int>`:
+Parses a string as an integer. Returns `0` on failure:
 
 ```rust
-let valid: Option<Int> = "42".parse_int()     // Option::Some(42)
-let bad: Option<Int> = "hello".parse_int()     // Option::None
+let valid: Int = "42".parse_int()     // 42
+let bad: Int = "hello".parse_int()    // 0
 ```
 
 ## Qualified Imports with `::`

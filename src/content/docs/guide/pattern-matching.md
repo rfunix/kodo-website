@@ -53,14 +53,15 @@ The compiler requires all variants to be handled. Missing a variant produces a c
 Pattern matching is the primary way to work with `Option<T>` and `Result<T, E>`:
 
 ```rust
-fn safe_head(items: List<Int>) -> Int {
-    let result: Option<Int> = list_get(items, 0)
-    match result {
-        Option::Some(v) => { return v }
-        Option::None => { return 0 }
+fn describe_result(r: Result<Int, String>) -> String {
+    match r {
+        Result::Ok(v) => { return "success" }
+        Result::Err(e) => { return "failure" }
     }
 }
 ```
+
+`list_get` returns the element directly (not wrapped in `Option`), but many standard library functions like `file_read` return `Result<T, E>` that must be matched.
 
 ## Example
 

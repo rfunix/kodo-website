@@ -178,12 +178,15 @@ K≈çdo includes `Option<T>` and `Result<T, E>` in its standard library prelude ‚Ä
 ```rust
 fn find_first_positive(a: Int, b: Int) -> Option<Int> {
     if a > 0 {
-        return Option::Some(a)
+        let val: Option<Int> = Option::Some(a)
+        return val
     }
     if b > 0 {
-        return Option::Some(b)
+        let val: Option<Int> = Option::Some(b)
+        return val
     }
-    return Option::None
+    let none: Option<Int> = Option::None
+    return none
 }
 
 fn main() {
@@ -213,9 +216,9 @@ module math {
 ```rust
 // main.ko
 module main {
-    meta { purpose: "Main program", version: "0.1.0" }
-
     import math
+
+    meta { purpose: "Main program", version: "0.1.0" }
 
     fn main() {
         let result: Int = add(3, 4)

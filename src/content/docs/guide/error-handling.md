@@ -32,12 +32,15 @@ Use `Option` when a function might not have a meaningful result:
 ```rust
 fn find_positive(a: Int, b: Int) -> Option<Int> {
     if a > 0 {
-        return Option::Some(a)
+        let val: Option<Int> = Option::Some(a)
+        return val
     }
     if b > 0 {
-        return Option::Some(b)
+        let val: Option<Int> = Option::Some(b)
+        return val
     }
-    return Option::None
+    let none: Option<Int> = Option::None
+    return none
 }
 ```
 
@@ -79,9 +82,11 @@ Use `Result` when a function can fail in a way the caller should handle:
 ```rust
 fn safe_divide(a: Int, b: Int) -> Result<Int, Int> {
     if b == 0 {
-        return Result::Err(0)
+        let err: Result<Int, Int> = Result::Err(0)
+        return err
     }
-    return Result::Ok(a / b)
+    let ok: Result<Int, Int> = Result::Ok(a / b)
+    return ok
 }
 ```
 
@@ -102,6 +107,12 @@ fn main() {
     }
 }
 ```
+
+> **Known limitation:** The type checker does not yet infer generic type parameters from the function return type for `Option::None`, `Result::Ok(...)`, and `Result::Err(...)` when used directly in `return` statements. As a workaround, bind the value to a typed variable first:
+> ```rust
+> let none: Option<Int> = Option::None
+> return none
+> ```
 
 ## When to Use What
 
@@ -132,22 +143,28 @@ module error_handling {
 
     fn safe_divide(a: Int, b: Int) -> Result<Int, Int> {
         if b == 0 {
-            return Result::Err(0)
+            let err: Result<Int, Int> = Result::Err(0)
+            return err
         }
-        return Result::Ok(a / b)
+        let ok: Result<Int, Int> = Result::Ok(a / b)
+        return ok
     }
 
     fn first_positive(a: Int, b: Int, c: Int) -> Option<Int> {
         if a > 0 {
-            return Option::Some(a)
+            let val: Option<Int> = Option::Some(a)
+            return val
         }
         if b > 0 {
-            return Option::Some(b)
+            let val: Option<Int> = Option::Some(b)
+            return val
         }
         if c > 0 {
-            return Option::Some(c)
+            let val: Option<Int> = Option::Some(c)
+            return val
         }
-        return Option::None
+        let none: Option<Int> = Option::None
+        return none
     }
 
     fn main() {

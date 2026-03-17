@@ -109,6 +109,8 @@ Clamps `x` to the range `[lo, hi]`.
 let c: Int = clamp(50, 0, 25)  // 25
 ```
 
+> **Known limitation:** The following math functions are defined in the type checker but not yet available in the runtime linker. They will produce link errors at build time:
+
 ### `rand_int(min: Int, max: Int) -> Int`
 
 Returns a random integer in the range `[min, max]`.
@@ -328,9 +330,7 @@ let n: Int = 3.7.to_int()  // 3
 
 Converts a boolean to `"true"` or `"false"`.
 
-```rust
-let s: String = true.to_string()  // "true"
-```
+> **Not yet implemented.** Use `if b { "true" } else { "false" }` as a workaround.
 
 ## File I/O
 
@@ -361,6 +361,8 @@ let r: Result<Unit, String> = file_append("log.txt", "new line\n")
 ### `file_delete(path: String) -> Bool`
 
 Deletes a file. Returns `true` on success.
+
+> **Not yet linked in runtime.** Will produce a link error at build time.
 
 ```rust
 let ok: Bool = file_delete("temp.txt")
@@ -394,14 +396,15 @@ let exists: Bool = dir_exists("src/")
 
 Lists are created and manipulated via free functions. Methods like `.iter()`, `.map()`, `.filter()` are available as dot-syntax on list values.
 
-### `list_new() -> List<T>`
+### `list_new() -> List<Int>`
 
-Creates a new empty list. The element type is inferred from the type annotation.
+Creates a new empty list of integers.
 
 ```rust
 let nums: List<Int> = list_new()
-let names: List<String> = list_new()
 ```
+
+> **Known limitation:** `list_new()` currently always creates a `List<Int>`. `List<String>` is not yet supported via `list_new()`. String lists can be obtained from methods like `.split()` and `.lines()`.
 
 ### `list_push(list: List<T>, value: T)`
 
@@ -438,6 +441,8 @@ let has: Bool = list_contains(nums, 42)
 ### `list_pop(list: List<T>) -> T`
 
 Removes and returns the last element.
+
+> **Not yet linked in runtime.** Will produce a link error at build time.
 
 ```rust
 let last: Int = list_pop(nums)
@@ -544,27 +549,29 @@ Removes the entry with the given key. Returns `true` on success.
 let ok: Bool = map_remove(scores, "alice")
 ```
 
-### `map_is_empty(map: Map<K, V>) -> Bool`
+### `map_is_empty(map: Map<K, V>) -> Int`
 
-Returns `true` if the map has no entries.
-
-```rust
-let empty: Bool = map_is_empty(scores)
-```
-
-### Map Iteration
-
-Use `.keys()` and `.values()` with `for-in` to iterate:
+Returns `1` if the map has no entries, `0` otherwise.
 
 ```rust
-for key in scores.keys() {
-    println(key)
-}
+let empty: Int = map_is_empty(scores)
+```
 
-for value in scores.values() {
-    print_int(value)
+### Map Access
+
+Use `map_contains_key` and `map_get` for key-based lookups:
+
+```rust
+let m: Map<Int, Int> = map_new()
+map_insert(m, 1, 100)
+map_insert(m, 2, 200)
+
+if map_contains_key(m, 1) {
+    print_int(map_get(m, 1))  // 100
 }
 ```
+
+> **Known limitation:** `for-in` iteration over Maps and `.keys()`/`.values()` methods are not yet fully functional. Use explicit key lookups with `map_contains_key` and `map_get` instead.
 
 ## JSON
 
@@ -643,6 +650,8 @@ let text: String = json_stringify(doc)
 ```
 
 ### Building
+
+> **Known limitation:** JSON builder functions (`json_new_object`, `json_set_string`, `json_set_int`, `json_set_bool`, `json_set_float`, `json_stringify`) pass type checking but are not yet linked in the runtime. They will produce link errors at build time. JSON parsing functions above work correctly.
 
 ### `json_new_object() -> Int`
 

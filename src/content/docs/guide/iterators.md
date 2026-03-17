@@ -32,56 +32,36 @@ Output:
 
 ## Iterating Over Lists
 
-`for-in` on a `List<T>` visits each element in order:
+`for-in` on a `List<Int>` visits each element in order:
 
 ```rust
-let names: List<String> = list_new()
-list_push(names, "alice")
-list_push(names, "bob")
-list_push(names, "carol")
+let items: List<Int> = list_new()
+list_push(items, 10)
+list_push(items, 20)
+list_push(items, 30)
 
-for name in names {
-    print(name)
+for item in items {
+    print_int(item)
 }
 ```
 
-## Iterating Over Maps
+> **Note:** `for-in` currently works with `List<Int>`. Support for `List<String>` iteration is planned but not yet available — `list_new()` always creates a `List<Int>` at the runtime level.
 
-Iterating over a `Map<K, V>` visits keys:
+## Map Access
+
+Use `map_contains_key` and `map_get` for key-based lookups:
 
 ```rust
-let scores: Map<String, Int> = map_new()
-map_insert(scores, "alice", 95)
-map_insert(scores, "bob", 87)
+let scores: Map<Int, Int> = map_new()
+map_insert(scores, 1, 95)
+map_insert(scores, 2, 87)
 
-for key in scores.keys() {
-    print(key)
-}
-
-for value in scores.values() {
-    print_int(value)
+if map_contains_key(scores, 1) {
+    print_int(map_get(scores, 1))
 }
 ```
 
-## Iterating Over Strings
-
-`for-in` on a `String` visits each character (as a single-character string):
-
-```rust
-let word: String = "hello"
-for ch in word {
-    print(ch)
-}
-```
-
-Output:
-```
-h
-e
-l
-l
-o
-```
+> **Known limitation:** `for-in` iteration over Maps and `.keys()`/`.values()` methods are not yet fully functional. Use explicit key lookups with `map_contains_key` and `map_get` instead.
 
 ## Iterator Protocol
 

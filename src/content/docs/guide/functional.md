@@ -6,7 +6,7 @@ sidebar:
 
 # Functional Combinators
 
-Kōdo provides functional combinators on iterators that let you transform, filter, and aggregate data declaratively. These combinators compose into pipelines that are expressive and easy for both AI agents and humans to reason about.
+Kōdo provides functional combinators on lists that let you transform, filter, and aggregate data declaratively. These combinators compose into pipelines that are expressive and easy for both AI agents and humans to reason about.
 
 ## `map` — Transform Elements
 
@@ -18,7 +18,7 @@ list_push(numbers, 1)
 list_push(numbers, 2)
 list_push(numbers, 3)
 
-let doubled: List<Int> = numbers.iter().map(fn(x: Int) -> Int { return x * 2 })
+let doubled: List<Int> = numbers.map(|x: Int| -> Int { x * 2 })
 // doubled contains [2, 4, 6]
 ```
 
@@ -33,7 +33,7 @@ list_push(numbers, 2)
 list_push(numbers, 3)
 list_push(numbers, 4)
 
-let evens: List<Int> = numbers.iter().filter(fn(x: Int) -> Bool { return x % 2 == 0 })
+let evens: List<Int> = numbers.filter(|x: Int| -> Bool { x % 2 == 0 })
 // evens contains [2, 4]
 ```
 
@@ -47,24 +47,11 @@ list_push(numbers, 1)
 list_push(numbers, 2)
 list_push(numbers, 3)
 
-let sum: Int = numbers.iter().fold(0, fn(acc: Int, x: Int) -> Int { return acc + x })
+let sum: Int = numbers.fold(0, |acc: Int, x: Int| -> Int { acc + x })
 // sum is 6
 ```
 
 The first argument is the initial accumulator value. The closure receives the current accumulator and the next element, and returns the new accumulator.
-
-## `count` — Count Elements
-
-`count` returns the number of elements in the iterator:
-
-```rust
-let items: List<Int> = list_new()
-list_push(items, 10)
-list_push(items, 20)
-
-let n: Int = items.iter().count()
-// n is 2
-```
 
 ## `any` — Check If Any Match
 
@@ -76,7 +63,7 @@ list_push(numbers, 1)
 list_push(numbers, 2)
 list_push(numbers, 3)
 
-let has_even: Bool = numbers.iter().any(fn(x: Int) -> Bool { return x % 2 == 0 })
+let has_even: Bool = numbers.any(|x: Int| -> Bool { x % 2 == 0 })
 // has_even is true
 ```
 
@@ -90,22 +77,8 @@ list_push(numbers, 2)
 list_push(numbers, 4)
 list_push(numbers, 6)
 
-let all_even: Bool = numbers.iter().all(fn(x: Int) -> Bool { return x % 2 == 0 })
+let all_even: Bool = numbers.all(|x: Int| -> Bool { x % 2 == 0 })
 // all_even is true
-```
-
-## `reduce` — Fold Without Initial Value
-
-`reduce` is like `fold` but uses the first element as the initial accumulator:
-
-```rust
-let numbers: List<Int> = list_new()
-list_push(numbers, 1)
-list_push(numbers, 2)
-list_push(numbers, 3)
-
-let sum: Int = numbers.iter().reduce(fn(acc: Int, x: Int) -> Int { return acc + x })
-// sum is 6
 ```
 
 ## Composing Pipelines
@@ -121,10 +94,9 @@ list_push(data, 4)
 list_push(data, 5)
 
 // Filter even numbers, double them, then sum
-let result: Int = data.iter()
-    .filter(fn(x: Int) -> Bool { return x % 2 == 0 })
-    .map(fn(x: Int) -> Int { return x * 2 })
-    .fold(0, fn(acc: Int, x: Int) -> Int { return acc + x })
+let evens: List<Int> = data.filter(|x: Int| -> Bool { x % 2 == 0 })
+let doubled: List<Int> = evens.map(|x: Int| -> Int { x * 2 })
+let result: Int = doubled.fold(0, |acc: Int, x: Int| -> Int { acc + x })
 // result is 12 (2*2 + 4*2)
 ```
 

@@ -46,14 +46,18 @@ let dist: Int = moved.manhattan_distance()
 Methods that don't take `self` as the first parameter act as static/associated functions:
 
 ```rust
+struct Counter {
+    value: Int
+}
+
 impl Counter {
     fn new() -> Counter {
         return Counter { value: 0 }
     }
 }
-
-let c: Counter = Counter.new()
 ```
+
+> **Known limitation:** Static method call syntax `Counter.new()` is not yet supported. As a workaround, use direct struct construction: `let c: Counter = Counter { value: 0 }`.
 
 ## Inherent vs Trait Impl
 
