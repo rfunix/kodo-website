@@ -156,8 +156,8 @@ This is useful for fast feedback during development.
 
 ## Next Steps
 
-- [A Tour of Kōdo](tour.md) — a quick walkthrough of all language features
-- [Language Basics](language-basics.md) — types, variables, and control flow
-- [Data Types and Pattern Matching](data-types.md) — structs, enums, and `match`
-- [Contracts](contracts.md) — runtime preconditions and postconditions
-- [CLI Reference](cli-reference.md) — all available commands and flags
+- [A Tour of Kōdo](/tour) — a quick walkthrough of all language features
+- [Language Basics](/guide/language-basics) — types, variables, and control flow
+- [Data Types and Pattern Matching](/guide/data-types) — structs, enums, and `match`
+- [Contracts](/guide/contracts) — runtime preconditions and postconditions
+- [CLI Reference](/guide/cli-reference) — all available commands and flags
