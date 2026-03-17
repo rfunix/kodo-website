@@ -96,6 +96,8 @@ export default defineConfig({
             { label: 'Language Design', slug: 'reference/design' },
             { label: 'Grammar (EBNF)', slug: 'reference/grammar' },
             { label: 'Error Index', slug: 'reference/errors' },
+            { label: 'Why not X?', slug: 'reference/comparison' },
+            { label: 'Benchmarks', slug: 'reference/benchmarks' },
           ],
         },
       ],

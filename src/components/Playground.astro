@@ -1,0 +1,305 @@
+---
+const examples = [
+  {
+    name: "Hello World",
+    filename: "hello.ko",
+    source: `module hello {
+    meta {
+        purpose: "Greet the world"
+        version: "1.0.0"
+    }
+
+    @authored_by(agent: "claude")
+    @confidence(0.95)
+    fn main() {
+        let msg: String = "Hello from Kōdo!"
+        println(msg)
+    }
+}`,
+    output: `Hello from Kōdo!`,
+    errors: null,
+  },
+  {
+    name: "Contracts (Z3)",
+    filename: "contracts.ko",
+    source: `module math {
+    meta {
+        purpose: "Safe arithmetic with Z3-verified contracts"
+        version: "1.0.0"
+    }
+
+    @authored_by(agent: "claude")
+    @confidence(0.95)
+    fn safe_divide(a: Int, b: Int) -> Int
+        requires { b != 0 }
+        ensures  { result * b == a }
+    {
+        return a / b
+    }
+
+    fn main() {
+        let result: Int = safe_divide(42, 7)
+        println(result)
+    }
+}`,
+    output: `6`,
+    errors: null,
+  },
+  {
+    name: "Traits",
+    filename: "traits.ko",
+    source: `module shapes {
+    meta {
+        purpose: "Demonstrate trait polymorphism"
+        version: "1.0.0"
+    }
+
+    trait Drawable {
+        fn draw(self) -> String
+    }
+
+    struct Circle {
+        radius: Float64
+    }
+
+    struct Square {
+        side: Float64
+    }
+
+    impl Drawable for Circle {
+        fn draw(self) -> String {
+            return "Drawing circle with radius " + str(self.radius)
+        }
+    }
+
+    impl Drawable for Square {
+        fn draw(self) -> String {
+            return "Drawing square with side " + str(self.side)
+        }
+    }
+
+    fn main() {
+        let c: Circle = Circle { radius: 5.0 }
+        println(c.draw())
+    }
+}`,
+    output: `Drawing circle with radius 5.0`,
+    errors: null,
+  },
+  {
+    name: "Ownership",
+    filename: "ownership.ko",
+    source: `module ownership_demo {
+    meta {
+        purpose: "Linear ownership with own/ref/mut"
+        version: "1.0.0"
+    }
+
+    fn modify(mut items: List<Int>) -> List<Int> {
+        items.push(42)
+        return items
+    }
+
+    fn read_only(ref items: List<Int>) -> Int {
+        return items.length()
+    }
+
+    fn main() {
+        let own data: List<Int> = [1, 2, 3]
+        let count: Int = read_only(ref data)
+        let own updated: List<Int> = modify(data)
+        println(count)
+        println(updated.length())
+    }
+}`,
+    output: `3\n4`,
+    errors: null,
+  },
+  {
+    name: "Error Example",
+    filename: "error.ko",
+    source: `module type_error {
+    meta {
+        purpose: "Show compiler error output"
+        version: "1.0.0"
+    }
+
+    fn main() {
+        let x: Int = "not a number"
+        println(x)
+    }
+}`,
+    output: null,
+    errors: `error[E0201]: Type mismatch
+  ┌─ error.ko:9:22
+  │
+9 │         let x: Int = "not a number"
+  │                      ^^^^^^^^^^^^^^ expected Int, found String
+  │
+  = fix: change the type annotation to String,
+         or convert the value with parse_int()`,
+  },
+  {
+    name: "Testing",
+    filename: "testing.ko",
+    source: `module math_tests {
+    meta {
+        purpose: "Built-in testing support"
+        version: "1.0.0"
+    }
+
+    fn add(a: Int, b: Int) -> Int
+        requires { a >= 0 }
+        requires { b >= 0 }
+        ensures  { result >= a }
+        ensures  { result >= b }
+    {
+        return a + b
+    }
+
+    test "addition basics" {
+        assert_eq(add(2, 3), 5)
+        assert_eq(add(0, 0), 0)
+        assert_eq(add(100, 200), 300)
+    }
+
+    test "addition is commutative" {
+        assert_eq(add(3, 7), add(7, 3))
+    }
+}`,
+    output: `Running 2 tests...
+  ✓ addition basics
+  ✓ addition is commutative
+2 passed, 0 failed`,
+    errors: null,
+  },
+];
+---
+
+<section class="relative py-16 md:py-20" id="playground-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-10 text-center">
+      <p class="mb-2 text-sm font-semibold uppercase tracking-widest text-indigo-400">Interactive</p>
+      <h2 class="text-3xl font-bold md:text-4xl">Try Kōdo</h2>
+      <p class="mx-auto mt-3 max-w-xl text-slate-400">
+        Explore examples from the language. Select a snippet, see the expected output, and copy to run locally.
+      </p>
+    </div>
+
+    <!-- Example tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-6" id="playground-tabs">
+      {examples.map((ex, i) => (
+        <button
+          class:list={[
+            "playground-tab rounded-lg px-4 py-2 text-sm font-medium transition",
+            i === 0
+              ? "bg-indigo-600 text-white"
+              : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
+          ]}
+          data-index={i}
+        >
+          {ex.name}
+        </button>
+      ))}
+    </div>
+
+    <!-- Editor area -->
+    <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 shadow-2xl shadow-indigo-500/5">
+      {examples.map((ex, i) => (
+        <div
+          class:list={["playground-panel", i !== 0 && "hidden"]}
+          data-index={i}
+        >
+          <!-- Title bar -->
+          <div class="flex items-center justify-between border-b border-slate-800 px-4 py-3">
+            <div class="flex items-center gap-2">
+              <div class="h-3 w-3 rounded-full bg-red-500/60"></div>
+              <div class="h-3 w-3 rounded-full bg-yellow-500/60"></div>
+              <div class="h-3 w-3 rounded-full bg-green-500/60"></div>
+              <span class="ml-2 text-xs text-slate-500">{ex.filename}</span>
+            </div>
+            <button
+              class="copy-btn flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs text-slate-400 transition hover:border-slate-600 hover:text-slate-200"
+              data-source={ex.source}
+            >
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              Copy
+            </button>
+          </div>
+
+          <!-- Source code -->
+          <pre class="overflow-x-auto p-6 text-sm leading-relaxed"><code set:text={ex.source} /></pre>
+
+          <!-- Output / Errors -->
+          {(ex.output || ex.errors) && (
+            <div class="border-t border-slate-800">
+              <div class="flex items-center gap-2 px-4 py-2">
+                <span class:list={[
+                  "text-xs font-medium",
+                  ex.errors ? "text-red-400" : "text-emerald-400"
+                ]}>
+                  {ex.errors ? "⬤ Compiler Error" : "⬤ Output"}
+                </span>
+              </div>
+              <pre class:list={[
+                "overflow-x-auto px-6 pb-4 text-sm leading-relaxed",
+                ex.errors ? "text-red-300" : "text-slate-300"
+              ]}><code set:text={ex.errors || ex.output} /></pre>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Install instructions -->
+    <div class="mt-6 text-center">
+      <p class="text-sm text-slate-500">
+        Want to run it yourself?
+        <a href="/getting-started/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Install Kōdo</a>
+        and paste the code into a <code class="rounded bg-slate-800 px-1.5 py-0.5 text-xs">.ko</code> file.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.playground-tab');
+      const panels = document.querySelectorAll('.playground-panel');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const index = tab.getAttribute('data-index');
+
+          tabs.forEach((t) => {
+            t.classList.remove('bg-indigo-600', 'text-white');
+            t.classList.add('bg-slate-800', 'text-slate-400');
+          });
+          tab.classList.remove('bg-slate-800', 'text-slate-400');
+          tab.classList.add('bg-indigo-600', 'text-white');
+
+          panels.forEach((p) => {
+            if (p.getAttribute('data-index') === index) {
+              p.classList.remove('hidden');
+            } else {
+              p.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // Copy buttons
+      document.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const source = btn.getAttribute('data-source');
+          if (source) {
+            navigator.clipboard.writeText(source).then(() => {
+              const original = btn.innerHTML;
+              btn.innerHTML = '<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Copied!';
+              setTimeout(() => { btn.innerHTML = original; }, 2000);
+            });
+          }
+        });
+      });
+    });
+  </script>
+</section>
