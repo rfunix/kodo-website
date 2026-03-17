@@ -178,15 +178,12 @@ K≈çdo includes `Option<T>` and `Result<T, E>` in its standard library prelude ‚Ä
 ```rust
 fn find_first_positive(a: Int, b: Int) -> Option<Int> {
     if a > 0 {
-        let val: Option<Int> = Option::Some(a)
-        return val
+        return Option::Some(a)
     }
     if b > 0 {
-        let val: Option<Int> = Option::Some(b)
-        return val
+        return Option::Some(b)
     }
-    let none: Option<Int> = Option::None
-    return none
+    return Option::None
 }
 
 fn main() {

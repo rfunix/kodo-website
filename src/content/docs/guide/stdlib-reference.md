@@ -109,8 +109,6 @@ Clamps `x` to the range `[lo, hi]`.
 let c: Int = clamp(50, 0, 25)  // 25
 ```
 
-> **Known limitation:** The following math functions are defined in the type checker but not yet available in the runtime linker. They will produce link errors at build time:
-
 ### `rand_int(min: Int, max: Int) -> Int`
 
 Returns a random integer in the range `[min, max]`.

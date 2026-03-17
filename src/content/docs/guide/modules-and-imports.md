@@ -113,11 +113,9 @@ module my_program {
 
     fn maybe_double(x: Int) -> Option<Int> {
         if x > 0 {
-            let val: Option<Int> = Option::Some(x * 2)
-            return val
+            return Option::Some(x * 2)
         }
-        let none: Option<Int> = Option::None
-        return none
+        return Option::None
     }
 
     fn main() {
