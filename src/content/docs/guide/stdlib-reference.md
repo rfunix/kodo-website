@@ -394,15 +394,16 @@ let exists: Bool = dir_exists("src/")
 
 Lists are created and manipulated via free functions. Methods like `.iter()`, `.map()`, `.filter()` are available as dot-syntax on list values.
 
-### `list_new() -> List<Int>`
+### `list_new() -> List<T>`
 
-Creates a new empty list of integers.
+Creates a new empty list. The element type is inferred from the type annotation:
 
 ```rust
 let nums: List<Int> = list_new()
+let names: List<String> = list_new()
 ```
 
-> **Known limitation:** `list_new()` currently always creates a `List<Int>`. `List<String>` is not yet supported via `list_new()`. String lists can be obtained from methods like `.split()` and `.lines()`.
+> **Note:** `List<String>` passes type checking. Some codegen operations on string lists (e.g., `println(list_get(names, 0))`) may require string interpolation as a workaround.
 
 ### `list_push(list: List<T>, value: T)`
 

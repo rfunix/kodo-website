@@ -70,7 +70,7 @@ fn main() {
 }
 ```
 
-> **Known limitation:** Passing inline closures as arguments to **custom** higher-order functions may produce type errors. Closures work correctly with built-in list methods (`.map()`, `.filter()`, `.fold()`, etc.) and when assigned to variables. Passing named functions as arguments always works.
+Closures work with both built-in list methods (`.map()`, `.filter()`, `.fold()`) and custom higher-order functions. Both expression-body (`{ x * 2 }`) and return-body (`{ return x * 2 }`) closures are supported.
 
 ## How Lambda Lifting Works
 
