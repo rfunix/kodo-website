@@ -64,4 +64,4 @@ fn safe_head(items: List<Int>) -> Int {
 
 ## Example
 
-See [`examples/enums.ko`](../../examples/enums.ko) for a complete working example with enum types and pattern matching.
+See [`examples/enums.ko`](https://github.com/rfunix/kodo/blob/main/examples/enums.ko) for a complete working example with enum types and pattern matching.

@@ -51,7 +51,7 @@ kodoc build examples/todo_app.ko -o todo_app && ./todo_app
 kodoc confidence-report examples/todo_app.ko
 ```
 
-Source: [`examples/todo_app.ko`](../../examples/todo_app.ko)
+Source: [`examples/todo_app.ko`](https://github.com/rfunix/kodo/blob/main/examples/todo_app.ko)
 
 ---
 
@@ -89,7 +89,7 @@ kodoc build examples/url_shortener.ko -o url_shortener && ./url_shortener
 kodoc confidence-report examples/url_shortener.ko
 ```
 
-Source: [`examples/url_shortener.ko`](../../examples/url_shortener.ko)
+Source: [`examples/url_shortener.ko`](https://github.com/rfunix/kodo/blob/main/examples/url_shortener.ko)
 
 ---
 
@@ -130,7 +130,7 @@ kodoc build examples/word_counter.ko -o word_counter && ./word_counter
 kodoc confidence-report examples/word_counter.ko
 ```
 
-Source: [`examples/word_counter.ko`](../../examples/word_counter.ko)
+Source: [`examples/word_counter.ko`](https://github.com/rfunix/kodo/blob/main/examples/word_counter.ko)
 
 ---
 
@@ -165,7 +165,7 @@ kodoc build examples/config_validator.ko -o config_validator && ./config_validat
 kodoc confidence-report examples/config_validator.ko
 ```
 
-Source: [`examples/config_validator.ko`](../../examples/config_validator.ko)
+Source: [`examples/config_validator.ko`](https://github.com/rfunix/kodo/blob/main/examples/config_validator.ko)
 
 ---
 
@@ -212,4 +212,4 @@ kodoc confidence-report examples/health_checker.ko
 kodoc check examples/health_checker.ko --json-errors
 ```
 
-Source: [`examples/health_checker.ko`](../../examples/health_checker.ko)
+Source: [`examples/health_checker.ko`](https://github.com/rfunix/kodo/blob/main/examples/health_checker.ko)

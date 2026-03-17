@@ -89,5 +89,5 @@ Kodo provides a complete set of file and directory operations:
 
 ## Next Steps
 
-- [HTTP, JSON & Networking](http.md) — HTTP client and server, JSON parsing and building
-- [Modules and Imports](modules-and-imports.md) — multi-file programs and the standard library
+- [HTTP, JSON & Networking](http) — HTTP client and server, JSON parsing and building
+- [Modules and Imports](modules-and-imports) — multi-file programs and the standard library

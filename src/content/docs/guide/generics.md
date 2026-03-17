@@ -211,6 +211,6 @@ none
 
 ## Next Steps
 
-- [Error Handling](error-handling.md) — use the standard library's `Option<T>` and `Result<T, E>`
-- [Data Types and Pattern Matching](data-types.md) — structs, enums, and `match`
-- [Modules and Imports](modules-and-imports.md) — multi-file programs
+- [Error Handling](error-handling) — use the standard library's `Option<T>` and `Result<T, E>`
+- [Data Types and Pattern Matching](data-types) — structs, enums, and `match`
+- [Modules and Imports](modules-and-imports) — multi-file programs

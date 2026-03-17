@@ -131,6 +131,6 @@ Use structs for plain data. Use actors when you need mutable state combined with
 
 ## Next Steps
 
-- [Concurrency](concurrency.md) -- spawning tasks and the cooperative scheduler
-- [HTTP & JSON](http.md) -- making HTTP requests and parsing JSON
-- [Data Types and Pattern Matching](data-types.md) -- structs, enums, and `match`
+- [Concurrency](concurrency) -- spawning tasks and the cooperative scheduler
+- [HTTP & JSON](http) -- making HTTP requests and parsing JSON
+- [Data Types and Pattern Matching](data-types) -- structs, enums, and `match`

@@ -109,16 +109,16 @@ while i < 10 {
 
 ## Examples
 
-- [`for_in.ko`](../../examples/for_in.ko) — for-in loops over collections
-- [`iterator_basic.ko`](../../examples/iterator_basic.ko) — basic iterator protocol
-- [`iterator_list.ko`](../../examples/iterator_list.ko) — iterating over `List<T>`
-- [`iterator_map_filter.ko`](../../examples/iterator_map_filter.ko) — `map` and `filter` on iterators
-- [`iterator_fold.ko`](../../examples/iterator_fold.ko) — `fold` for aggregation
-- [`iterator_map.ko`](../../examples/iterator_map.ko) — iterating over `Map` keys
-- [`iterator_string.ko`](../../examples/iterator_string.ko) — iterating over `String` characters
+- [`for_in.ko`](https://github.com/rfunix/kodo/blob/main/examples/for_in.ko) — for-in loops over collections
+- [`iterator_basic.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_basic.ko) — basic iterator protocol
+- [`iterator_list.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_list.ko) — iterating over `List<T>`
+- [`iterator_map_filter.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_map_filter.ko) — `map` and `filter` on iterators
+- [`iterator_fold.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_fold.ko) — `fold` for aggregation
+- [`iterator_map.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_map.ko) — iterating over `Map` keys
+- [`iterator_string.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_string.ko) — iterating over `String` characters
 
 ## Next Steps
 
-- [Functional Combinators](functional.md) — `map`, `filter`, `fold`, and pipeline composition
-- [Closures](closures.md) — closures and higher-order functions
-- [Data Types](data-types.md) — structs, enums, and pattern matching
+- [Functional Combinators](functional) — `map`, `filter`, `fold`, and pipeline composition
+- [Closures](closures) — closures and higher-order functions
+- [Data Types](data-types) — structs, enums, and pattern matching

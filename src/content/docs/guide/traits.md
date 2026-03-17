@@ -102,4 +102,4 @@ Dynamic dispatch introduces a small overhead compared to static dispatch:
 
 ## Example
 
-See [`examples/traits.ko`](../../examples/traits.ko) for a complete working example.
+See [`examples/traits.ko`](https://github.com/rfunix/kodo/blob/main/examples/traits.ko) for a complete working example.

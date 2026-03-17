@@ -135,14 +135,14 @@ This pipeline is:
 
 ## Examples
 
-- [`functional_pipeline.ko`](../../examples/functional_pipeline.ko) — chained combinator pipelines
-- [`iterator_map_filter.ko`](../../examples/iterator_map_filter.ko) — `map` and `filter` usage
-- [`iterator_fold.ko`](../../examples/iterator_fold.ko) — `fold` for aggregation
-- [`closures_functional.ko`](../../examples/closures_functional.ko) — higher-order functions
-- [`word_counter.ko`](../../examples/word_counter.ko) — real-world pipeline with string ops and fold
+- [`functional_pipeline.ko`](https://github.com/rfunix/kodo/blob/main/examples/functional_pipeline.ko) — chained combinator pipelines
+- [`iterator_map_filter.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_map_filter.ko) — `map` and `filter` usage
+- [`iterator_fold.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_fold.ko) — `fold` for aggregation
+- [`closures_functional.ko`](https://github.com/rfunix/kodo/blob/main/examples/closures_functional.ko) — higher-order functions
+- [`word_counter.ko`](https://github.com/rfunix/kodo/blob/main/examples/word_counter.ko) — real-world pipeline with string ops and fold
 
 ## Next Steps
 
-- [Iterators](iterators.md) — the `for-in` loop and iterator protocol
-- [Closures](closures.md) — closures and variable capture
-- [Contracts](contracts.md) — add `requires`/`ensures` to pipeline functions
+- [Iterators](iterators) — the `for-in` loop and iterator protocol
+- [Closures](closures) — closures and variable capture
+- [Contracts](contracts) — add `requires`/`ensures` to pipeline functions

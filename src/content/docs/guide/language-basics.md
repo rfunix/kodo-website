@@ -298,10 +298,10 @@ module demo {
 
 ## Next Steps
 
-- [Data Types and Pattern Matching](data-types.md) — structs, enums, and `match` expressions
-- [Closures](closures.md) — closures, lambda lifting, and higher-order functions
-- [Generics](generics.md) — generic types and generic functions
-- [Error Handling](error-handling.md) — using `Option<T>` and `Result<T, E>`
-- [Contracts](contracts.md) — add runtime verification to your functions
-- [Modules and Imports](modules-and-imports.md) — multi-file programs and the standard library
-- [CLI Reference](cli-reference.md) — all available commands and flags
+- [Data Types and Pattern Matching](data-types) — structs, enums, and `match` expressions
+- [Closures](closures) — closures, lambda lifting, and higher-order functions
+- [Generics](generics) — generic types and generic functions
+- [Error Handling](error-handling) — using `Option<T>` and `Result<T, E>`
+- [Contracts](contracts) — add runtime verification to your functions
+- [Modules and Imports](modules-and-imports) — multi-file programs and the standard library
+- [CLI Reference](cli-reference) — all available commands and flags

@@ -356,10 +356,10 @@ Features:
 
 Dive deeper into specific topics:
 
-- [Language Basics](language-basics.md) — detailed coverage of types, variables, and control flow
-- [Data Types and Pattern Matching](data-types.md) — structs, enums, and `match`
-- [Generics](generics.md) — generic types and generic functions
-- [Error Handling](error-handling.md) — using `Option<T>` and `Result<T, E>`
-- [Contracts](contracts.md) — `requires`, `ensures`, and contract philosophy
-- [Modules and Imports](modules-and-imports.md) — multi-file programs and standard library
-- [CLI Reference](cli-reference.md) — all `kodoc` commands and flags
+- [Language Basics](language-basics) — detailed coverage of types, variables, and control flow
+- [Data Types and Pattern Matching](data-types) — structs, enums, and `match`
+- [Generics](generics) — generic types and generic functions
+- [Error Handling](error-handling) — using `Option<T>` and `Result<T, E>`
+- [Contracts](contracts) — `requires`, `ensures`, and contract philosophy
+- [Modules and Imports](modules-and-imports) — multi-file programs and standard library
+- [CLI Reference](cli-reference) — all `kodoc` commands and flags

@@ -322,6 +322,6 @@ Use `kodoc audit <file> --json` for a consolidated report combining confidence, 
 
 ## Next Steps
 
-- [Error Handling](error-handling.md) — using `Option<T>` and `Result<T, E>`
-- [CLI Reference](cli-reference.md) — all `kodoc` commands and flags
-- [Language Basics](language-basics.md) — types, variables, and control flow
+- [Error Handling](error-handling) — using `Option<T>` and `Result<T, E>`
+- [CLI Reference](cli-reference) — all `kodoc` commands and flags
+- [Language Basics](language-basics) — types, variables, and control flow

@@ -126,6 +126,6 @@ module closures_demo {
 
 ## Next Steps
 
-- [Generics](generics.md) — generic types and generic functions
-- [Modules and Imports](modules-and-imports.md) — multi-file programs and the standard library
-- [Data Types and Pattern Matching](data-types.md) — structs, enums, and `match`
+- [Generics](generics) — generic types and generic functions
+- [Modules and Imports](modules-and-imports) — multi-file programs and the standard library
+- [Data Types and Pattern Matching](data-types) — structs, enums, and `match`

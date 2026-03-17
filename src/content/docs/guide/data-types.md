@@ -245,11 +245,11 @@ if a == b {
 }
 ```
 
-See [Modules and Imports](modules-and-imports.md) for the full list of string methods (`length`, `contains`, `split`, `trim`, `concat`, `index_of`, `replace`, etc.).
+See [Modules and Imports](modules-and-imports) for the full list of string methods (`length`, `contains`, `split`, `trim`, `concat`, `index_of`, `replace`, etc.).
 
 ## Next Steps
 
-- [Closures](closures.md) — closures, lambda lifting, and higher-order functions
-- [Generics](generics.md) — parameterize your types with type variables
-- [Error Handling](error-handling.md) — use `Option<T>` and `Result<T, E>` for safe error handling
-- [Contracts](contracts.md) — add runtime verification to your functions
+- [Closures](closures) — closures, lambda lifting, and higher-order functions
+- [Generics](generics) — parameterize your types with type variables
+- [Error Handling](error-handling) — use `Option<T>` and `Result<T, E>` for safe error handling
+- [Contracts](contracts) — add runtime verification to your functions

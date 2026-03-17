@@ -188,7 +188,7 @@ kodoc describe ./hello --json
 
 ### `kodoc test`
 
-Run tests defined in a Kōdo source file. See [Testing](testing.md) for details on writing tests.
+Run tests defined in a Kōdo source file. See [Testing](testing) for details on writing tests.
 
 ```bash
 kodoc test <file> [options]
