@@ -57,7 +57,9 @@ impl Counter {
 }
 ```
 
-> **Known limitation:** Static method call syntax `Counter.new()` is not yet supported. As a workaround, use direct struct construction: `let c: Counter = Counter { value: 0 }`.
+```rust
+let c: Counter = Counter.new()
+```
 
 ## Inherent vs Trait Impl
 
