@@ -8,7 +8,7 @@ The formal grammar of Kōdo in Extended Backus-Naur Form (EBNF). Kōdo is an LL(
 
 ```ebnf
 (* Kōdo Formal Grammar — EBNF *)
-(* Version: 0.1.0 (initial subset) *)
+(* Version: 0.2.0 *)
 (* This grammar is LL(1)-parseable with zero ambiguity. *)
 
 (* ===== Academic References ===== *)
