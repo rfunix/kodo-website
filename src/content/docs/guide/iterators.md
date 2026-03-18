@@ -45,7 +45,7 @@ for item in items {
 }
 ```
 
-> **Note:** `for-in` currently works with `List<Int>`. Support for `List<String>` iteration is planned but not yet available — `list_new()` always creates a `List<Int>` at the runtime level.
+`for-in` works with both `List<Int>` and `List<String>`.
 
 ## Iterating Over Map Keys
 
