@@ -50,11 +50,11 @@ module math {
         version: "0.1.0"
     }
 
-    fn add(a: Int, b: Int) -> Int {
+    pub fn add(a: Int, b: Int) -> Int {
         return a + b
     }
 
-    fn multiply(a: Int, b: Int) -> Int {
+    pub fn multiply(a: Int, b: Int) -> Int {
         return a * b
     }
 }
@@ -200,8 +200,6 @@ Splits a string by a separator, returning a `List<String>`:
 ```rust
 let parts: List<String> = "a,b,c".split(",")
 ```
-
-> **Known limitation:** `split()` and `lines()` pass type checking but may produce code generation errors at build time. This is being fixed.
 
 #### `parse_int()`
 

@@ -204,7 +204,7 @@ Programs can be split across multiple files using `import`:
 module math {
     meta { purpose: "Math utilities", version: "0.1.0" }
 
-    fn add(a: Int, b: Int) -> Int {
+    pub fn add(a: Int, b: Int) -> Int {
         return a + b
     }
 }

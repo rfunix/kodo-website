@@ -656,7 +656,7 @@ let text: String = json_stringify(doc)
 
 ### Building
 
-> **Known limitation:** JSON builder functions (`json_new_object`, `json_set_string`, `json_set_int`, `json_set_bool`, `json_set_float`, `json_stringify`) pass type checking but are not yet linked in the runtime. They will produce link errors at build time. JSON parsing functions above work correctly.
+> **Note:** Most JSON builder functions work correctly (`json_new_object`, `json_set_string`, `json_set_int`, `json_set_bool`, `json_stringify`). `json_set_float` has a codegen issue and will fail at build time.
 
 ### `json_new_object() -> Int`
 
