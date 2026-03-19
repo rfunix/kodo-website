@@ -21,26 +21,18 @@ Every Kōdo compilation follows this closed-loop pattern:
              │
              ▼
     ┌──────────────────┐       ┌──────────────────┐
-    │  2. kodoc check   │──────▶│  3. kodoc fix     │
-    │  --json-errors    │ erros │  (aplica patches) │
+    │  2. kodoc check  │──────▶│  3. kodoc fix    │
+    │  --json-errors   │ erros │  (aplica patches)│
     └────────┬─────────┘       └────────┬─────────┘
-             │                          │
-             │ zero erros               │ retry
-             │                          │
-             │                 ┌────────┘
-             │                 │
-             │      ┌──────────▼───────┐
-             │      │  2. kodoc check   │
-             │      │  (re-verificar)   │
-             │      └──────────┬───────┘
-             │                 │
-             │◀── zero erros ──┘
+             ▲        ▲                 │
+             │        └─────────────────┘
              │
+             │ zero erros
              ▼
     ┌──────────────────┐
-    │  4. kodoc build   │
-    │  binary + cert    │
-    └──────────────────┘
+    │  4. kodoc build  │
+    │  binary + cert   │
+    └────────┬─────────┘
              │
              ▼
        binary nativo
