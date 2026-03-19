@@ -9,11 +9,11 @@ The Kōdo Language Server (`kodoc lsp`) brings real-time feedback directly into 
 
 ## VSCode Setup
 
-The recommended way to use Kōdo in Visual Studio Code is through the official VSCode extension.
+There is no VSCode extension on the marketplace yet. You can connect to the Kōdo LSP manually using a generic LSP client extension.
 
 ### Installation
 
-1. **Install the Kōdo compiler** — follow the [Installation guide](/docs/getting-started) to build or install `kodoc`.
+1. **Install the Kōdo compiler** — follow the [Installation guide](/docs/getting-started/) to build or install `kodoc`.
 
 2. **Ensure `kodoc` is in your PATH**:
 
@@ -21,13 +21,15 @@ The recommended way to use Kōdo in Visual Studio Code is through the official V
    kodoc --version
    ```
 
-3. **Install the Kōdo VSCode extension** from the VS Code marketplace. Search for "Kōdo" in the Extensions panel (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+3. **Install a generic LSP client** — for example, [vscode-languageclient](https://marketplace.visualstudio.com/items?itemName=APerezGarcia.vscode-generic-lsp-client) or any extension that lets you configure a custom language server.
 
-4. **Open a `.ko` file** — the extension automatically starts the LSP server and connects to it. You should see diagnostics, hover information, and completions immediately.
+4. **Configure the LSP server** — point it to `kodoc lsp` as the command. Associate `.ko` files with the server.
+
+5. **Open a `.ko` file** — you should see diagnostics, hover information, and completions.
 
 ### What You Get
 
-Once the extension is active, every `.ko` file you open benefits from:
+Once the LSP is connected, every `.ko` file you open benefits from:
 
 - Red/yellow squiggles on errors and warnings, updated as you type
 - Hover tooltips showing types, contracts, and agent annotations
