@@ -1,10 +1,11 @@
 ---
 title: "Intent System"
-sidebar:
-  order: 19
+description: "How AI agents declare goals with intent blocks and the compiler generates verified implementations"
 ---
 
-The intent system is Kodo's most distinctive feature. Instead of writing boilerplate code for common infrastructure patterns, AI agents declare **what** should happen using `intent` blocks. The compiler's resolver maps those declarations to concrete implementations, then verifies the generated code satisfies all contracts and type constraints.
+# Intent System
+
+The intent system is Kōdo's most distinctive feature. Instead of writing boilerplate code for common infrastructure patterns, AI agents declare **what** should happen using `intent` blocks. The compiler's resolver maps those declarations to concrete implementations, then verifies the generated code satisfies all contracts and type constraints.
 
 ## Why Intents?
 

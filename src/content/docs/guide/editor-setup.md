@@ -1,8 +1,9 @@
 ---
 title: "Editor Setup"
-sidebar:
-  order: 24
+description: "Configure the Kōdo Language Server for VSCode, Neovim, Helix, and other editors"
 ---
+
+# Editor Setup
 
 The Kōdo Language Server (`kodoc lsp`) brings real-time feedback directly into your editor. For AI agents operating through IDE integrations, LSP quality is a critical factor — hover information, diagnostics, and code actions form the tight feedback loop that enables agents to write correct code faster.
 
