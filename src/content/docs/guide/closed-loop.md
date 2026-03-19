@@ -14,25 +14,37 @@ This is the core value proposition of Kōdo: **the compiler is a repair partner,
 Every Kōdo compilation follows this closed-loop pattern:
 
 ```
-  ┌─────────────────────────────────────────────────────────────────┐
-  │                                                                 │
-  │   ┌──────────┐    ┌──────────────┐    ┌───────────┐    ┌─────┐ │
-  │   │  Agent    │───▶│ kodoc check  │───▶│ kodoc fix │───▶│Build│ │
-  │   │ writes .ko│    │ --json-errors│    │  (auto)   │    │  OK │ │
-  │   └──────────┘    └──────┬───────┘    └───────────┘    └──┬──┘ │
-  │                          │                                 │    │
-  │                          │ errors?                         │    │
-  │                          │                                 │    │
-  │                          ▼                                 │    │
-  │                   ┌──────────────┐                         │    │
-  │                   │  Structured  │                         │    │
-  │                   │  JSON with   │──── fix ───── retry ────┘    │
-  │                   │  FixPatch    │                              │
-  │                   └──────────────┘                              │
-  │                                                                 │
-  └─────────────────────────────────────────────────────────────────┘
+          ┌─────────────────────────────────────┐
+          │            CLOSED LOOP              │
+          │                                     │
+          │   ┌───────────┐                     │
+          │   │ 1. Agent  │                     │
+          │   │ writes .ko│                     │
+          │   └─────┬─────┘                     │
+          │         │                           │
+          │         ▼                           │
+          │   ┌───────────────┐    errors?      │
+          │   │ 2. kodoc check│───── yes ──┐    │
+          │   │  --json-errors│            │    │
+          │   └───────┬───────┘            │    │
+          │           │                    ▼    │
+          │           │ no          ┌──────────┐│
+          │           │ errors      │ 3. kodoc ││
+          │           │             │ fix(auto)││
+          │           │             └────┬─────┘│
+          │           │                  │      │
+          │           │                  └──────┘
+          │           ▼                 retry
+          │   ┌───────────────┐
+          │   │ 4. kodoc build│
+          │   │  binary + cert│
+          │   └───────────────┘
+          │
+          └─────────────────────────────────────┘
 
-  Result: native binary + .ko.cert.json (compilation certificate)
+  Output:  native binary
+         + .ko.cert.json (compilation certificate)
+         + confidence scores
 ```
 
 The four stages:
