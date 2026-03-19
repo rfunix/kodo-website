@@ -4,7 +4,84 @@ sidebar:
   order: 2
 ---
 
-Kōdo lets you define custom data types using `struct` and `enum`. Pattern matching with `match` provides a safe way to destructure values and handle every case.
+Kōdo has a rich type system with primitive types, composite types (`struct`, `enum`), generics, and collections. There is no null — use `Option<T>` instead. There are no exceptions — use `Result<T, E>` instead.
+
+## Primitive Types
+
+Every value in Kōdo has a known type at compile time. The built-in primitive types are:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `Int` | 64-bit signed integer (default) | `42`, `-1`, `0` |
+| `Int8` | 8-bit signed integer | `127` |
+| `Int16` | 16-bit signed integer | `32000` |
+| `Int32` | 32-bit signed integer | `2_000_000` |
+| `Int64` | 64-bit signed integer (same as `Int`) | `9_000_000_000` |
+| `Uint` | 64-bit unsigned integer | `0` |
+| `Uint8` | 8-bit unsigned integer | `255` |
+| `Uint16` | 16-bit unsigned integer | `65535` |
+| `Uint32` | 32-bit unsigned integer | `4_294_967_295` |
+| `Uint64` | 64-bit unsigned integer | `0` |
+| `Float32` | 32-bit floating point | `3.14` |
+| `Float64` | 64-bit floating point (default float) | `2.718281828` |
+| `Bool` | Boolean | `true`, `false` |
+| `String` | UTF-8 string | `"hello"` |
+| `Byte` | Single byte (8-bit unsigned) | `0` |
+| `Unit` | No value (like `void`) | implicit |
+
+### Integers
+
+`Int` is the default integer type — 64-bit signed. Use the sized variants when you need explicit control over memory layout:
+
+```rust
+let count: Int = 42
+let small: Int8 = 100
+let big: Uint64 = 18_446_744_073_709_551_615
+```
+
+All integer types support arithmetic (`+`, `-`, `*`, `/`, `%`), comparison (`==`, `!=`, `<`, `>`, `<=`, `>=`), and bitwise operations. Integer overflow wraps silently (two's complement).
+
+### Booleans
+
+```rust
+let active: Bool = true
+let done: Bool = false
+
+if active {
+    println("still running")
+}
+```
+
+Booleans support `&&` (and), `||` (or), and `!` (not).
+
+### Strings
+
+Strings are UTF-8, heap-allocated, and reference-counted. They support escape sequences (`\"`, `\\`, `\n`, `\t`, `\r`, `\0`) and f-string interpolation:
+
+```rust
+let name: String = "Kōdo"
+let greeting: String = f"Hello, {name}!"
+let escaped: String = "line1\nline2"
+```
+
+See [String Interpolation](../string-interpolation/) for f-strings and [Standard Library](../stdlib-reference/) for string methods (`length`, `contains`, `split`, `replace`, `trim`, etc.).
+
+### No Null, No Exceptions
+
+Kōdo has no `null` and no exceptions. Instead:
+
+- **Optional values** use `Option<T>` — either `Option::Some(value)` or `Option::None`
+- **Fallible operations** use `Result<T, E>` — either `Result::Ok(value)` or `Result::Err(error)`
+
+```rust
+let found: Option<Int> = Option::Some(42)
+let missing: Option<Int> = Option::None
+
+let ok: Result<String, String> = Result::Ok("success")
+let err: Result<String, String> = Result::Err("not found")
+```
+
+See [Error Handling](../error-handling/) for details on `Option` and `Result`.
 
 ## Structs
 
