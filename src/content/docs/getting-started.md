@@ -70,7 +70,7 @@ To enable compile-time contract verification via Z3:
 - **macOS**: `brew install z3`
 - **Ubuntu/Debian**: `sudo apt-get install libz3-dev`
 
-Then rebuild with `cargo build -p kodoc --release --features smt`. See the [Contracts guide](contracts.md#enabling-z3-for-static-verification) for details.
+Then rebuild with `cargo build -p kodoc --release --features smt`. See the [Contracts guide](/guide/contracts/#enabling-z3-for-static-verification) for details.
 
 ## Your First Program
 

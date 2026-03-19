@@ -86,7 +86,7 @@ Kōdo supports the following primitive types:
 | `Bool` | Boolean values | `true`, `false` |
 | `String` | String literals | `"hello"` |
 
-The full type system also includes `Int8`, `Int16`, `Int32`, `Int64`, `Float32`, and `Byte` — see the [Language Specification](../DESIGN.md) for details.
+The full type system also includes `Int8`, `Int16`, `Int32`, `Int64`, `Float32`, and `Byte` — see the [Language Specification](/reference/design/) for details.
 
 Variables can have explicit type annotations or use **local type inference**:
 
@@ -298,10 +298,10 @@ module demo {
 
 ## Next Steps
 
-- [Data Types and Pattern Matching](data-types) — structs, enums, and `match` expressions
-- [Closures](closures) — closures, lambda lifting, and higher-order functions
-- [Generics](generics) — generic types and generic functions
-- [Error Handling](error-handling) — using `Option<T>` and `Result<T, E>`
-- [Contracts](contracts) — add runtime verification to your functions
-- [Modules and Imports](modules-and-imports) — multi-file programs and the standard library
-- [CLI Reference](cli-reference) — all available commands and flags
+- [Data Types and Pattern Matching](../data-types) — structs, enums, and `match` expressions
+- [Closures](../closures) — closures, lambda lifting, and higher-order functions
+- [Generics](../generics) — generic types and generic functions
+- [Error Handling](../error-handling) — using `Option<T>` and `Result<T, E>`
+- [Contracts](../contracts) — add runtime verification to your functions
+- [Modules and Imports](../modules-and-imports) — multi-file programs and the standard library
+- [CLI Reference](../cli-reference) — all available commands and flags

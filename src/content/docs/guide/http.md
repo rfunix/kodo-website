@@ -206,6 +206,6 @@ println(output)  // {"name":"kodo","stable":false,"version":1}
 
 ## Next Steps
 
-- [Concurrency](concurrency) -- spawning tasks and the cooperative scheduler
-- [Actors](actors) -- stateful actors with message passing
-- [Modules and Imports](modules-and-imports) -- multi-file programs and the standard library
+- [Concurrency](../concurrency) -- spawning tasks and the cooperative scheduler
+- [Actors](../actors) -- stateful actors with message passing
+- [Modules and Imports](../modules-and-imports) -- multi-file programs and the standard library

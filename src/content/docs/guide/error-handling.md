@@ -174,6 +174,6 @@ Output:
 
 ## Next Steps
 
-- [Contracts](contracts) — `requires` and `ensures` for runtime verification
-- [Generics](generics) — how `Option<T>` and `Result<T, E>` are built with generics
-- [Data Types and Pattern Matching](data-types) — structs, enums, and `match`
+- [Contracts](../contracts) — `requires` and `ensures` for runtime verification
+- [Generics](../generics) — how `Option<T>` and `Result<T, E>` are built with generics
+- [Data Types and Pattern Matching](../data-types) — structs, enums, and `match`

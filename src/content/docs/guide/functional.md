@@ -115,6 +115,6 @@ This pipeline is:
 
 ## Next Steps
 
-- [Iterators](iterators) — the `for-in` loop and iterator protocol
-- [Closures](closures) — closures and variable capture
-- [Contracts](contracts) — add `requires`/`ensures` to pipeline functions
+- [Iterators](../iterators) — the `for-in` loop and iterator protocol
+- [Closures](../closures) — closures and variable capture
+- [Contracts](../contracts) — add `requires`/`ensures` to pipeline functions

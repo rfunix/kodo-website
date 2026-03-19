@@ -105,6 +105,6 @@ while i < 10 {
 
 ## Next Steps
 
-- [Functional Combinators](functional) — `map`, `filter`, `fold`, and pipeline composition
-- [Closures](closures) — closures and higher-order functions
-- [Data Types](data-types) — structs, enums, and pattern matching
+- [Functional Combinators](../functional) — `map`, `filter`, `fold`, and pipeline composition
+- [Closures](../closures) — closures and higher-order functions
+- [Data Types](../data-types) — structs, enums, and pattern matching

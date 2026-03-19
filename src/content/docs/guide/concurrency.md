@@ -147,6 +147,6 @@ Kodo supports `async fn` and `.await` as syntax, but in v1 these compile synchro
 
 ## Next Steps
 
-- [Actors](actors) -- stateful actors with message passing and the scheduler
-- [HTTP & JSON](http) -- making HTTP requests and parsing JSON
-- [Closures](closures) -- closures, lambda lifting, and higher-order functions
+- [Actors](../actors) -- stateful actors with message passing and the scheduler
+- [HTTP & JSON](../http) -- making HTTP requests and parsing JSON
+- [Closures](../closures) -- closures, lambda lifting, and higher-order functions

@@ -110,7 +110,7 @@ test "critical invariant holds" {
 }
 ```
 
-This integrates with Kōdo's agent traceability system. See [Agent Traceability](agent-traceability) for details.
+This integrates with Kōdo's agent traceability system. See [Agent Traceability](../agent-traceability) for details.
 
 ## How Test Mode Works
 

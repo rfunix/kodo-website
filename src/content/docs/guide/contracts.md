@@ -262,6 +262,6 @@ Without the `smt` feature, the `--contracts static` flag will fall back to runti
 
 ## Next Steps
 
-- [Error Handling](error-handling) — using `Option<T>` and `Result<T, E>` for safe error handling
-- [Modules and Imports](modules-and-imports) — multi-file programs and the standard library
-- [CLI Reference](cli-reference) — all available commands and flags
+- [Error Handling](../error-handling) — using `Option<T>` and `Result<T, E>` for safe error handling
+- [Modules and Imports](../modules-and-imports) — multi-file programs and the standard library
+- [CLI Reference](../cli-reference) — all available commands and flags
