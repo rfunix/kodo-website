@@ -161,6 +161,47 @@ if (!currentSection) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <title>{title} — Kōdo Docs</title>
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+    <style>
+      /* Pagefind theme overrides for dark mode */
+      :root {
+        --pagefind-ui-scale: 0.85;
+        --pagefind-ui-primary: #818cf8;
+        --pagefind-ui-text: #f8fafc;
+        --pagefind-ui-background: #0f1019;
+        --pagefind-ui-border: rgba(255,255,255,0.06);
+        --pagefind-ui-tag: #1a1b23;
+        --pagefind-ui-border-width: 1px;
+        --pagefind-ui-border-radius: 8px;
+        --pagefind-ui-image-border-radius: 8px;
+        --pagefind-ui-image-box-ratio: 3/2;
+        --pagefind-ui-font: var(--font-body);
+      }
+      .pagefind-ui .pagefind-ui__search-input {
+        background: rgba(255,255,255,0.04) !important;
+        color: #f8fafc !important;
+        font-size: 13px !important;
+      }
+      .pagefind-ui .pagefind-ui__search-input::placeholder {
+        color: rgba(148,163,184,0.4) !important;
+      }
+      .pagefind-ui .pagefind-ui__result-link {
+        color: #818cf8 !important;
+      }
+      .pagefind-ui .pagefind-ui__result-excerpt {
+        color: rgba(148,163,184,0.7) !important;
+      }
+      .pagefind-ui .pagefind-ui__message {
+        color: rgba(148,163,184,0.5) !important;
+      }
+      .pagefind-ui .pagefind-ui__search-clear {
+        color: rgba(148,163,184,0.5) !important;
+        background: transparent !important;
+      }
+      .pagefind-ui .pagefind-ui__result {
+        border-color: rgba(255,255,255,0.06) !important;
+      }
+    </style>
   </head>
   <body class="bg-[#0a0a0c] text-[#f8fafc] antialiased" style="font-family: var(--font-body)">
     <!-- Top Nav -->
@@ -185,6 +226,9 @@ Kōdo
     <div class="mx-auto flex max-w-[1440px] pt-14">
       <!-- Sidebar -->
       <aside class="hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r border-white/[0.04] bg-[#050507] p-6 lg:sticky lg:top-14 lg:block">
+        <!-- Search -->
+        <div id="search" class="mb-4"></div>
+
         <div class="mb-5 px-2">
           <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#f8fafc]/30" style="font-family: var(--font-display)">Documentation</div>
           <div class="mt-1 font-mono text-[10px] text-[#818cf8]/60">v0.5.1</div>
@@ -352,5 +396,15 @@ Kōdo
         </aside>
       )}
     </div>
+    <script src="/pagefind/pagefind-ui.js" is:inline></script>
+    <script is:inline>
+      window.addEventListener('DOMContentLoaded', () => {
+        new PagefindUI({
+          element: '#search',
+          showSubResults: true,
+          showImages: false,
+        });
+      });
+    </script>
   </body>
 </html>
