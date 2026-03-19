@@ -3,21 +3,21 @@
 
 <section class="relative py-12 md:py-16">
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <div class="reveal overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0f1019]/50">
+    <div class="reveal rounded-2xl border border-white/[0.06] bg-[#0f1019]/50">
       <div class="p-5 sm:p-8 md:p-10">
         <h2 class="mb-2 text-2xl font-bold tracking-tight md:text-3xl" style="font-family: var(--font-display)">Ready to build?</h2>
         <p class="mb-8 text-base text-[#94a3b8]">Get started in under a minute.</p>
 
         <div class="grid gap-8 lg:grid-cols-2 lg:gap-10">
           <!-- Left: Steps -->
-          <div class="space-y-6">
+          <div class="min-w-0 space-y-6">
             <!-- Step 1 -->
-            <div class="flex gap-4">
+            <div class="flex gap-3 sm:gap-4">
               <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#818cf8]/30 bg-[#818cf8]/10 text-sm font-bold text-[#818cf8]">1</div>
               <div class="min-w-0 flex-1">
                 <h3 class="mb-2 text-sm font-semibold text-[#f8fafc]">Install the compiler</h3>
-                <div class="overflow-x-auto rounded-lg bg-[#0a0a0c] p-3">
-                  <pre class="text-[11px] leading-relaxed sm:text-[12px]"><code class="text-[#94a3b8]"><span class="text-[#94a3b8]/50"># macOS (Apple Silicon)</span>
+                <div class="rounded-lg bg-[#0a0a0c] p-3">
+                  <pre class="overflow-x-auto text-[11px] leading-relaxed sm:text-[12px]"><code class="text-[#94a3b8]"><span class="text-[#94a3b8]/50"># macOS (Apple Silicon)</span>
 curl -L https://github.com/rfunix/kodo/releases/latest/download/kodoc-macos-aarch64 -o kodoc
 chmod +x kodoc &amp;&amp; sudo mv kodoc /usr/local/bin/</code></pre>
                 </div>
@@ -25,12 +25,12 @@ chmod +x kodoc &amp;&amp; sudo mv kodoc /usr/local/bin/</code></pre>
             </div>
 
             <!-- Step 2 -->
-            <div class="flex gap-4">
+            <div class="flex gap-3 sm:gap-4">
               <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#818cf8]/30 bg-[#818cf8]/10 text-sm font-bold text-[#818cf8]">2</div>
               <div class="min-w-0 flex-1">
                 <h3 class="mb-2 text-sm font-semibold text-[#f8fafc]">Write hello.ko</h3>
-                <div class="overflow-x-auto rounded-lg bg-[#0a0a0c] p-3">
-                  <pre class="text-[11px] leading-relaxed sm:text-[12px]"><code><span class="text-violet-400">module</span> <span class="text-blue-300">hello</span> {'{'}
+                <div class="rounded-lg bg-[#0a0a0c] p-3">
+                  <pre class="overflow-x-auto text-[11px] leading-relaxed sm:text-[12px]"><code><span class="text-violet-400">module</span> <span class="text-blue-300">hello</span> {'{'}
     <span class="text-violet-400">meta</span> {'{'} purpose: <span class="text-amber-300">"Hello world"</span> {'}'}
     <span class="text-violet-400">fn</span> <span class="text-blue-300">main</span>() {'{'} println(<span class="text-amber-300">"Hello from Kōdo!"</span>) {'}'}
 {'}'}</code></pre>
@@ -39,20 +39,20 @@ chmod +x kodoc &amp;&amp; sudo mv kodoc /usr/local/bin/</code></pre>
             </div>
 
             <!-- Step 3 -->
-            <div class="flex gap-4">
+            <div class="flex gap-3 sm:gap-4">
               <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#818cf8]/30 bg-[#818cf8]/10 text-sm font-bold text-[#818cf8]">3</div>
               <div class="min-w-0 flex-1">
                 <h3 class="mb-2 text-sm font-semibold text-[#f8fafc]">Build & run</h3>
-                <div class="overflow-x-auto rounded-lg bg-[#0a0a0c] p-3">
-                  <pre class="text-[11px] leading-relaxed sm:text-[12px]"><code class="text-[#94a3b8]">kodoc build hello.ko -o hello</code></pre>
+                <div class="rounded-lg bg-[#0a0a0c] p-3">
+                  <pre class="overflow-x-auto text-[11px] leading-relaxed sm:text-[12px]"><code class="text-[#94a3b8]">kodoc build hello.ko -o hello</code></pre>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Right: Terminal output -->
-          <div class="flex flex-col">
-            <div class="flex-1 overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0a0a0c]">
+          <div class="min-w-0 flex flex-col">
+            <div class="flex-1 rounded-2xl border border-white/[0.06] bg-[#0a0a0c]">
               <!-- Terminal header -->
               <div class="flex items-center gap-2 border-b border-white/[0.06] px-4 py-2.5">
                 <div class="h-2.5 w-2.5 rounded-full bg-[#f87171]/50"></div>
