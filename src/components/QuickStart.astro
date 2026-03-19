@@ -4,7 +4,7 @@
 <section class="relative py-12 md:py-16">
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
     <div class="reveal overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0f1019]/50">
-      <div class="p-8 md:p-10">
+      <div class="p-5 sm:p-8 md:p-10">
         <h2 class="mb-2 text-2xl font-bold tracking-tight md:text-3xl" style="font-family: var(--font-display)">Ready to build?</h2>
         <p class="mb-8 text-base text-[#94a3b8]">Get started in under a minute.</p>
 
@@ -17,9 +17,9 @@
               <div class="min-w-0 flex-1">
                 <h3 class="mb-2 text-sm font-semibold text-[#f8fafc]">Install the compiler</h3>
                 <div class="overflow-x-auto rounded-lg bg-[#0a0a0c] p-3">
-                  <pre class="text-[12px] leading-relaxed"><code class="text-[#94a3b8]"><span class="text-[#94a3b8]/50"># macOS (Apple Silicon)</span>
+                  <pre class="text-[11px] leading-relaxed sm:text-[12px]"><code class="text-[#94a3b8]"><span class="text-[#94a3b8]/50"># macOS (Apple Silicon)</span>
 curl -L https://github.com/rfunix/kodo/releases/latest/download/kodoc-macos-aarch64 -o kodoc
-chmod +x kodoc && sudo mv kodoc /usr/local/bin/</code></pre>
+chmod +x kodoc &amp;&amp; sudo mv kodoc /usr/local/bin/</code></pre>
                 </div>
               </div>
             </div>
@@ -30,7 +30,7 @@ chmod +x kodoc && sudo mv kodoc /usr/local/bin/</code></pre>
               <div class="min-w-0 flex-1">
                 <h3 class="mb-2 text-sm font-semibold text-[#f8fafc]">Write hello.ko</h3>
                 <div class="overflow-x-auto rounded-lg bg-[#0a0a0c] p-3">
-                  <pre class="text-[12px] leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">hello</span> {'{'}
+                  <pre class="text-[11px] leading-relaxed sm:text-[12px]"><code><span class="text-violet-400">module</span> <span class="text-blue-300">hello</span> {'{'}
     <span class="text-violet-400">meta</span> {'{'} purpose: <span class="text-amber-300">"Hello world"</span> {'}'}
     <span class="text-violet-400">fn</span> <span class="text-blue-300">main</span>() {'{'} println(<span class="text-amber-300">"Hello from Kōdo!"</span>) {'}'}
 {'}'}</code></pre>
@@ -44,7 +44,7 @@ chmod +x kodoc && sudo mv kodoc /usr/local/bin/</code></pre>
               <div class="min-w-0 flex-1">
                 <h3 class="mb-2 text-sm font-semibold text-[#f8fafc]">Build & run</h3>
                 <div class="overflow-x-auto rounded-lg bg-[#0a0a0c] p-3">
-                  <pre class="text-[12px] leading-relaxed"><code class="text-[#94a3b8]">kodoc build hello.ko -o hello</code></pre>
+                  <pre class="text-[11px] leading-relaxed sm:text-[12px]"><code class="text-[#94a3b8]">kodoc build hello.ko -o hello</code></pre>
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@ chmod +x kodoc && sudo mv kodoc /usr/local/bin/</code></pre>
                 <span class="ml-2 text-[11px] text-[#94a3b8]/60">terminal</span>
               </div>
               <!-- Terminal content -->
-              <pre class="p-5 text-[12px] leading-[1.8]"><code><span class="text-[#94a3b8]">$ kodoc build hello.ko -o hello</span>
+              <pre class="overflow-x-auto p-4 text-[11px] leading-[1.8] sm:p-5 sm:text-[12px]"><code><span class="text-[#94a3b8]">$ kodoc build hello.ko -o hello</span>
 <span class="text-emerald-400">Successfully compiled</span> <span class="text-[#f8fafc]">`hello`</span> <span class="text-[#94a3b8]">&rarr; hello</span>
 
 <span class="text-[#94a3b8]">$ ./hello</span>
