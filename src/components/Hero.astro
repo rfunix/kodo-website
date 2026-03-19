@@ -11,7 +11,7 @@
   <!-- Dot grid -->
   <div class="grid-bg pointer-events-none absolute inset-0 opacity-30"></div>
 
-  <div class="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-12 lg:items-center lg:gap-8">
+  <div class="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:items-center lg:gap-8">
     <!-- Left: Text (5 cols) -->
     <div class="lg:col-span-5">
       <div class="hero-enter hero-enter-delay-1 mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#818cf8]/20 bg-[#818cf8]/[0.08] px-4 py-1.5">
@@ -19,12 +19,12 @@
         <span class="text-[13px] font-medium text-[#818cf8]">Announcing v0.5.1</span>
       </div>
 
-      <h1 class="hero-enter hero-enter-delay-2 mb-5 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-[3.25rem]" style="font-family: var(--font-display)">
-        A programming language where<br />
-        <span class="gradient-text">AI agents</span> write<br />correct software.
+      <h1 class="hero-enter hero-enter-delay-2 mb-5 text-[1.75rem] font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.25rem]" style="font-family: var(--font-display)">
+        A programming language where
+        <span class="gradient-text">AI agents</span> write correct software.
       </h1>
 
-      <p class="hero-enter hero-enter-delay-3 mb-8 max-w-md text-base leading-relaxed text-[#94a3b8]">
+      <p class="hero-enter hero-enter-delay-3 mb-8 text-[0.9375rem] leading-relaxed text-[#94a3b8] sm:text-base md:max-w-md">
         Contracts verified by Z3. Authorship tracked by the compiler. Intent-driven code generation. Transparent for humans.
       </p>
 
@@ -44,17 +44,17 @@
     <div class="hero-enter hero-enter-delay-5 relative lg:col-span-7">
       <div class="overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0f1019]/80 shadow-2xl shadow-[#818cf8]/[0.04]">
         <!-- Header -->
-        <div class="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
+        <div class="flex items-center justify-between border-b border-white/[0.06] px-3 py-2.5 sm:px-4 sm:py-3">
           <div class="flex items-center gap-2">
             <div class="h-2.5 w-2.5 rounded-full bg-[#f87171]/50"></div>
             <div class="h-2.5 w-2.5 rounded-full bg-[#fbbf24]/50"></div>
             <div class="h-2.5 w-2.5 rounded-full bg-[#4ade80]/50"></div>
             <span class="ml-2 rounded bg-white/[0.05] px-2 py-0.5 text-[11px] text-[#94a3b8]">payment_service.ko</span>
           </div>
-          <span class="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">PROD.RS &mdash; VERIFIED</span>
+          <span class="hidden rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400 sm:inline">PROD.RS &mdash; VERIFIED</span>
         </div>
         <!-- Code -->
-        <pre class="overflow-x-auto p-5 text-[13px] leading-[1.7]"><code><span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>, model: <span class="text-amber-300">"kodo-pro"</span>)
+        <pre class="overflow-x-auto p-4 text-[11px] leading-[1.7] sm:p-5 sm:text-[13px]"><code><span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>, model: <span class="text-amber-300">"kodo-pro"</span>)
 <span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.99</span>)
 <span class="text-violet-400">fn</span> <span class="text-blue-300">process_payment</span>(amount: <span class="text-cyan-300">Int</span>, balance: <span class="text-cyan-300">Int</span>) <span class="text-slate-500">-&gt;</span> <span class="text-cyan-300">String</span>
     <span class="text-violet-400">requires</span> {'{'} amount <span class="text-slate-400">&gt;</span> <span class="text-orange-300">0</span> {'}'}
@@ -63,7 +63,7 @@
     <span class="text-violet-400">return</span> <span class="text-amber-300">"transfer_ok"</span>
 {'}'}</code></pre>
         <!-- Footer status -->
-        <div class="flex items-center justify-between border-t border-white/[0.06] px-4 py-2.5">
+        <div class="flex items-center justify-between border-t border-white/[0.06] px-3 py-2 sm:px-4 sm:py-2.5">
           <div class="flex items-center gap-3">
             <span class="flex items-center gap-1.5 text-[11px] text-emerald-400">
               <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
@@ -76,8 +76,8 @@
         </div>
       </div>
 
-      <!-- Floating verified badge -->
-      <div class="animate-float absolute -right-2 -bottom-3 rounded-xl border border-emerald-500/20 bg-[#0f1019]/90 px-3.5 py-2 shadow-lg backdrop-blur-sm md:-right-4 md:-bottom-4">
+      <!-- Floating verified badge — hidden on small mobile to prevent overflow -->
+      <div class="animate-float absolute -right-2 -bottom-3 hidden rounded-xl border border-emerald-500/20 bg-[#0f1019]/90 px-3.5 py-2 shadow-lg backdrop-blur-sm sm:block md:-right-4 md:-bottom-4">
         <div class="flex items-center gap-2">
           <div class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/15">
             <svg class="h-3.5 w-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
