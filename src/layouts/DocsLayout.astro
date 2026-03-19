@@ -206,8 +206,13 @@ if (!currentSection) {
   <body class="bg-[#0a0a0c] text-[#f8fafc] antialiased" style="font-family: var(--font-body)">
     <!-- Top Nav -->
     <header class="fixed top-0 z-50 w-full border-b border-white/[0.06] bg-[#0a0a0c]/80 backdrop-blur-xl">
-      <nav class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6">
-        <div class="flex items-center gap-8">
+      <nav class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-4 sm:px-6">
+        <div class="flex items-center gap-4 sm:gap-8">
+          <!-- Mobile sidebar toggle -->
+          <button id="sidebar-toggle" class="flex h-9 w-9 items-center justify-center rounded-lg text-[#94a3b8] transition hover:bg-white/[0.05] hover:text-white lg:hidden" aria-label="Toggle navigation">
+            <svg id="sidebar-icon-open" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg id="sidebar-icon-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
           <a href="/" class="flex items-center gap-2 text-lg font-bold tracking-tight" style="font-family: var(--font-display)">
 Kōdo
           </a>
@@ -217,15 +222,18 @@ Kōdo
             <a href="https://github.com/rfunix/kodo" class="text-[13px] font-medium text-[#94a3b8] transition hover:text-[#f8fafc]" target="_blank">GitHub</a>
           </div>
         </div>
-        <a href="/docs/getting-started/" class="rounded-lg bg-[#6366f1] px-5 py-1.5 text-[12px] font-bold uppercase tracking-wider text-white transition hover:bg-[#4f46e5] hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]" style="font-family: var(--font-display)">
+        <a href="/docs/getting-started/" class="hidden rounded-lg bg-[#6366f1] px-5 py-1.5 text-[12px] font-bold uppercase tracking-wider text-white transition hover:bg-[#4f46e5] hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] sm:inline-block" style="font-family: var(--font-display)">
           Get Started
         </a>
       </nav>
     </header>
 
+    <!-- Mobile sidebar backdrop -->
+    <div id="sidebar-backdrop" class="fixed inset-0 z-40 hidden bg-black/60 backdrop-blur-sm lg:hidden"></div>
+
     <div class="mx-auto flex max-w-[1440px] pt-14">
       <!-- Sidebar -->
-      <aside class="hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r border-white/[0.04] bg-[#050507] p-6 lg:sticky lg:top-14 lg:block">
+      <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 hidden h-full w-72 -translate-x-full overflow-y-auto border-r border-white/[0.04] bg-[#050507] p-6 pt-20 transition-transform duration-300 ease-in-out lg:sticky lg:top-14 lg:z-auto lg:block lg:h-[calc(100vh-3.5rem)] lg:w-64 lg:translate-x-0 lg:pt-6">
         <!-- Search -->
         <div id="search" class="mb-4"></div>
 
@@ -333,7 +341,7 @@ Kōdo
       </aside>
 
       <!-- Main Content -->
-      <main class="min-w-0 flex-1 px-8 py-10 lg:px-16">
+      <main class="min-w-0 flex-1 px-4 py-8 sm:px-8 sm:py-10 lg:px-16">
         <!-- Breadcrumbs -->
         {breadcrumbSection && (
           <nav class="mb-8 flex items-center gap-2 text-[12px] font-medium text-[#94a3b8]/50" style="font-family: var(--font-display)">
@@ -403,6 +411,71 @@ Kōdo
           element: '#search',
           showSubResults: true,
           showImages: false,
+        });
+
+        // Mobile sidebar toggle
+        const toggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        const iconOpen = document.getElementById('sidebar-icon-open');
+        const iconClose = document.getElementById('sidebar-icon-close');
+
+        function openSidebar() {
+          sidebar.classList.remove('hidden', '-translate-x-full');
+          sidebar.classList.add('translate-x-0');
+          backdrop.classList.remove('hidden');
+          iconOpen.classList.add('hidden');
+          iconClose.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+          sidebar.classList.add('-translate-x-full');
+          sidebar.classList.remove('translate-x-0');
+          backdrop.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+          document.body.style.overflow = '';
+          // Re-hide after transition
+          setTimeout(() => {
+            if (sidebar.classList.contains('-translate-x-full')) {
+              sidebar.classList.add('hidden');
+            }
+          }, 300);
+        }
+
+        toggle?.addEventListener('click', () => {
+          if (sidebar.classList.contains('-translate-x-full') || sidebar.classList.contains('hidden')) {
+            openSidebar();
+          } else {
+            closeSidebar();
+          }
+        });
+
+        backdrop?.addEventListener('click', closeSidebar);
+
+        // Close sidebar when clicking a link (mobile)
+        sidebar?.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth < 1024) {
+              closeSidebar();
+            }
+          });
+        });
+
+        // Reset sidebar state on resize to desktop
+        window.addEventListener('resize', () => {
+          if (window.innerWidth >= 1024) {
+            sidebar.classList.remove('hidden', '-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+            backdrop.classList.add('hidden');
+            iconOpen.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+            document.body.style.overflow = '';
+          } else if (!sidebar.classList.contains('translate-x-0') || sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.add('hidden', '-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+          }
         });
       });
     </script>

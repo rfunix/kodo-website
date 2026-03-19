@@ -91,7 +91,7 @@ const next = navIndex < navOrder.length - 1 && navIndex >= 0 ? { label: navOrder
   prev={prev}
   next={next}
 >
-  <h1 class="mb-8 text-4xl font-bold leading-[1.1] tracking-tight lg:text-5xl" style="font-family: var(--font-display)">
+  <h1 class="mb-6 text-3xl font-bold leading-[1.1] tracking-tight sm:mb-8 sm:text-4xl lg:text-5xl" style="font-family: var(--font-display)">
     {title}
   </h1>
   {description && (
@@ -280,12 +280,19 @@ const next = navIndex < navOrder.length - 1 && navIndex >= 0 ? { label: navOrder
     font-size: 0.875rem;
   }
 
-  /* Tables */
+  /* Tables — scrollable on mobile */
+  .docs-prose .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1.5rem;
+  }
+
   .docs-prose table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1.5rem;
     font-size: 0.875rem;
+    min-width: 28rem;
   }
 
   .docs-prose th {
