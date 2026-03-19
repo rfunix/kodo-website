@@ -156,6 +156,17 @@ Contracts are most useful for:
 - **Documenting assumptions**: making implicit requirements explicit
 - **Catching bugs early**: failing fast at the point of misuse rather than producing wrong results downstream
 
+## Refinement Types
+
+Kōdo supports **refinement types** — type aliases with an attached contract that constrains the values:
+
+```rust
+type PositiveInt = Int requires { self > 0 }
+type Percentage = Int requires { self >= 0 && self <= 100 }
+```
+
+When a value of a refinement type is created, the `requires` clause is checked (at runtime, or statically with Z3). This lets you encode domain constraints directly into the type system.
+
 ## Static Verification with Z3
 
 Kōdo can verify contracts at **compile time** using the Z3 SMT solver. When enabled, the compiler translates contract expressions into Z3 formulas and attempts to prove them automatically.
@@ -227,6 +238,10 @@ The contract violation is still recorded in stderr, so monitoring tools can capt
 ```
 
 Use `recoverable` only when you have external monitoring in place. For development and testing, prefer the default `runtime` mode to catch bugs immediately.
+
+:::tip[Z3 Required]
+Static contract verification requires Z3 to be installed and the `smt` Cargo feature enabled. Without it, `--contracts static` falls back to runtime-only checking. See the installation instructions below.
+:::
 
 ## Enabling Z3 for Static Verification
 

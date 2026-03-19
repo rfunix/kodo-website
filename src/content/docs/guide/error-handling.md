@@ -6,7 +6,7 @@ sidebar:
 
 Kōdo has no null values and no exceptions. Instead, it uses two types from the standard library to represent the possibility of absence or failure: `Option<T>` and `Result<T, E>`.
 
-Both types are available in every Kōdo program without an import — they are part of the **prelude**.
+Both types are available in every Kōdo program without an import — they are part of the **prelude**. They are used with [Pattern Matching](../pattern-matching) (`match`, `if let`) to safely handle each case.
 
 ## The Problem with Null
 
@@ -71,6 +71,10 @@ enum Result<T, E> {
     Err(E)    // failure
 }
 ```
+
+:::caution[Current Limitation]
+In the current version of Kōdo, the error type `E` in `Result<T, E>` is effectively always `String`. Custom error enums do not work end-to-end through codegen yet. Use `Result<T, String>` for error messages, or `Result<T, Int>` for error codes.
+:::
 
 ### Returning Results
 

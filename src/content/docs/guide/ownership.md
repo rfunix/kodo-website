@@ -22,7 +22,9 @@ By default, parameters use `own` (owned) semantics. When you pass a value to a f
 
 ## Copy Types
 
-Primitive types (`Int`, `Bool`, `Float32`, `Float64`, `Byte`) are implicitly **Copy**. They are never moved --assigning or passing them always creates a copy:
+Primitive types (`Int`, `Bool`, `Float32`, `Float64`, `Byte`) are implicitly **Copy**. As of v0.5.0, **function types** (`(Int) -> Int`, `(String) -> Bool`, etc.) are also Copy — closures and function references can be passed to multiple functions without triggering use-after-move errors.
+
+Copy types are never moved — assigning or passing them always creates a copy:
 
 ```rust
 let x: Int = 42

@@ -181,9 +181,9 @@ No human in the loop. No hoping tests catch it. No "it works on my machine."
 
 ---
 
-## Quantitative benchmarks: coming soon
+## Quantitative benchmarks
 
-We're developing reproducible benchmarks measuring:
+Reproducible quantitative benchmarks are in development, measuring:
 
 - **Cycles to clean compilation** — agent attempts until zero errors
 - **Time to first successful build** — wall clock from code generation to binary

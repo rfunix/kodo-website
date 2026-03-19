@@ -6,6 +6,8 @@ sidebar:
 
 Kōdo provides exhaustive pattern matching on enum types using `match` expressions. The compiler verifies that all variants are handled, preventing bugs from unmatched cases.
 
+Pattern matching is central to [Error Handling](../error-handling) with `Option<T>` and `Result<T, E>` — see that guide for practical examples of matching on success/failure.
+
 ## Basic Match
 
 ```rust

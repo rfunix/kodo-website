@@ -195,4 +195,8 @@ let calc: String = f"Double: {count * 2}"
 ## Restrictions
 
 - F-strings cannot be used inside contract expressions (`requires`/`ensures`).
-- Nested f-strings are not supported in v1.
+- Nested f-strings are not supported in the current version.
+
+:::note[String Caveat]
+String operations like `substring` use **byte offsets**, not Unicode character boundaries. For ASCII text this is transparent, but multi-byte characters (e.g., `"ō"` in `"Kōdo"`) occupy more than one byte. Unicode-aware string indexing is planned for a future release.
+:::

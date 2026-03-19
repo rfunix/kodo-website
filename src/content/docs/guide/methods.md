@@ -181,10 +181,17 @@ let result: Int = b.apply(|x: Int| -> Int { x * 2 })  // 20
 
 ## The `self` Receiver
 
-In Kodo, the `self` parameter in methods always takes the value by ownership. This means:
+In Kōdo, the `self` parameter in methods always takes the value **by ownership** (`own` semantics). This means:
 
 - After calling `p.translate(1, 2)`, the original `p` is consumed (moved).
 - If you need to use a value after a method call, the method should return a new value.
 - For types like `Int`, `Bool`, and `Float64` that are `Copy`, `self` is implicitly copied and the original remains usable.
 
-For standalone functions (not methods), Kodo supports explicit ownership annotations on parameters (`own`, `ref`, `mut`), but method receivers always use the default `self` by-value semantics.
+Unlike standalone function parameters, method receivers do not support explicit `ref` or `mut` qualifiers — `self` is always by-value. This simplifies the method call model: each call either copies (for Copy types) or moves (for non-Copy types) the receiver.
+
+| Receiver type | What happens on method call |
+|---------------|----------------------------|
+| Copy type (`Int`, `Bool`, `Float64`, `Byte`) | `self` is copied — original remains usable |
+| Non-Copy type (`String`, structs) | `self` is moved — original is consumed |
+
+For standalone functions (not methods), Kōdo supports explicit ownership annotations on parameters (`own`, `ref`, `mut`). See [Ownership](../ownership) for details.

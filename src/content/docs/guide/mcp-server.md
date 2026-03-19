@@ -9,11 +9,15 @@ Kōdo ships with a built-in [Model Context Protocol](https://modelcontextprotoco
 ## Quick Start
 
 ```bash
-# Build the MCP server
+# Build the MCP server (debug)
 cargo build -p kodo_mcp
 
-# The binary is `kodo-mcp`
-./target/debug/kodo-mcp
+# Or build in release mode (recommended for production use)
+cargo build -p kodo_mcp --release
+
+# Run it
+./target/release/kodo-mcp   # release build
+./target/debug/kodo-mcp     # debug build
 ```
 
 The server reads **newline-delimited JSON-RPC 2.0** requests from stdin and writes responses to stdout, following the MCP stdio transport.

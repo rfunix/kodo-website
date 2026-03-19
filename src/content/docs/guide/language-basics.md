@@ -215,6 +215,23 @@ fn countdown(n: Int) {
 }
 ```
 
+### for-in
+
+Use `for-in` to iterate over collections:
+
+```rust
+let items: List<Int> = list_new()
+list_push(items, 10)
+list_push(items, 20)
+list_push(items, 30)
+
+for item in items {
+    print_int(item)
+}
+```
+
+`for-in` works with `List<Int>`, `List<String>`, and `Map` keys. See [Iterators](../iterators) for the full iterator protocol and more examples.
+
 ### return
 
 Use `return` to exit a function with a value:

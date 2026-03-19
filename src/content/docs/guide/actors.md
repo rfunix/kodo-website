@@ -108,13 +108,20 @@ Output: `42`
 
 ## Cooperative Scheduling
 
-In v1, actors use the same cooperative scheduler as `spawn` blocks. Messages are processed sequentially after `main` returns. This means:
+Currently, actors use the same cooperative scheduler as `spawn` blocks. Messages are processed sequentially after `main` returns. This means:
 
 - There is no true concurrent mailbox -- messages execute one at a time.
 - Message ordering is deterministic (FIFO within the task queue).
 - An actor's state is never accessed by two handlers simultaneously.
 
 Future versions of Kodo will introduce asynchronous mailboxes and parallel execution, but the actor declaration syntax and semantics will remain the same.
+
+## Current Limitations
+
+- **Handler signatures**: Handlers take `self` as the first parameter. Additional parameters are passed as part of the message when using `kodo_actor_send`.
+- **Handler parameters**: Only `Int`, `Bool`, and `String` types are currently supported as handler parameters due to environment serialization constraints.
+- **Field mutation**: Fields can be mutated from within handlers via `kodo_actor_set_field`. Direct mutation from outside the actor (e.g., `c.count = 10`) is not supported — use a handler instead.
+- **No concurrent mailboxes**: Messages execute sequentially through the cooperative scheduler. True concurrent actor mailboxes are planned.
 
 ## Actors vs Structs
 

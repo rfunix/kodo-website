@@ -81,6 +81,12 @@ Under the hood, `for-in` desugars to the iterator protocol:
 
 You don't normally need to use the protocol directly — `for-in` handles it automatically.
 
+## Custom Iterators
+
+The `for-in` loop works with any type that implements the iterator protocol. Currently, `List<T>`, `Map<K, V>`, and `String` have built-in iterator support. Custom user-defined types do not yet support the `for-in` protocol — this requires trait-based iteration which is planned for a future release.
+
+To iterate over custom data structures today, use index-based `while` loops or convert your data to a `List`.
+
 ## Range-Based Iteration
 
 You can iterate over a range of integers using a `while` loop or by building a list:

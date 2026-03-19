@@ -66,6 +66,10 @@ let escaped: String = "line1\nline2"
 
 See [String Interpolation](../string-interpolation/) for f-strings and [Standard Library](../stdlib-reference/) for string methods (`length`, `contains`, `split`, `replace`, `trim`, etc.).
 
+:::note[String Caveat]
+The `substring` method operates on **byte offsets**, not Unicode character boundaries. For ASCII strings this is identical, but for strings containing multi-byte characters (e.g., `"Kōdo"`), byte offsets may not align with character positions. Unicode-aware string indexing is planned for a future release.
+:::
+
 ### No Null, No Exceptions
 
 Kōdo has no `null` and no exceptions. Instead:
@@ -322,7 +326,98 @@ if a == b {
 }
 ```
 
-See [Modules and Imports](../modules-and-imports) for the full list of string methods (`length`, `contains`, `split`, `trim`, `concat`, `index_of`, `replace`, etc.).
+See [Standard Library](../stdlib-reference/) for the full list of string methods (`length`, `contains`, `split`, `trim`, `concat`, `index_of`, `replace`, etc.).
+
+### String Methods
+
+#### `split(separator)`
+
+Splits a string by a separator, returning a `List<String>`:
+
+```rust
+let parts: List<String> = "a,b,c".split(",")
+```
+
+#### `parse_int()`
+
+Parses a string as an integer. Returns `0` on failure:
+
+```rust
+let valid: Int = "42".parse_int()     // 42
+let bad: Int = "hello".parse_int()    // 0
+```
+
+## Collections
+
+Kōdo provides built-in collection types available in every program without an import.
+
+### List\<T\>
+
+A dynamic array of elements, accessed via free functions:
+
+```rust
+let nums: List<Int> = list_new()
+list_push(nums, 10)
+list_push(nums, 20)
+list_push(nums, 30)
+let len: Int = list_length(nums)         // 3
+let first: Int = list_get(nums, 0)       // 10
+let has: Bool = list_contains(nums, 10)  // true
+```
+
+#### Full List API
+
+| Function | Description |
+|----------|-------------|
+| `list_new()` | Create a new empty list |
+| `list_push(list, value)` | Append a value to the end |
+| `list_get(list, index)` | Get value at index |
+| `list_length(list)` | Number of elements |
+| `list_contains(list, value)` | Check if value exists |
+| `list_pop(list)` | Remove and return the last element |
+| `list_remove(list, index)` | Remove element at index |
+| `list_set(list, index, value)` | Set value at index |
+| `list_slice(list, start, end)` | Get a sub-list from start to end (exclusive) |
+| `list_sort(list)` | Sort the list in ascending order (in place) |
+| `list_join(list, separator)` | Join list elements into a `String` with separator |
+
+### Map\<K, V\>
+
+A generic key-value hash map. The type is determined by the annotation on the `let` binding:
+
+```rust
+// Map<Int, Int> — fully supported
+let scores: Map<Int, Int> = map_new()
+map_insert(scores, 1, 100)
+let val: Int = map_get(scores, 1)           // 100
+```
+
+:::caution[Map Type Support]
+The following `Map<K, V>` type combinations are fully supported end-to-end (type checking + codegen + linking):
+
+| K | V | Status |
+|---|---|--------|
+| `Int` | `Int` | Fully supported |
+| `String` | `String` | Fully supported |
+| `Int` | `String` | Type checks, but may produce link errors |
+| `String` | `Int` | Type checks, but may produce link errors |
+
+If you need a combination that is not fully supported, use `Map<Int, Int>` or `Map<String, String>` and convert keys/values as needed. Full monomorphization for all type combinations is being implemented.
+:::
+
+#### Map API
+
+All functions work with any `Map<K, V>` where K, V are `Int` or `String`:
+
+| Function | Description |
+|----------|-------------|
+| `map_new()` | Create a new empty map (type from annotation) |
+| `map_insert(m, k, v)` | Insert or update a key-value pair |
+| `map_get(m, k)` | Get value by key |
+| `map_contains_key(m, k)` | Check if key exists |
+| `map_length(m)` | Number of entries |
+| `map_remove(m, k)` | Remove a key-value pair |
+| `map_is_empty(m)` | Check if map is empty |
 
 ## Next Steps
 

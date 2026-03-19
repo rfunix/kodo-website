@@ -141,9 +141,17 @@ cargo run -p kodoc -- build async_tasks.ko -o async_tasks
 ./async_tasks
 ```
 
+## Channels
+
+Kōdo supports channels for communication between spawned tasks. A channel provides a unidirectional message queue that producers can send values into and consumers can receive from.
+
+:::caution[Channel Limitations]
+Channels currently support only `Int`, `Bool`, and `String` value types. Generic channels (`Channel<T>` for arbitrary `T`) are not yet available.
+:::
+
 ## Async Syntax Preview
 
-Kodo supports `async fn` and `.await` as syntax, but in v1 these compile synchronously. The syntax exists to establish conventions for future versions where true async I/O will be available. For now, use `spawn` for concurrency.
+Kōdo supports `async fn` and `.await` as syntax, but these currently execute sequentially — true concurrency is planned for a future release. The syntax exists to establish conventions so that code written today will work with real async I/O when it becomes available. For now, use `spawn` for deferred task execution.
 
 ## Next Steps
 

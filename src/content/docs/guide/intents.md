@@ -473,11 +473,16 @@ The compilation certificate (`.ko.cert.json`) records:
 
 This creates a full audit trail: you can trace from a running endpoint back to the AI agent that wrote the handler, see its confidence score, and verify that all contracts passed.
 
-## Custom Resolvers
+## Custom Resolvers (Planned)
 
-Beyond the built-in resolvers, Kodo supports defining custom resolver strategies:
+:::note[Future Feature]
+Custom resolvers are a planned feature and are **not available** in the current version. The syntax below shows the intended design for a future release. For now, use the built-in resolvers or write concrete implementations directly.
+:::
+
+The planned syntax for custom resolvers:
 
 ```rust
+// PLANNED — not yet implemented
 resolver my_cache_resolver for intent cache {
     fn resolve(config: CacheConfig) -> impl CacheProvider {
         // Concrete implementation that satisfies CacheProvider trait
@@ -485,11 +490,7 @@ resolver my_cache_resolver for intent cache {
 }
 ```
 
-Custom resolvers follow the same pipeline: they generate code, and that code is type-checked and contract-verified before compilation. This extensibility means organizations can define domain-specific intents that encode their infrastructure patterns.
-
-:::note
-Custom resolvers are currently a planned feature. The built-in resolvers cover the most common infrastructure patterns. If you need a resolver that does not exist yet, write the concrete implementation directly and wrap it in functions that an intent can reference.
-:::
+When available, custom resolvers will follow the same pipeline as built-in resolvers: they will generate code that is type-checked and contract-verified before compilation. This extensibility will allow organizations to define domain-specific intents that encode their infrastructure patterns.
 
 ## Verification Guarantees
 
