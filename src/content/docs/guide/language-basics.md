@@ -86,7 +86,7 @@ Kōdo supports the following primitive types:
 | `Bool` | Boolean values | `true`, `false` |
 | `String` | String literals | `"hello"` |
 
-The full type system also includes `Int8`, `Int16`, `Int32`, `Int64`, `Float32`, and `Byte` — see the [Language Specification](/reference/design/) for details.
+The full type system also includes `Int8`, `Int16`, `Int32`, `Int64`, `Float32`, and `Byte` — see the [Language Specification](/docs/reference/design/) for details.
 
 Variables can have explicit type annotations or use **local type inference**:
 

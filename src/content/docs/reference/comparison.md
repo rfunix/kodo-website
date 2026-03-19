@@ -103,4 +103,4 @@ Kōdo is young. Here's what it does **not** do yet:
 - **Z3 verification is partial** — complex contracts may fall back to runtime checks
 - **String handling is byte-based** — not fully Unicode-aware yet
 
-We believe in being transparent about where we are. Check the [roadmap](/reference/design/#development-roadmap) for what's coming next.
+We believe in being transparent about where we are. Check the [roadmap](/docs/reference/design/#development-roadmap) for what's coming next.

@@ -1,0 +1,105 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+
+const title = 'Kōdo Documentation';
+const description = 'The programming language designed for AI agents to write, reason about, and maintain software.';
+
+const learningPaths = [
+  {
+    title: 'The Novice Path',
+    description: 'Install Kōdo, write your first module, and understand the basics of the language.',
+    href: '/docs/getting-started/',
+    icon: 'rocket',
+    gradient: 'from-[#6366f1] to-[#818cf8]',
+  },
+  {
+    title: 'Expert Path',
+    description: 'Ownership model, generics, traits, contracts, and the type system in depth.',
+    href: '/docs/guide/ownership/',
+    icon: 'code',
+    gradient: 'from-[#8b5cf6] to-[#a78bfa]',
+  },
+  {
+    title: 'Building with Agents',
+    description: 'Agent traceability, compilation certificates, closed-loop repair, and MCP integration.',
+    href: '/docs/guide/agent-traceability/',
+    icon: 'agent',
+    gradient: 'from-[#06b6d4] to-[#67e8f9]',
+  },
+  {
+    title: 'Reference',
+    description: 'Standard library, CLI reference, error index, grammar specification, and benchmarks.',
+    href: '/docs/guide/stdlib-reference/',
+    icon: 'ref',
+    gradient: 'from-[#f59e0b] to-[#fbbf24]',
+  },
+];
+---
+
+<DocsLayout title={title} description={description}>
+  <div class="max-w-3xl">
+    <h1 class="mb-4 text-4xl font-bold leading-[1.1] tracking-tight lg:text-5xl" style="font-family: var(--font-display)">
+      {title}
+    </h1>
+    <p class="mb-12 max-w-2xl text-lg leading-relaxed text-[#94a3b8]">
+      {description}
+    </p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {learningPaths.map((path) => (
+        <a
+          href={path.href}
+          class="group relative flex flex-col gap-3 overflow-hidden rounded-xl border border-white/[0.06] bg-[#0f1019]/60 p-6 transition hover:border-[#818cf8]/30 hover:bg-[#1a1b23]/60"
+        >
+          {/* Gradient accent bar */}
+          <div class={`absolute left-0 top-0 h-1 w-full bg-gradient-to-r ${path.gradient} opacity-0 transition group-hover:opacity-100`} />
+
+          <div class="flex items-center gap-3">
+            {path.icon === 'rocket' && (
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#6366f1]/10">
+                <svg class="h-4.5 w-4.5 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+            )}
+            {path.icon === 'code' && (
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#8b5cf6]/10">
+                <svg class="h-4.5 w-4.5 text-[#a78bfa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+            )}
+            {path.icon === 'agent' && (
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#06b6d4]/10">
+                <svg class="h-4.5 w-4.5 text-[#67e8f9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+            )}
+            {path.icon === 'ref' && (
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f59e0b]/10">
+                <svg class="h-4.5 w-4.5 text-[#fbbf24]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+            )}
+            <h2 class="text-base font-semibold text-[#f8fafc]" style="font-family: var(--font-display)">
+              {path.title}
+            </h2>
+          </div>
+
+          <p class="text-[13px] leading-relaxed text-[#94a3b8]/70">
+            {path.description}
+          </p>
+
+          <div class="mt-auto flex items-center gap-1.5 text-[12px] font-medium text-[#818cf8] opacity-0 transition group-hover:opacity-100">
+            <span>Explore</span>
+            <svg class="h-3.5 w-3.5 transition group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</DocsLayout>

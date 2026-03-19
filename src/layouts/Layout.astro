@@ -22,40 +22,40 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
-  <body class="bg-slate-950 text-white antialiased">
+  <body class="bg-[#0a0a0c] text-[#f8fafc] antialiased">
     <div class="landing-page">
-      <nav class="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/50 bg-slate-950/80 backdrop-blur-xl">
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <a href="/" class="flex items-center gap-3 text-lg font-bold tracking-tight">
-            <img src="/kodo.png" alt="Kōdo" class="h-8 w-8 rounded" />
+      <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#0a0a0c]/80 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
+          <a href="/" class="flex items-center gap-2.5 text-base font-bold tracking-tight" style="font-family: var(--font-display)">
+            <img src="/kodo.png" alt="Kōdo" class="h-7 w-7 rounded" />
             <span>Kōdo</span>
           </a>
 
           <!-- Desktop nav -->
-          <div class="hidden items-center gap-8 md:flex">
-            <a href="/getting-started/" class="text-sm text-slate-300 transition hover:text-white">Docs</a>
-            <a href="/guide/language-basics/" class="text-sm text-slate-300 transition hover:text-white">Guide</a>
-            <a href="https://github.com/rfunix/kodo" class="text-sm text-slate-300 transition hover:text-white" target="_blank" rel="noopener">GitHub</a>
-            <a href="/getting-started/" class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium transition hover:bg-indigo-500">Get Started</a>
+          <div class="hidden items-center gap-7 md:flex">
+            <a href="/docs/getting-started/" class="text-[13px] font-medium text-[#94a3b8] transition hover:text-white">Docs</a>
+            <a href="/docs/guide/language-basics/" class="text-[13px] font-medium text-[#94a3b8] transition hover:text-white">Guide</a>
+            <a href="https://github.com/rfunix/kodo" class="text-[13px] font-medium text-[#94a3b8] transition hover:text-white" target="_blank" rel="noopener">GitHub</a>
+            <a href="/docs/getting-started/" class="rounded-lg bg-[#818cf8] px-4 py-2 text-[13px] font-semibold text-[#0a0a0c] transition hover:bg-[#a5b4fc]">Get Started</a>
           </div>
 
           <!-- Mobile hamburger -->
-          <button id="mobile-menu-btn" class="flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-800 hover:text-white md:hidden" aria-label="Open menu">
+          <button id="mobile-menu-btn" class="flex h-10 w-10 items-center justify-center rounded-lg text-[#94a3b8] transition hover:bg-white/[0.05] hover:text-white md:hidden" aria-label="Open menu">
             <svg id="menu-icon-open" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             <svg id="menu-icon-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
 
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden border-t border-slate-800/50 bg-slate-950/95 backdrop-blur-xl md:hidden">
+        <div id="mobile-menu" class="hidden border-t border-white/[0.06] bg-[#0a0a0c]/95 backdrop-blur-xl md:hidden">
           <div class="flex flex-col gap-1 px-6 py-4">
-            <a href="/getting-started/" class="rounded-lg px-3 py-2.5 text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white">Docs</a>
-            <a href="/guide/language-basics/" class="rounded-lg px-3 py-2.5 text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white">Guide</a>
-            <a href="https://github.com/rfunix/kodo" class="rounded-lg px-3 py-2.5 text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white" target="_blank" rel="noopener">GitHub</a>
-            <a href="/getting-started/" class="mt-2 rounded-lg bg-indigo-600 px-3 py-2.5 text-center text-sm font-medium transition hover:bg-indigo-500">Get Started</a>
+            <a href="/docs/getting-started/" class="rounded-lg px-3 py-2.5 text-sm text-[#94a3b8] transition hover:bg-white/[0.05] hover:text-white">Docs</a>
+            <a href="/docs/guide/language-basics/" class="rounded-lg px-3 py-2.5 text-sm text-[#94a3b8] transition hover:bg-white/[0.05] hover:text-white">Guide</a>
+            <a href="https://github.com/rfunix/kodo" class="rounded-lg px-3 py-2.5 text-sm text-[#94a3b8] transition hover:bg-white/[0.05] hover:text-white" target="_blank" rel="noopener">GitHub</a>
+            <a href="/docs/getting-started/" class="mt-2 rounded-lg bg-[#818cf8] px-3 py-2.5 text-center text-sm font-semibold text-[#0a0a0c] transition hover:bg-[#a5b4fc]">Get Started</a>
           </div>
         </div>
       </nav>
@@ -74,7 +74,6 @@ const { title } = Astro.props;
         const iconClose = document.getElementById('menu-icon-close');
 
         btn?.addEventListener('click', () => {
-          const isOpen = !menu?.classList.contains('hidden');
           menu?.classList.toggle('hidden');
           iconOpen?.classList.toggle('hidden');
           iconClose?.classList.toggle('hidden');

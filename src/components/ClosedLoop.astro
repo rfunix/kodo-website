@@ -1,84 +1,47 @@
 ---
 ---
 
-<section class="relative py-16 md:py-20">
-  <div class="relative mx-auto max-w-6xl px-6">
-    <div class="reveal mb-6 text-center">
-      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">Error repair</p>
-      <h2 class="mb-4 text-3xl font-bold md:text-4xl">The closed-loop repair cycle</h2>
-      <p class="mx-auto max-w-2xl text-base text-slate-400">
-        Agent writes code. Compiler returns <strong class="text-slate-200">structured JSON</strong> with machine-applicable patches. <code class="rounded bg-slate-800 px-1.5 py-0.5 text-xs text-indigo-300">kodoc fix</code> applies them <strong class="text-slate-200">automatically</strong> — zero guessing, zero human intervention.
+<section class="relative py-12 md:py-16">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="reveal mb-4 text-center">
+      <p class="mb-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#818cf8]">Error Repair</p>
+      <h2 class="mb-4 text-3xl font-bold tracking-tight md:text-4xl" style="font-family: var(--font-display)">The closed-loop cycle</h2>
+      <p class="mx-auto max-w-2xl text-base text-[#94a3b8]">
+        Agent writes code. Compiler returns structured JSON with machine-applicable patches. Fully automated — zero guessing.
       </p>
     </div>
 
-    <!-- Flow diagram -->
-    <div class="mt-12 flex flex-col items-center gap-3 md:flex-row md:justify-center md:gap-0">
-      <div class="flex flex-col items-center rounded-xl border border-slate-800 bg-slate-900/80 px-5 py-3.5 text-center">
-        <span class="mb-1 text-xs font-semibold text-indigo-400">1</span>
-        <span class="text-sm font-medium">Agent writes .ko</span>
+    <!-- 4 numbered cards -->
+    <div class="reveal-stagger mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-6">
+        <span class="mb-3 block font-mono text-2xl font-bold text-[#818cf8]/30">01</span>
+        <h3 class="mb-2 text-base font-semibold text-[#f8fafc]">Agent writes .ko</h3>
+        <p class="text-[13px] leading-relaxed text-[#94a3b8]">AI agent generates Kōdo source code with contracts, annotations, and intent blocks.</p>
       </div>
-      <svg class="h-5 w-5 shrink-0 rotate-90 text-slate-600 md:mx-2 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-      <div class="flex flex-col items-center rounded-xl border border-slate-800 bg-slate-900/80 px-5 py-3.5 text-center">
-        <span class="mb-1 text-xs font-semibold text-red-400">2</span>
-        <span class="text-sm font-medium">kodoc check --json</span>
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-6">
+        <span class="mb-3 block font-mono text-2xl font-bold text-[#818cf8]/30">02</span>
+        <h3 class="mb-2 text-base font-semibold text-[#f8fafc]">kodoc check --json</h3>
+        <p class="text-[13px] leading-relaxed text-[#94a3b8]">Compiler returns structured errors with unique codes, byte offsets, and FixPatch objects.</p>
       </div>
-      <svg class="h-5 w-5 shrink-0 rotate-90 text-slate-600 md:mx-2 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-      <div class="flex flex-col items-center rounded-xl border border-amber-500/30 bg-amber-950/20 px-5 py-3.5 text-center">
-        <span class="mb-1 text-xs font-semibold text-amber-400">3</span>
-        <span class="text-sm font-medium text-amber-200">kodoc fix <span class="text-amber-400">(auto)</span></span>
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-6">
+        <span class="mb-3 block font-mono text-2xl font-bold text-amber-400/30">03</span>
+        <h3 class="mb-2 text-base font-semibold text-[#f8fafc]">kodoc fix <span class="text-amber-400">(auto)</span></h3>
+        <p class="text-[13px] leading-relaxed text-[#94a3b8]">All patches applied automatically in one command. No regex parsing, no prose interpretation.</p>
       </div>
-      <svg class="h-5 w-5 shrink-0 rotate-90 text-slate-600 md:mx-2 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-      <div class="flex flex-col items-center rounded-xl border border-emerald-500/30 bg-emerald-950/20 px-5 py-3.5 text-center">
-        <span class="mb-1 text-xs font-semibold text-emerald-400">4</span>
-        <span class="text-sm font-medium text-emerald-300">Build succeeds</span>
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-6">
+        <span class="mb-3 block font-mono text-2xl font-bold text-emerald-400/30">04</span>
+        <h3 class="mb-2 text-base font-semibold text-emerald-300">Build succeeds</h3>
+        <p class="text-[13px] leading-relaxed text-[#94a3b8]">Native binary + compilation certificate. Contracts verified. Confidence scores persisted.</p>
       </div>
     </div>
 
-    <!-- Two-panel: JSON error + what agents get -->
-    <div class="reveal-stagger mt-12 grid gap-6 lg:grid-cols-2">
-      <!-- JSON error example -->
-      <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80">
-        <div class="flex items-center justify-between border-b border-slate-800 px-4 py-3">
-          <span class="text-xs font-medium text-slate-400">kodoc check --json-errors</span>
-          <span class="rounded-full bg-red-500/10 px-2 py-0.5 text-[10px] font-semibold text-red-400">ERROR</span>
-        </div>
-        <pre class="overflow-x-auto p-5 text-sm leading-relaxed"><code class="text-slate-300">{'{'}<br/>  <span class="text-indigo-400">"code"</span>: <span class="text-amber-300">"E0201"</span>,<br/>  <span class="text-indigo-400">"message"</span>: <span class="text-amber-300">"undefined type `conter`"</span>,<br/>  <span class="text-indigo-400">"suggestion"</span>: <span class="text-amber-300">"did you mean `counter`?"</span>,<br/>  <span class="text-indigo-400">"fix_patch"</span>: {'{'}<br/>    <span class="text-indigo-400">"description"</span>: <span class="text-amber-300">"rename to closest match"</span>,<br/>    <span class="text-indigo-400">"start_offset"</span>: <span class="text-orange-300">42</span>,<br/>    <span class="text-indigo-400">"end_offset"</span>: <span class="text-orange-300">48</span>,<br/>    <span class="text-indigo-400">"replacement"</span>: <span class="text-amber-300">"counter"</span><br/>  {'}'}<br/>{'}'}</code></pre>
+    <!-- JSON example -->
+    <div class="reveal mt-10 overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0f1019]/60">
+      <div class="flex items-center justify-between border-b border-white/[0.06] px-5 py-3">
+        <span class="text-[12px] font-medium text-[#94a3b8]">kodoc check --json-errors</span>
+        <span class="rounded-full bg-red-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-red-400">E0201</span>
       </div>
-
-      <!-- What agents get -->
-      <div class="flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
-        <div>
-          <h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">What the compiler gives agents</h4>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 h-4 w-4 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-              <span class="text-sm text-slate-400"><strong class="text-slate-200">Unique error codes</strong> (E0001-E0699) with structured JSON — no regex parsing</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 h-4 w-4 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-              <span class="text-sm text-slate-400"><strong class="text-slate-200">Levenshtein suggestions</strong> — "did you mean X?" with byte-accurate offsets</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 h-4 w-4 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-              <span class="text-sm text-slate-400"><strong class="text-slate-200">Machine-applicable FixPatch</strong> — byte offsets + replacement, apply without parsing prose</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 h-4 w-4 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-              <span class="text-sm text-slate-400"><strong class="text-slate-200">kodoc fix</strong> — applies ALL patches automatically in one command</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 h-4 w-4 shrink-0 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-              <span class="text-sm text-slate-400"><strong class="text-slate-200">kodoc explain E0240</strong> — full context for any error code</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="mt-6 rounded-lg border border-emerald-500/20 bg-emerald-950/20 p-3">
-          <p class="text-xs text-emerald-300">
-            <strong>No ambiguity, no guessing.</strong> The agent reads structured data, applies the patch, and recompiles. Fully automated.
-          </p>
-        </div>
-      </div>
+      <pre class="overflow-x-auto p-5 text-[13px] leading-[1.7]"><code class="text-[#94a3b8]">{'{'}<br/>  <span class="text-[#818cf8]">"code"</span>: <span class="text-amber-300">"E0201"</span>,<br/>  <span class="text-[#818cf8]">"message"</span>: <span class="text-amber-300">"undefined type `conter`"</span>,<br/>  <span class="text-[#818cf8]">"suggestion"</span>: <span class="text-amber-300">"did you mean `counter`?"</span>,<br/>  <span class="text-[#818cf8]">"fix_patch"</span>: {'{'}<br/>    <span class="text-[#818cf8]">"start_offset"</span>: <span class="text-orange-300">42</span>,<br/>    <span class="text-[#818cf8]">"end_offset"</span>: <span class="text-orange-300">48</span>,<br/>    <span class="text-[#818cf8]">"replacement"</span>: <span class="text-amber-300">"counter"</span><br/>  {'}'}<br/>{'}'}</code></pre>
     </div>
   </div>
 </section>

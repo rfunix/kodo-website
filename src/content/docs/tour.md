@@ -354,10 +354,10 @@ Features:
 
 Dive deeper into specific topics:
 
-- [Language Basics](/guide/language-basics) — detailed coverage of types, variables, and control flow
-- [Data Types and Pattern Matching](/guide/data-types) — structs, enums, and `match`
-- [Generics](/guide/generics) — generic types and generic functions
-- [Error Handling](/guide/error-handling) — using `Option<T>` and `Result<T, E>`
-- [Contracts](/guide/contracts) — `requires`, `ensures`, and contract philosophy
-- [Modules and Imports](/guide/modules-and-imports) — multi-file programs and standard library
-- [CLI Reference](/guide/cli-reference) — all `kodoc` commands and flags
+- [Language Basics](/docs/guide/language-basics) — detailed coverage of types, variables, and control flow
+- [Data Types and Pattern Matching](/docs/guide/data-types) — structs, enums, and `match`
+- [Generics](/docs/guide/generics) — generic types and generic functions
+- [Error Handling](/docs/guide/error-handling) — using `Option<T>` and `Result<T, E>`
+- [Contracts](/docs/guide/contracts) — `requires`, `ensures`, and contract philosophy
+- [Modules and Imports](/docs/guide/modules-and-imports) — multi-file programs and standard library
+- [CLI Reference](/docs/guide/cli-reference) — all `kodoc` commands and flags

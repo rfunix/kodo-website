@@ -1,67 +1,93 @@
 ---
 ---
 
-<section class="relative flex min-h-[90vh] items-center justify-center overflow-hidden pt-20">
-  <!-- Layered background -->
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950"></div>
-  <div class="pointer-events-none absolute top-1/3 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-600/8 blur-[120px]"></div>
-  <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent"></div>
+<section class="relative flex min-h-[85vh] items-center overflow-hidden pt-16">
+  <!-- Background effects -->
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0a0c] via-[#0b1326]/30 to-[#0a0a0c]"></div>
+  <div class="pointer-events-none absolute top-1/4 left-1/4 h-[600px] w-[600px] rounded-full bg-[#818cf8]/[0.06] blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-1/4 right-1/4 h-[500px] w-[500px] rounded-full bg-[#6366f1]/[0.04] blur-[100px]"></div>
+  <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#818cf8]/15 to-transparent"></div>
 
-  <!-- Grid pattern overlay -->
-  <div class="pointer-events-none absolute inset-0 opacity-[0.015]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);"></div>
+  <!-- Dot grid -->
+  <div class="grid-bg pointer-events-none absolute inset-0 opacity-30"></div>
 
-  <div class="relative z-10 mx-auto max-w-4xl px-6 text-center">
-    <div class="hero-enter hero-enter-delay-1 mb-8 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-sm text-indigo-300">
-      <span class="h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
-      v0.5.0 — Open Source
-    </div>
-
-    <h1 class="hero-enter hero-enter-delay-2 mb-6 text-5xl font-bold leading-[1.1] tracking-tight md:text-7xl">
-      The programming language<br />
-      designed for <span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-300 bg-clip-text text-transparent">AI agents</span>
-    </h1>
-
-    <p class="hero-enter hero-enter-delay-3 mx-auto mb-4 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
-      Contracts verified by Z3. Authorship tracked by the compiler.<br class="hidden md:block" />
-      Intent-driven code generation. Transparent for humans.
-    </p>
-
-    <p class="hero-enter hero-enter-delay-3 mx-auto mb-10 max-w-xl text-sm text-slate-500">
-      Not a framework. Not a linter. A new language where AI code safety is solved at the grammar level.
-    </p>
-
-    <div class="hero-enter hero-enter-delay-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
-      <a href="/getting-started/" class="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-3.5 text-base font-semibold transition hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/25">
-        Get Started
-        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-      </a>
-      <a href="https://github.com/rfunix/kodo" class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/50 px-8 py-3.5 text-base font-semibold transition hover:border-slate-600 hover:bg-slate-800" target="_blank" rel="noopener">
-        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-        View on GitHub
-      </a>
-    </div>
-
-    <!-- Code preview -->
-    <div class="hero-enter hero-enter-delay-5 mx-auto mt-14 max-w-2xl overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 shadow-2xl shadow-indigo-500/5 text-left">
-      <div class="flex items-center gap-2 border-b border-slate-800 px-4 py-3">
-        <div class="h-3 w-3 rounded-full bg-red-500/60"></div>
-        <div class="h-3 w-3 rounded-full bg-yellow-500/60"></div>
-        <div class="h-3 w-3 rounded-full bg-green-500/60"></div>
-        <span class="ml-2 text-xs text-slate-500">hello.ko</span>
+  <div class="relative z-10 mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-12 lg:items-center lg:gap-8">
+    <!-- Left: Text (5 cols) -->
+    <div class="lg:col-span-5">
+      <div class="hero-enter hero-enter-delay-1 mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#818cf8]/20 bg-[#818cf8]/[0.08] px-4 py-1.5">
+        <span class="animate-pulse-dot h-2 w-2 rounded-full bg-[#818cf8]"></span>
+        <span class="text-[13px] font-medium text-[#818cf8]">Announcing v0.5.0</span>
       </div>
-      <pre class="overflow-x-auto p-6 text-sm leading-relaxed"><code><span class="text-violet-400">module</span> <span class="text-blue-300">hello</span> {'{'}
-    <span class="text-violet-400">meta</span> {'{'}
-        purpose: <span class="text-amber-300">"Greet the world"</span>
-        version: <span class="text-amber-300">"1.0.0"</span>
-    {'}'}
 
-    <span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>)
-    <span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.95</span>)
-    <span class="text-violet-400">fn</span> <span class="text-blue-300">main</span>() {'{'}
-        <span class="text-violet-400">let</span> msg: <span class="text-cyan-300">String</span> = <span class="text-amber-300">"Hello from Kōdo!"</span>
-        println(msg)
-    {'}'}
+      <h1 class="hero-enter hero-enter-delay-2 mb-5 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-[3.25rem]" style="font-family: var(--font-display)">
+        A programming language where<br />
+        <span class="gradient-text">AI agents</span> write<br />correct software.
+      </h1>
+
+      <p class="hero-enter hero-enter-delay-3 mb-8 max-w-md text-base leading-relaxed text-[#94a3b8]">
+        Contracts verified by Z3. Authorship tracked by the compiler. Intent-driven code generation. Transparent for humans.
+      </p>
+
+      <div class="hero-enter hero-enter-delay-4 flex flex-col gap-3 sm:flex-row">
+        <a href="/docs/getting-started/" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#818cf8] px-6 py-3 text-sm font-semibold text-[#0a0a0c] transition hover:bg-[#a5b4fc] hover:shadow-lg hover:shadow-[#818cf8]/20">
+          Get Started
+          <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+        </a>
+        <a href="https://github.com/rfunix/kodo" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-sm font-semibold transition hover:border-white/[0.15] hover:bg-white/[0.06]" target="_blank" rel="noopener">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Code snippet (7 cols) -->
+    <div class="hero-enter hero-enter-delay-5 relative lg:col-span-7">
+      <div class="overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0f1019]/80 shadow-2xl shadow-[#818cf8]/[0.04]">
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
+          <div class="flex items-center gap-2">
+            <div class="h-2.5 w-2.5 rounded-full bg-[#f87171]/50"></div>
+            <div class="h-2.5 w-2.5 rounded-full bg-[#fbbf24]/50"></div>
+            <div class="h-2.5 w-2.5 rounded-full bg-[#4ade80]/50"></div>
+            <span class="ml-2 rounded bg-white/[0.05] px-2 py-0.5 text-[11px] text-[#94a3b8]">payment_service.ko</span>
+          </div>
+          <span class="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">PROD.RS &mdash; VERIFIED</span>
+        </div>
+        <!-- Code -->
+        <pre class="overflow-x-auto p-5 text-[13px] leading-[1.7]"><code><span class="text-emerald-400">@authored_by</span>(agent: <span class="text-amber-300">"claude"</span>, model: <span class="text-amber-300">"kodo-pro"</span>)
+<span class="text-emerald-400">@confidence</span>(<span class="text-orange-300">0.99</span>)
+<span class="text-violet-400">fn</span> <span class="text-blue-300">process_payment</span>(amount: <span class="text-cyan-300">Int</span>, balance: <span class="text-cyan-300">Int</span>) <span class="text-slate-500">-&gt;</span> <span class="text-cyan-300">String</span>
+    <span class="text-violet-400">requires</span> {'{'} amount <span class="text-slate-400">&gt;</span> <span class="text-orange-300">0</span> {'}'}
+    <span class="text-violet-400">requires</span> {'{'} amount <span class="text-slate-400">&lt;=</span> balance {'}'}
+{'{'}
+    <span class="text-violet-400">return</span> <span class="text-amber-300">"transfer_ok"</span>
 {'}'}</code></pre>
+        <!-- Footer status -->
+        <div class="flex items-center justify-between border-t border-white/[0.06] px-4 py-2.5">
+          <div class="flex items-center gap-3">
+            <span class="flex items-center gap-1.5 text-[11px] text-emerald-400">
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              Z3 Verified
+            </span>
+            <span class="text-[11px] text-[#94a3b8]/60">|</span>
+            <span class="text-[11px] text-[#94a3b8]/60">1.8ms</span>
+          </div>
+          <span class="text-[11px] font-medium text-[#818cf8]">Confidence: 0.99</span>
+        </div>
+      </div>
+
+      <!-- Floating verified badge -->
+      <div class="animate-float absolute -right-2 -bottom-3 rounded-xl border border-emerald-500/20 bg-[#0f1019]/90 px-3.5 py-2 shadow-lg backdrop-blur-sm md:-right-4 md:-bottom-4">
+        <div class="flex items-center gap-2">
+          <div class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/15">
+            <svg class="h-3.5 w-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold text-emerald-300">Contracts Verified</p>
+            <p class="text-[10px] text-[#94a3b8]">100% static proof</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

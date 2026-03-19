@@ -1,0 +1,315 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+
+// Import all markdown files from content/docs
+const allDocs = import.meta.glob('../../content/docs/**/*.md', { eager: true }) as Record<string, any>;
+
+// Build navigation map for prev/next
+const navOrder = [
+  { slug: 'getting-started', label: 'Getting Started' },
+  { slug: 'tour', label: 'A Tour of Kōdo' },
+  { slug: 'guide/language-basics', label: 'Language Basics' },
+  { slug: 'guide/data-types', label: 'Data Types' },
+  { slug: 'guide/pattern-matching', label: 'Pattern Matching' },
+  { slug: 'guide/error-handling', label: 'Error Handling' },
+  { slug: 'guide/string-interpolation', label: 'String Interpolation' },
+  { slug: 'guide/modules-and-imports', label: 'Modules & Imports' },
+  { slug: 'guide/ownership', label: 'Ownership' },
+  { slug: 'guide/generics', label: 'Generics' },
+  { slug: 'guide/traits', label: 'Traits & Methods' },
+  { slug: 'guide/methods', label: 'Methods' },
+  { slug: 'guide/closures', label: 'Closures' },
+  { slug: 'guide/iterators', label: 'Iterators' },
+  { slug: 'guide/functional', label: 'Functional Programming' },
+  { slug: 'guide/contracts', label: 'Contracts' },
+  { slug: 'guide/agent-traceability', label: 'Agent Traceability' },
+  { slug: 'guide/closed-loop', label: 'Closed-Loop Repair' },
+  { slug: 'guide/mcp-server', label: 'MCP Server' },
+  { slug: 'guide/intents', label: 'Intent System' },
+  { slug: 'guide/compilation-certificates', label: 'Compilation Certificates' },
+  { slug: 'guide/concurrency', label: 'Concurrency' },
+  { slug: 'guide/actors', label: 'Actors' },
+  { slug: 'guide/http', label: 'HTTP & Networking' },
+  { slug: 'guide/cli-tools', label: 'CLI Tools' },
+  { slug: 'guide/testing', label: 'Testing' },
+  { slug: 'guide/real-world-examples', label: 'Real-World Examples' },
+  { slug: 'guide/stdlib-reference', label: 'Standard Library' },
+  { slug: 'guide/cli-reference', label: 'CLI Reference' },
+  { slug: 'guide/editor-setup', label: 'Editor Setup' },
+  { slug: 'reference/errors', label: 'Error Index' },
+  { slug: 'reference/grammar', label: 'Grammar (EBNF)' },
+  { slug: 'reference/design', label: 'Language Design' },
+  { slug: 'reference/comparison', label: 'Why not X?' },
+  { slug: 'reference/benchmarks', label: 'Benchmarks' },
+];
+
+export function getStaticPaths() {
+  const docs = import.meta.glob('../../content/docs/**/*.md', { eager: true }) as Record<string, any>;
+  const paths: { params: { slug: string } }[] = [];
+
+  for (const path of Object.keys(docs)) {
+    // ../../content/docs/getting-started.md -> getting-started
+    // ../../content/docs/guide/contracts.md -> guide/contracts
+    const slug = path
+      .replace('../../content/docs/', '')
+      .replace('.md', '');
+    paths.push({ params: { slug } });
+  }
+
+  return paths;
+}
+
+const { slug } = Astro.params;
+
+// Find the matching doc
+const docPath = Object.keys(allDocs).find(p => {
+  const s = p.replace('../../content/docs/', '').replace('.md', '');
+  return s === slug;
+});
+
+if (!docPath) {
+  return Astro.redirect('/');
+}
+
+const doc = allDocs[docPath];
+const Content = doc.Content;
+const frontmatter = doc.frontmatter || {};
+const headings = doc.getHeadings ? doc.getHeadings() : [];
+const title = frontmatter.title || slug;
+const description = frontmatter.description || '';
+
+// Find prev/next
+const navIndex = navOrder.findIndex(n => n.slug === slug);
+const prev = navIndex > 0 ? { label: navOrder[navIndex - 1].label, href: `/docs/${navOrder[navIndex - 1].slug}/` } : undefined;
+const next = navIndex < navOrder.length - 1 && navIndex >= 0 ? { label: navOrder[navIndex + 1].label, href: `/docs/${navOrder[navIndex + 1].slug}/` } : undefined;
+---
+
+<DocsLayout
+  title={title}
+  description={description}
+  headings={headings}
+  prev={prev}
+  next={next}
+>
+  <h1 class="mb-8 text-4xl font-bold leading-[1.1] tracking-tight lg:text-5xl" style="font-family: var(--font-display)">
+    {title}
+  </h1>
+  {description && (
+    <p class="mb-10 max-w-2xl text-lg leading-relaxed text-[#94a3b8]">
+      {description}
+    </p>
+  )}
+  <div class="docs-prose">
+    <Content />
+  </div>
+</DocsLayout>
+
+<style is:global>
+  /* Hide Starlight anchor links injected into headings */
+  .docs-prose .sl-heading-wrapper .sl-anchor-link,
+  .docs-prose a[aria-label^="Section titled"] {
+    display: none;
+  }
+
+  /* Prose styles for rendered markdown */
+  .docs-prose h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .docs-prose h2::before {
+    content: '';
+    width: 0.375rem;
+    height: 2rem;
+    background: #818cf8;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+
+  .docs-prose h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .docs-prose h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .docs-prose p {
+    color: rgba(148, 163, 184, 0.85);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+  }
+
+  .docs-prose a {
+    color: #818cf8;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .docs-prose a:hover {
+    color: #a5b4fc;
+  }
+
+  .docs-prose strong {
+    color: #f8fafc;
+    font-weight: 600;
+  }
+
+  .docs-prose ul, .docs-prose ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .docs-prose li {
+    color: rgba(148, 163, 184, 0.85);
+    line-height: 1.75;
+    margin-bottom: 0.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .docs-prose li::marker {
+    color: rgba(129, 140, 248, 0.4);
+  }
+
+  /* Expressive Code overrides — flatten into clean terminal look */
+  .docs-prose .expressive-code {
+    margin-bottom: 1.5rem;
+  }
+
+  .docs-prose .expressive-code .frame {
+    border-radius: 0.75rem !important;
+    border: 1px solid rgba(148, 163, 184, 0.06) !important;
+    overflow: hidden;
+    box-shadow: none !important;
+  }
+
+  .docs-prose .expressive-code .header {
+    background: #111218 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.06) !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  /* Hide the 3 dots (terminal decoration) */
+  .docs-prose .expressive-code .header::before {
+    display: none !important;
+  }
+
+  .docs-prose .expressive-code pre {
+    background: #0a0a0c !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 1.25rem !important;
+    margin: 0 !important;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+
+  .docs-prose .expressive-code pre code {
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    color: #e2e8f0;
+    font-size: inherit;
+  }
+
+  /* Plain pre (non-expressive-code) */
+  .docs-prose > pre,
+  .docs-prose > div:not(.expressive-code) pre {
+    background: #0a0a0c;
+    border: 1px solid rgba(148, 163, 184, 0.06);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+
+  .docs-prose > pre code,
+  .docs-prose > div:not(.expressive-code) pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: #e2e8f0;
+    font-size: inherit;
+  }
+
+  /* Inline code */
+  .docs-prose :not(pre) > code {
+    background: rgba(99, 102, 241, 0.08);
+    color: #818cf8;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Blockquotes */
+  .docs-prose blockquote {
+    border-left: 3px solid rgba(129, 140, 248, 0.3);
+    background: rgba(129, 140, 248, 0.03);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  .docs-prose blockquote p {
+    margin-bottom: 0;
+    color: rgba(148, 163, 184, 0.7);
+    font-size: 0.875rem;
+  }
+
+  /* Tables */
+  .docs-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  .docs-prose th {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(148, 163, 184, 0.5);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+
+  .docs-prose td {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.04);
+    padding: 0.75rem 1rem;
+    color: rgba(148, 163, 184, 0.85);
+  }
+
+  /* Horizontal rules */
+  .docs-prose hr {
+    border: none;
+    border-top: 1px solid rgba(148, 163, 184, 0.06);
+    margin: 2rem 0;
+  }
+</style>

@@ -1,0 +1,355 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  section?: string;
+  headings?: { depth: number; slug: string; text: string }[];
+  prev?: { label: string; href: string };
+  next?: { label: string; href: string };
+}
+
+const { title, description, section, headings = [], prev, next } = Astro.props;
+
+// All sidebar sections with full page listings (preserved from original)
+const sidebar = [
+  {
+    label: 'Getting Started',
+    icon: 'rocket',
+    href: '/docs/getting-started/',
+    items: [
+      { label: 'Installation', href: '/docs/getting-started/' },
+      { label: 'A Tour of Kōdo', href: '/docs/tour/' },
+    ],
+  },
+  {
+    label: 'Language Guide',
+    icon: 'book',
+    href: '/docs/guide/language-basics/',
+    items: [
+      { label: 'Language Basics', href: '/docs/guide/language-basics/' },
+      { label: 'Data Types', href: '/docs/guide/data-types/' },
+      { label: 'Pattern Matching', href: '/docs/guide/pattern-matching/' },
+      { label: 'Error Handling', href: '/docs/guide/error-handling/' },
+      { label: 'String Interpolation', href: '/docs/guide/string-interpolation/' },
+      { label: 'Modules & Imports', href: '/docs/guide/modules-and-imports/' },
+    ],
+  },
+  {
+    label: 'Advanced Features',
+    icon: 'code',
+    href: '/docs/guide/ownership/',
+    items: [
+      { label: 'Ownership', href: '/docs/guide/ownership/' },
+      { label: 'Generics', href: '/docs/guide/generics/' },
+      { label: 'Traits & Methods', href: '/docs/guide/traits/' },
+      { label: 'Closures', href: '/docs/guide/closures/' },
+      { label: 'Iterators', href: '/docs/guide/iterators/' },
+      { label: 'Contracts', href: '/docs/guide/contracts/' },
+    ],
+  },
+  {
+    label: 'Agent-First Features',
+    icon: 'agent',
+    href: '/docs/guide/agent-traceability/',
+    items: [
+      { label: 'Agent Traceability', href: '/docs/guide/agent-traceability/' },
+      { label: 'Closed-Loop Repair', href: '/docs/guide/closed-loop/' },
+      { label: 'MCP Server', href: '/docs/guide/mcp-server/' },
+      { label: 'Intent System', href: '/docs/guide/intents/' },
+      { label: 'Compilation Certificates', href: '/docs/guide/compilation-certificates/' },
+    ],
+  },
+  {
+    label: 'Concurrency',
+    icon: 'zap',
+    href: '/docs/guide/concurrency/',
+    items: [
+      { label: 'Concurrency', href: '/docs/guide/concurrency/' },
+      { label: 'Actors', href: '/docs/guide/actors/' },
+    ],
+  },
+  {
+    label: 'Networking & I/O',
+    icon: 'globe',
+    href: '/docs/guide/http/',
+    items: [
+      { label: 'HTTP & Networking', href: '/docs/guide/http/' },
+      { label: 'CLI Tools', href: '/docs/guide/cli-tools/' },
+    ],
+  },
+  {
+    label: 'Testing',
+    icon: 'test',
+    href: '/docs/guide/testing/',
+    items: [
+      { label: 'Test Framework', href: '/docs/guide/testing/' },
+      { label: 'Real-World Examples', href: '/docs/guide/real-world-examples/' },
+    ],
+  },
+  {
+    label: 'Reference',
+    icon: 'ref',
+    href: '/docs/guide/stdlib-reference/',
+    items: [
+      { label: 'Standard Library', href: '/docs/guide/stdlib-reference/' },
+      { label: 'CLI Reference', href: '/docs/guide/cli-reference/' },
+      { label: 'Error Index', href: '/docs/reference/errors/' },
+      { label: 'Grammar (EBNF)', href: '/docs/reference/grammar/' },
+      { label: 'Language Design', href: '/docs/reference/design/' },
+      { label: 'Benchmarks', href: '/docs/reference/benchmarks/' },
+    ],
+  },
+];
+
+// 4 top-level navigation buttons matching Stitch mockup
+const topNavButtons = [
+  { label: 'Getting Started', icon: 'rocket', href: '/docs/getting-started/' },
+  { label: 'Language Guide', icon: 'book', href: '/docs/guide/language-basics/' },
+  { label: 'Agent-First', icon: 'agent', href: '/docs/guide/agent-traceability/' },
+  { label: 'Reference', icon: 'ref', href: '/docs/guide/stdlib-reference/' },
+];
+
+// Core Concepts quick links
+const coreConcepts = [
+  { label: 'Ownership Model', href: '/docs/guide/ownership/' },
+  { label: 'Contracts', href: '/docs/guide/contracts/' },
+  { label: 'Traceability', href: '/docs/guide/agent-traceability/' },
+];
+
+const currentPath = Astro.url.pathname;
+const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+
+// Find the current section (group) based on currentPath
+let currentSection: typeof sidebar[0] | null = null;
+let breadcrumbSection = '';
+for (const group of sidebar) {
+  for (const item of group.items) {
+    if (currentPath === item.href || currentPath === item.href.slice(0, -1)) {
+      currentSection = group;
+      breadcrumbSection = group.label;
+      break;
+    }
+  }
+  if (currentSection) break;
+}
+// Fallback: match by path substring
+if (!currentSection) {
+  for (const group of sidebar) {
+    for (const item of group.items) {
+      if (currentPath.includes(item.href.replace('/docs/', '').replace('/', ''))) {
+        currentSection = group;
+        breadcrumbSection = group.label;
+        break;
+      }
+    }
+    if (currentSection) break;
+  }
+}
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description || `${title} — Kōdo Documentation`} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <title>{title} — Kōdo Docs</title>
+  </head>
+  <body class="bg-[#0a0a0c] text-[#f8fafc] antialiased" style="font-family: var(--font-body)">
+    <!-- Top Nav -->
+    <header class="fixed top-0 z-50 w-full border-b border-white/[0.06] bg-[#0a0a0c]/80 backdrop-blur-xl">
+      <nav class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6">
+        <div class="flex items-center gap-8">
+          <a href="/" class="flex items-center gap-2 text-lg font-bold tracking-tight" style="font-family: var(--font-display)">
+Kōdo
+          </a>
+          <div class="hidden items-center gap-6 md:flex" style="font-family: var(--font-display)">
+            <a href="/docs/getting-started/" class="text-[13px] font-medium text-[#818cf8]">Docs</a>
+            <a href="https://github.com/rfunix/kodo/tree/main/examples" class="text-[13px] font-medium text-[#94a3b8] transition hover:text-[#f8fafc]" target="_blank">Examples</a>
+            <a href="https://github.com/rfunix/kodo" class="text-[13px] font-medium text-[#94a3b8] transition hover:text-[#f8fafc]" target="_blank">GitHub</a>
+          </div>
+        </div>
+        <a href="/getting-started/" class="rounded-lg bg-[#6366f1] px-5 py-1.5 text-[12px] font-bold uppercase tracking-wider text-white transition hover:bg-[#4f46e5] hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]" style="font-family: var(--font-display)">
+          Get Started
+        </a>
+      </nav>
+    </header>
+
+    <div class="mx-auto flex max-w-[1440px] pt-14">
+      <!-- Sidebar -->
+      <aside class="hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r border-white/[0.04] bg-[#050507] p-6 lg:sticky lg:top-14 lg:block">
+        <div class="mb-5 px-2">
+          <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#f8fafc]/30" style="font-family: var(--font-display)">Documentation</div>
+          <div class="mt-1 font-mono text-[10px] text-[#818cf8]/60">v0.5.0</div>
+        </div>
+
+        <nav>
+          <!-- Top-level navigation buttons -->
+          <div class="mb-4 space-y-1.5">
+            {topNavButtons.map((btn) => {
+              const isActiveSection = currentSection && (
+                (btn.label === 'Getting Started' && currentSection.label === 'Getting Started') ||
+                (btn.label === 'Language Guide' && (currentSection.label === 'Language Guide' || currentSection.label === 'Advanced Features' || currentSection.label === 'Concurrency' || currentSection.label === 'Networking & I/O' || currentSection.label === 'Testing')) ||
+                (btn.label === 'Agent-First' && currentSection.label === 'Agent-First Features') ||
+                (btn.label === 'Reference' && currentSection.label === 'Reference')
+              );
+              return (
+                <a
+                  href={btn.href}
+                  class={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-[11px] font-bold uppercase tracking-[0.1em] transition ${
+                    isActiveSection
+                      ? 'bg-[#818cf8]/15 text-[#818cf8]'
+                      : 'text-[#94a3b8]/60 hover:bg-white/[0.04] hover:text-[#f8fafc]'
+                  }`}
+                  style="font-family: var(--font-display)"
+                >
+                  {btn.icon === 'rocket' && <svg class={`h-4 w-4 ${isActiveSection ? 'text-[#818cf8]' : 'text-[#818cf8]/40'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
+                  {btn.icon === 'book' && <svg class={`h-4 w-4 ${isActiveSection ? 'text-[#818cf8]' : 'text-[#818cf8]/40'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
+                  {btn.icon === 'agent' && <svg class={`h-4 w-4 ${isActiveSection ? 'text-[#818cf8]' : 'text-[#818cf8]/40'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
+                  {btn.icon === 'ref' && <svg class={`h-4 w-4 ${isActiveSection ? 'text-[#818cf8]' : 'text-[#818cf8]/40'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>}
+                  {btn.label}
+                </a>
+              );
+            })}
+          </div>
+
+          <!-- Separator -->
+          <div class="mx-2 mb-4 border-t border-white/[0.06]"></div>
+
+          <!-- Core Concepts -->
+          <div class="mb-5">
+            <div class="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.15em] text-[#f8fafc]/30" style="font-family: var(--font-display)">Core Concepts</div>
+            <ul class="space-y-0.5">
+              {coreConcepts.map((item) => {
+                const isActive = currentPath === item.href || currentPath === item.href.slice(0, -1);
+                return (
+                  <li>
+                    <a
+                      href={item.href}
+                      class={`block rounded-lg px-3 py-1.5 text-[13px] transition ${
+                        isActive
+                          ? 'bg-[#818cf8]/10 font-semibold text-[#818cf8]'
+                          : 'text-[#94a3b8]/70 hover:bg-white/[0.03] hover:text-[#f8fafc]'
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <!-- Separator -->
+          <div class="mx-2 mb-4 border-t border-white/[0.06]"></div>
+
+          <!-- Context-sensitive: pages in current section -->
+          {currentSection && (
+            <div>
+              <div class="mb-2 flex items-center gap-2.5 px-2">
+                {currentSection.icon === 'rocket' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
+                {currentSection.icon === 'book' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
+                {currentSection.icon === 'code' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>}
+                {currentSection.icon === 'agent' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
+                {currentSection.icon === 'zap' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
+                {currentSection.icon === 'globe' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>}
+                {currentSection.icon === 'test' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+                {currentSection.icon === 'ref' && <svg class="h-3.5 w-3.5 text-[#818cf8]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>}
+                <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-[#f8fafc]/30" style="font-family: var(--font-display)">{currentSection.label}</span>
+              </div>
+              <ul class="space-y-0.5">
+                {currentSection.items.map((item) => {
+                  const isActive = currentPath === item.href || currentPath === item.href.slice(0, -1);
+                  return (
+                    <li>
+                      <a
+                        href={item.href}
+                        class={`block rounded-lg px-3 py-1.5 text-[13px] transition ${
+                          isActive
+                            ? 'bg-[#818cf8]/10 font-semibold text-[#818cf8]'
+                            : 'text-[#94a3b8]/70 hover:bg-white/[0.03] hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="min-w-0 flex-1 px-8 py-10 lg:px-16">
+        <!-- Breadcrumbs -->
+        {breadcrumbSection && (
+          <nav class="mb-8 flex items-center gap-2 text-[12px] font-medium text-[#94a3b8]/50" style="font-family: var(--font-display)">
+            <a href="/docs/getting-started/" class="transition hover:text-[#818cf8]">Docs</a>
+            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            <span class="text-[#94a3b8]/50">{breadcrumbSection}</span>
+            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            <span class="text-[#f8fafc]">{title}</span>
+          </nav>
+        )}
+
+        <article class="docs-content max-w-3xl">
+          <slot />
+        </article>
+
+        <!-- Prev / Next -->
+        {(prev || next) && (
+          <div class="mt-16 grid gap-4 border-t border-white/[0.06] pt-8 sm:grid-cols-2">
+            {prev ? (
+              <a href={prev.href} class="group flex flex-col gap-1.5 rounded-xl border border-white/[0.06] bg-[#0f1019]/50 p-6 transition hover:border-[#818cf8]/30 hover:bg-[#1a1b23]/60">
+                <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#94a3b8]/40">Previous</span>
+                <div class="flex items-center gap-2">
+                  <svg class="h-4 w-4 text-[#818cf8] transition group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
+                  <span class="text-base font-semibold" style="font-family: var(--font-display)">{prev.label}</span>
+                </div>
+              </a>
+            ) : <div />}
+            {next ? (
+              <a href={next.href} class="group flex flex-col items-end gap-1.5 rounded-xl border border-white/[0.06] bg-[#0f1019]/50 p-6 text-right transition hover:border-[#818cf8]/30 hover:bg-[#1a1b23]/60">
+                <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#94a3b8]/40">Next</span>
+                <div class="flex items-center gap-2">
+                  <span class="text-base font-semibold" style="font-family: var(--font-display)">{next.label}</span>
+                  <svg class="h-4 w-4 text-[#818cf8] transition group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </div>
+              </a>
+            ) : <div />}
+          </div>
+        )}
+      </main>
+
+      <!-- Right sidebar: On This Page -->
+      {tocHeadings.length > 0 && (
+        <aside class="hidden h-[calc(100vh-3.5rem)] w-56 shrink-0 overflow-y-auto border-l border-white/[0.04] p-8 xl:sticky xl:top-14 xl:block">
+          <h5 class="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#94a3b8]/40" style="font-family: var(--font-display)">On This Page</h5>
+          <ul class="space-y-3">
+            {tocHeadings.map((h) => (
+              <li>
+                <a
+                  href={`#${h.slug}`}
+                  class={`block border-l-2 border-transparent py-0.5 text-[13px] text-[#94a3b8]/60 transition hover:border-[#818cf8]/30 hover:text-[#f8fafc] ${
+                    h.depth === 3 ? 'pl-6' : 'pl-4'
+                  }`}
+                  style="font-family: var(--font-display)"
+                >
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+    </div>
+  </body>
+</html>

@@ -1,17 +1,41 @@
 ---
 ---
 
-<footer class="border-t border-slate-800 py-12">
-  <div class="mx-auto max-w-5xl px-6">
-    <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
-      <div class="flex items-center gap-3">
-        <img src="/kodo.png" alt="Kōdo" class="h-6 w-6 rounded" />
-        <span class="text-sm text-slate-400">Kōdo — The programming language designed for AI agents.</span>
+<footer class="border-t border-white/[0.06] py-14">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="grid gap-10 md:grid-cols-3">
+      <!-- Logo & tagline -->
+      <div>
+        <div class="mb-3 flex items-center gap-2.5">
+          <img src="/kodo.png" alt="Kōdo" class="h-6 w-6 rounded" />
+          <span class="text-sm font-bold" style="font-family: var(--font-display)">Kōdo</span>
+        </div>
+        <p class="text-[13px] leading-relaxed text-[#94a3b8]">
+          The programming language designed for AI agents — transparent for humans.
+        </p>
+        <p class="mt-4 text-[11px] text-[#94a3b8]/50">MIT License</p>
       </div>
-      <div class="flex items-center gap-6">
-        <a href="/getting-started/" class="text-sm text-slate-400 transition hover:text-white">Docs</a>
-        <a href="https://github.com/rfunix/kodo" class="text-sm text-slate-400 transition hover:text-white" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://github.com/rfunix/kodo/blob/main/LICENSE" class="text-sm text-slate-400 transition hover:text-white" target="_blank" rel="noopener">MIT License</a>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#94a3b8]/50">Resources</h4>
+        <ul class="space-y-2.5">
+          <li><a href="/docs/getting-started/" class="text-[13px] text-[#94a3b8] transition hover:text-white">Documentation</a></li>
+          <li><a href="/docs/tour/" class="text-[13px] text-[#94a3b8] transition hover:text-white">Language Tour</a></li>
+          <li><a href="/docs/guide/language-basics/" class="text-[13px] text-[#94a3b8] transition hover:text-white">Language Guide</a></li>
+          <li><a href="/docs/reference/errors/" class="text-[13px] text-[#94a3b8] transition hover:text-white">Error Index</a></li>
+        </ul>
+      </div>
+
+      <!-- Ecosystem -->
+      <div>
+        <h4 class="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#94a3b8]/50">Ecosystem</h4>
+        <ul class="space-y-2.5">
+          <li><a href="https://github.com/rfunix/kodo" class="text-[13px] text-[#94a3b8] transition hover:text-white" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/rfunix/kodo/releases" class="text-[13px] text-[#94a3b8] transition hover:text-white" target="_blank" rel="noopener">Releases</a></li>
+          <li><a href="/docs/guide/cli-reference/" class="text-[13px] text-[#94a3b8] transition hover:text-white">CLI Reference</a></li>
+          <li><a href="/docs/guide/mcp-server/" class="text-[13px] text-[#94a3b8] transition hover:text-white">MCP Server</a></li>
+        </ul>
       </div>
     </div>
   </div>

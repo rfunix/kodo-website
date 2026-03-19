@@ -1,73 +1,76 @@
 ---
 const examples = [
   {
-    name: "Todo App",
-    file: "todo_app.ko",
-    description: "Full CRUD application with struct methods, pattern matching on Options, and list operations.",
-    features: ["Structs", "Methods", "Option<T>", "List<T>"],
+    name: "HTTP API Layer",
+    description: "Verifiably correct request parsing and schema validation with zero runtime overhead.",
+    features: ["proof: fast_response", "status: verified"],
+    file: "crud_api.ko",
+    gradient: "from-[#818cf8] to-[#6366f1]",
+    iconColor: "text-[#818cf8]",
+    iconBg: "bg-[#818cf8]/10",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />`,
   },
   {
     name: "Config Validator",
+    description: "Eliminate configuration drift with compile-time checks for nested info dependencies.",
+    features: ["validators: 8", "struct_deps: verified"],
     file: "config_validator.ko",
-    description: "Validates configuration with contracts ensuring all invariants hold before the system starts.",
-    features: ["Contracts", "Struct Predicates", "Result<T,E>"],
+    gradient: "from-[#a78bfa] to-[#818cf8]",
+    iconColor: "text-[#a78bfa]",
+    iconBg: "bg-[#a78bfa]/10",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />`,
   },
   {
-    name: "Health Checker",
-    file: "health_checker.ko",
-    description: "HTTP health check service with JSON responses, error handling, and structured logging.",
-    features: ["HTTP Server", "JSON", "Error Handling"],
-  },
-  {
-    name: "URL Shortener",
-    file: "url_shortener.ko",
-    description: "REST API with Map<String, String> storage, HTTP routing, and JSON request/response handling.",
-    features: ["HTTP", "Map<K,V>", "JSON", "Intents"],
-  },
-  {
-    name: "Word Counter",
-    file: "word_counter.ko",
-    description: "File processing with string splitting, map aggregation, and sorted output.",
-    features: ["File I/O", "Map<K,V>", "Iterators", "Sorting"],
-  },
-  {
-    name: "CRUD API",
-    file: "crud_api.ko",
-    description: "Complete REST API with create, read, update, delete operations and JSON serialization.",
-    features: ["HTTP Server", "JSON", "Map<K,V>", "CRUD"],
+    name: "Audit Log Engine",
+    description: "Cryptographically linked audit trails that prove temporal consistency via symbolic logic.",
+    features: ["hash: sha256_verified", "timestamps: verified"],
+    file: "audit_log/main.ko",
+    gradient: "from-[#6366f1] to-[#a78bfa]",
+    iconColor: "text-emerald-400",
+    iconBg: "bg-emerald-400/10",
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />`,
   },
 ];
 ---
 
-<section class="relative py-16 md:py-20">
-  <div class="relative mx-auto max-w-6xl px-6">
-    <div class="reveal mb-6 text-center">
-      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">Real programs</p>
-      <h2 class="mb-4 text-3xl font-bold md:text-4xl">Not just hello world</h2>
-      <p class="mx-auto max-w-2xl text-base text-slate-400">
-        127 examples covering the full language. These are real programs with HTTP servers, JSON APIs, file processing, and data structures.
+<section class="relative py-12 md:py-16">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="reveal mb-4 text-center">
+      <p class="mb-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#818cf8]">Real Programs</p>
+      <h2 class="mb-4 text-3xl font-bold tracking-tight md:text-4xl" style="font-family: var(--font-display)">Engineered for complexity</h2>
+      <p class="mx-auto max-w-2xl text-base text-[#94a3b8]">
+        127 examples covering HTTP servers, JSON APIs, file processing, and data structures.
       </p>
     </div>
 
-    <div class="reveal-stagger mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div class="reveal-stagger mt-10 grid gap-5 md:grid-cols-3">
       {examples.map((example) => (
         <a
           href={`https://github.com/rfunix/kodo/blob/main/examples/${example.file}`}
           target="_blank"
           rel="noopener"
-          class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5 transition hover:border-indigo-500/30 hover:bg-slate-900/80"
+          class="group relative rounded-2xl bg-[#0f1019]/50 p-[1px] transition-all duration-300"
         >
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-base font-semibold">{example.name}</h3>
-            <svg class="h-4 w-4 text-slate-600 transition group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </div>
-          <p class="mb-3 text-sm leading-relaxed text-slate-400">{example.description}</p>
-          <div class="flex flex-wrap gap-1.5">
-            {example.features.map((feat) => (
-              <span class="rounded-md bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-400">{feat}</span>
-            ))}
+          {/* Gradient border on hover */}
+          <div class={`absolute inset-0 rounded-2xl bg-gradient-to-br ${example.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}></div>
+          <div class="relative rounded-2xl border border-white/[0.06] bg-[#0f1019] p-6 transition group-hover:border-transparent">
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class={`flex h-9 w-9 items-center justify-center rounded-lg ${example.iconBg}`}>
+                  <svg class={`h-5 w-5 ${example.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={example.icon} />
+                </div>
+                <h3 class="text-base font-semibold text-[#f8fafc]">{example.name}</h3>
+              </div>
+              <svg class="h-4 w-4 text-[#94a3b8]/40 transition group-hover:text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </div>
+            <p class="mb-4 text-[13px] leading-relaxed text-[#94a3b8]">{example.description}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {example.features.map((feat) => (
+                <span class="rounded-md bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-[#94a3b8]">{feat}</span>
+              ))}
+            </div>
           </div>
         </a>
       ))}
@@ -78,7 +81,7 @@ const examples = [
         href="https://github.com/rfunix/kodo/tree/main/examples"
         target="_blank"
         rel="noopener"
-        class="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 transition hover:text-indigo-300"
+        class="inline-flex items-center gap-2 text-sm font-medium text-[#818cf8] transition hover:text-[#a5b4fc]"
       >
         Browse all 127 examples on GitHub
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>

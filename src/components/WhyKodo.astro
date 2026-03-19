@@ -1,0 +1,88 @@
+---
+---
+
+<section class="relative py-12 md:py-16">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="reveal mb-4 text-center">
+      <p class="mb-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#818cf8]">Reliability Engineering</p>
+      <h2 class="mb-4 text-3xl font-bold tracking-tight md:text-4xl" style="font-family: var(--font-display)">Why Kōdo?</h2>
+      <p class="mx-auto max-w-2xl text-base text-[#94a3b8]">
+        AI agents generate millions of lines of code. Without guarantees, that code is a liability.
+      </p>
+    </div>
+
+    <div class="reveal-stagger mt-10 grid gap-6 lg:grid-cols-2">
+      <!-- Without Kōdo -->
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-7">
+        <div class="mb-5">
+          <p class="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-red-400/70">LEGACY WORKFLOW</p>
+          <div class="flex items-center gap-2">
+            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-red-500/10">
+              <svg class="h-4 w-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </div>
+            <h3 class="text-base font-semibold text-[#94a3b8]">Without Kōdo</h3>
+          </div>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-red-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <div>
+              <p class="text-sm font-medium text-[#f8fafc]">No correctness guarantees</p>
+              <p class="mt-0.5 text-[13px] text-[#94a3b8]/70">Agent-generated code compiles but may violate invariants at runtime. Bugs surface in production.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-red-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <div>
+              <p class="text-sm font-medium text-[#f8fafc]">Opaque authorship</p>
+              <p class="mt-0.5 text-[13px] text-[#94a3b8]/70">No way to know which agent wrote what, or how confident it was. Git blame shows a bot account.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-red-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <div>
+              <p class="text-sm font-medium text-[#f8fafc]">Manual error repair</p>
+              <p class="mt-0.5 text-[13px] text-[#94a3b8]/70">Agents parse compiler prose with regex. Errors are ambiguous. Repair loops take multiple attempts.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- With Kōdo -->
+      <div class="rounded-2xl border border-[#818cf8]/15 bg-[#818cf8]/[0.03] p-7">
+        <div class="mb-5">
+          <p class="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#818cf8]/70">ARCHITECT MODE</p>
+          <div class="flex items-center gap-2">
+            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#818cf8]/15">
+              <svg class="h-4 w-4 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 class="text-base font-semibold text-[#f8fafc]">With Kōdo</h3>
+          </div>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            <div>
+              <p class="text-sm font-medium text-[#f8fafc]">Z3 SMT Solver verification</p>
+              <p class="mt-0.5 text-[13px] text-[#94a3b8]/70">Z3 SMT Solver proves every agent-written function at compile time.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            <div>
+              <p class="text-sm font-medium text-[#f8fafc]">Formal contracts as safe rails</p>
+              <p class="mt-0.5 text-[13px] text-[#94a3b8]/70">Formal contracts act as &lsquo;Safe Rails&rsquo; for LLM output.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            <div>
+              <p class="text-sm font-medium text-[#f8fafc]">Real-time confidence scores</p>
+              <p class="mt-0.5 text-[13px] text-[#94a3b8]/70">Real-time confidence scores derived from verification depth.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -70,7 +70,7 @@ To enable compile-time contract verification via Z3:
 - **macOS**: `brew install z3`
 - **Ubuntu/Debian**: `sudo apt-get install libz3-dev`
 
-Then rebuild with `cargo build -p kodoc --release --features smt`. See the [Contracts guide](/guide/contracts/#enabling-z3-for-static-verification) for details.
+Then rebuild with `cargo build -p kodoc --release --features smt`. See the [Contracts guide](/docs/guide/contracts/#enabling-z3-for-static-verification) for details.
 
 ## Your First Program
 
@@ -156,8 +156,8 @@ This is useful for fast feedback during development.
 
 ## Next Steps
 
-- [A Tour of Kōdo](/tour) — a quick walkthrough of all language features
-- [Language Basics](/guide/language-basics) — types, variables, and control flow
-- [Data Types and Pattern Matching](/guide/data-types) — structs, enums, and `match`
-- [Contracts](/guide/contracts) — runtime preconditions and postconditions
-- [CLI Reference](/guide/cli-reference) — all available commands and flags
+- [A Tour of Kōdo](/docs/tour) — a quick walkthrough of all language features
+- [Language Basics](/docs/guide/language-basics) — types, variables, and control flow
+- [Data Types and Pattern Matching](/docs/guide/data-types) — structs, enums, and `match`
+- [Contracts](/docs/guide/contracts) — runtime preconditions and postconditions
+- [CLI Reference](/docs/guide/cli-reference) — all available commands and flags
