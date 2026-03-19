@@ -1,0 +1,61 @@
+# Kōdo
+
+> Kōdo (コード) is a compiled, general-purpose programming language designed for AI agents to write, reason about, and maintain software — while remaining fully transparent and auditable by humans. It features Z3-verified contracts, linear ownership, agent traceability annotations, and compilation certificates.
+
+Kōdo compiles to native code via Cranelift using a hand-written LL(1) recursive descent parser. Current version: v0.5.1 with 400+ tests, 15+ working examples, and full collections support. The compiler toolchain includes an MCP server for AI agent integration and structured JSON error output for closed-loop repair.
+
+## Docs — Getting Started
+
+- [Getting Started](/docs/getting-started/): Installation, first program, and running the compiler
+- [A Tour of Kōdo](/docs/tour/): Complete language overview covering all major features
+
+## Docs — Language Guide
+
+- [Language Basics](/docs/guide/language-basics/): Variables, functions, control flow, and basic syntax
+- [Data Types](/docs/guide/data-types/): Primitives (Int, Float64, Bool, String), List, Map, Option, Result, enums, structs
+- [Error Handling](/docs/guide/error-handling/): Result types, match expressions, propagation — no exceptions
+- [Pattern Matching](/docs/guide/pattern-matching/): Match expressions, enum destructuring, exhaustiveness checking
+- [String Interpolation](/docs/guide/string-interpolation/): Template strings with embedded expressions
+- [Modules & Imports](/docs/guide/modules-and-imports/): Module system, meta blocks, visibility, imports
+- [Methods](/docs/guide/methods/): Method definitions on structs and enums
+
+## Docs — Advanced
+
+- [Ownership](/docs/guide/ownership/): Linear ownership model with own, ref, and mut semantics
+- [Generics](/docs/guide/generics/): Parametric polymorphism with bounded type parameters
+- [Traits](/docs/guide/traits/): Trait definitions, implementations, and trait bounds
+- [Closures](/docs/guide/closures/): First-class functions and closure expressions
+- [Iterators](/docs/guide/iterators/): Iterator protocol and lazy evaluation
+- [Contracts](/docs/guide/contracts/): requires/ensures blocks verified by Z3 SMT solver
+- [Functional Programming](/docs/guide/functional/): Functional patterns, composition, and higher-order functions
+
+## Docs — Agent Features
+
+- [Agent Traceability](/docs/guide/agent-traceability/): @authored_by, @confidence, @reviewed_by annotations for AI provenance
+- [Closed-Loop Repair](/docs/guide/closed-loop/): How the compiler enables autonomous error repair by AI agents via structured JSON errors and fix patches
+- [MCP Server](/docs/guide/mcp-server/): Model Context Protocol server for AI agent integration with the compiler
+- [Intent System](/docs/guide/intents/): Intent blocks where agents declare goals and the compiler generates verified implementations
+- [Compilation Certificates](/docs/guide/compilation-certificates/): Verifiable .ko.cert.json certificates for trust and auditing
+
+## Docs — Concurrency & I/O
+
+- [Concurrency](/docs/guide/concurrency/): Structured concurrency with spawn, async/await, and channels
+- [Actors](/docs/guide/actors/): Actor model for message-passing concurrency
+- [HTTP & Networking](/docs/guide/http/): HTTP client/server and networking primitives
+- [CLI Tools](/docs/guide/cli-tools/): Building command-line applications in Kōdo
+
+## Docs — Reference
+
+- [Standard Library Reference](/docs/guide/stdlib-reference/): Complete API reference for all built-in types and functions
+- [CLI Reference](/docs/guide/cli-reference/): All kodoc commands, flags, and JSON output formats
+- [Editor Setup](/docs/guide/editor-setup/): Configure the Kōdo Language Server for VSCode, Neovim, Helix
+- [Error Index](/docs/reference/errors/): Complete error code catalog (E0001–E0699) with explanations and fixes
+- [Grammar (EBNF)](/docs/reference/grammar/): Formal LL(1) grammar specification
+- [Language Design](/docs/reference/design/): Design philosophy, type system, and architectural decisions
+
+## Optional
+
+- [Benchmarks](/docs/reference/benchmarks/): AI agent productivity benchmarks comparing Kōdo to other languages
+- [Comparison](/docs/reference/comparison/): Feature comparison with Rust, Go, TypeScript, and Python
+- [Real-World Examples](/docs/guide/real-world-examples/): Complete working examples including REST APIs, CLI tools, and data processing
+- [Testing](/docs/guide/testing/): Built-in testing framework and test patterns
