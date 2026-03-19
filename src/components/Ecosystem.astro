@@ -9,7 +9,7 @@ const tools = [
 
 const stats = [
   { value: "2,269", label: "Tests passing" },
-  { value: "128", label: "Examples" },
+  { value: "123", label: "Examples" },
   { value: "v0.5.1", label: "Latest release" },
 ];
 ---
@@ -40,10 +40,10 @@ const stats = [
       </div>
 
       <!-- Right: Stats -->
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-3 gap-2 sm:gap-4">
         {stats.map((stat) => (
-          <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-5 text-center">
-            <p class="mb-1 font-mono text-2xl font-bold text-[#f8fafc]">{stat.value}</p>
+          <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-3 text-center sm:p-5">
+            <p class="mb-1 font-mono text-lg font-bold text-[#f8fafc] sm:text-2xl">{stat.value}</p>
             <p class="text-[12px] text-[#94a3b8]">{stat.label}</p>
           </div>
         ))}

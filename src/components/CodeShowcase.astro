@@ -13,27 +13,27 @@
 
     <div class="reveal mt-10 overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0f1019]/60">
       <div class="flex flex-col lg:flex-row">
-        <!-- Tabs (vertical on desktop) -->
-        <div class="flex border-b border-white/[0.06] lg:w-72 lg:flex-col lg:border-r lg:border-b-0">
-          <button data-tab="contracts" class="showcase-tab group flex items-center gap-3 border-l-0 border-b-2 border-[#818cf8] px-5 py-4 text-left text-sm font-medium text-white transition lg:border-b-0 lg:border-l-4">
-            <svg class="h-5 w-5 shrink-0 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+        <!-- Tabs (horizontal scrollable on mobile, vertical on desktop) -->
+        <div class="flex overflow-x-auto border-b border-white/[0.06] lg:w-72 lg:flex-col lg:overflow-x-visible lg:border-r lg:border-b-0">
+          <button data-tab="contracts" class="showcase-tab group flex shrink-0 items-center gap-2.5 border-l-0 border-b-2 border-[#818cf8] px-4 py-3 text-left text-[13px] font-medium text-white transition lg:gap-3 lg:border-b-0 lg:border-l-4 lg:px-5 lg:py-4 lg:text-sm">
+            <svg class="h-4 w-4 shrink-0 text-[#818cf8] lg:h-5 lg:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
             <div>
-              <span class="block">Contracts</span>
-              <span class="block text-[11px] font-normal text-[#94a3b8]">Z3 SMT verification</span>
+              <span class="block whitespace-nowrap">Contracts</span>
+              <span class="hidden text-[11px] font-normal text-[#94a3b8] lg:block">Z3 SMT verification</span>
             </div>
           </button>
-          <button data-tab="traceability" class="showcase-tab group flex items-center gap-3 border-l-0 border-b-2 border-transparent px-5 py-4 text-left text-sm font-medium text-[#94a3b8] transition hover:text-white lg:border-b-0 lg:border-l-4">
-            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+          <button data-tab="traceability" class="showcase-tab group flex shrink-0 items-center gap-2.5 border-l-0 border-b-2 border-transparent px-4 py-3 text-left text-[13px] font-medium text-[#94a3b8] transition hover:text-white lg:gap-3 lg:border-b-0 lg:border-l-4 lg:px-5 lg:py-4 lg:text-sm">
+            <svg class="h-4 w-4 shrink-0 lg:h-5 lg:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
             <div>
-              <span class="block">Traceability</span>
-              <span class="block text-[11px] font-normal text-[#94a3b8]">Confidence tracking</span>
+              <span class="block whitespace-nowrap">Traceability</span>
+              <span class="hidden text-[11px] font-normal text-[#94a3b8] lg:block">Confidence tracking</span>
             </div>
           </button>
-          <button data-tab="intents" class="showcase-tab group flex items-center gap-3 border-l-0 border-b-2 border-transparent px-5 py-4 text-left text-sm font-medium text-[#94a3b8] transition hover:text-white lg:border-b-0 lg:border-l-4">
-            <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          <button data-tab="intents" class="showcase-tab group flex shrink-0 items-center gap-2.5 border-l-0 border-b-2 border-transparent px-4 py-3 text-left text-[13px] font-medium text-[#94a3b8] transition hover:text-white lg:gap-3 lg:border-b-0 lg:border-l-4 lg:px-5 lg:py-4 lg:text-sm">
+            <svg class="h-4 w-4 shrink-0 lg:h-5 lg:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
             <div>
-              <span class="block">Intents</span>
-              <span class="block text-[11px] font-normal text-[#94a3b8]">Declare, don't code</span>
+              <span class="block whitespace-nowrap">Intents</span>
+              <span class="hidden text-[11px] font-normal text-[#94a3b8] lg:block">Declare, don't code</span>
             </div>
           </button>
         </div>
