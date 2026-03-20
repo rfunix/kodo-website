@@ -101,6 +101,35 @@ fn bool_to_string(b: Bool) -> String {
 
 The compiler requires all variants to be handled. Missing a variant produces a compile-time error, ensuring no unmatched cases at runtime. You can use a wildcard `_` arm to cover all remaining variants without listing each one explicitly.
 
+## Short Variant Patterns
+
+For `Option` and `Result`, you can omit the enum prefix in match arms. The compiler infers the enum type from the matched expression:
+
+```rust
+// Long form (explicit enum prefix)
+match result {
+    Result::Ok(v) => v,
+    Result::Err(e) => 0
+}
+
+// Short form (no prefix) — equivalent
+match result {
+    Ok(v) => v,
+    Err(e) => 0
+}
+```
+
+The same applies to `Option`:
+
+```rust
+match maybe_val {
+    Some(v) => v,
+    None => 0
+}
+```
+
+Both forms are valid anywhere match patterns are used. The long form is more explicit; the short form is more concise.
+
 ## Match with Option
 
 `Option<T>` has two variants: `Option::Some(value)` and `Option::None`. Pattern matching is the primary way to extract the inner value:
@@ -196,14 +225,22 @@ let x: Int = match r {
 }
 ```
 
-`Result` also provides helper methods for simpler checks:
+`Result` also provides helper methods for simpler checks and value extraction:
 
 ```rust
 let ok_res: Result<Int, String> = Result::Ok(10)
 let is_ok: Bool = ok_res.is_ok()
 let is_err: Bool = ok_res.is_err()
-let val: Int = ok_res.unwrap_or(0)
+
+// Extract values directly
+let val: Int = ok_res.unwrap()        // 10 (aborts on Err)
+let safe: Int = ok_res.unwrap_or(0)   // 10 (returns default on Err)
+
+let err_res: Result<Int, String> = Result::Err("oops")
+let msg: String = err_res.unwrap_err() // "oops" (aborts on Ok)
 ```
+
+**Warning:** `unwrap()` aborts the program if called on `Err`/`None`. Prefer `match` or `unwrap_or` in production code.
 
 ### The `?` Operator
 
@@ -267,3 +304,4 @@ See these files in the repository for complete working examples:
 - [`examples/try_operator_sugar.ko`](https://github.com/rfunix/kodo/blob/main/examples/try_operator_sugar.ko) -- the `?` operator for error propagation
 - [`examples/enum_methods.ko`](https://github.com/rfunix/kodo/blob/main/examples/enum_methods.ko) -- helper methods on Option and Result
 - [`examples/flow_typing.ko`](https://github.com/rfunix/kodo/blob/main/examples/flow_typing.ko) -- `if let` with Option
+- [`examples/result_patterns.ko`](https://github.com/rfunix/kodo/blob/main/examples/result_patterns.ko) -- short patterns and unwrap methods
