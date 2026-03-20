@@ -81,6 +81,35 @@ let all_even: Bool = numbers.all(|x: Int| -> Bool { x % 2 == 0 })
 // all_even is true
 ```
 
+## `reduce` — Fold Without Initial Value
+
+`reduce` is like `fold` but uses the first element as the initial accumulator:
+
+```rust
+let numbers: List<Int> = list_new()
+list_push(numbers, 1)
+list_push(numbers, 2)
+list_push(numbers, 3)
+
+let sum: Int = numbers.reduce(0, fn(acc: Int, x: Int) -> Int { return acc + x })
+// sum is 6
+```
+
+## `count` — Count Matching Elements
+
+`count` with a predicate counts elements satisfying the condition:
+
+```rust
+let numbers: List<Int> = list_new()
+list_push(numbers, 1)
+list_push(numbers, 2)
+list_push(numbers, 3)
+list_push(numbers, 4)
+
+let num_evens: Int = numbers.count(fn(x: Int) -> Bool { return x % 2 == 0 })
+// num_evens is 2
+```
+
 ## Composing Pipelines
 
 Combinators chain naturally to form data processing pipelines:
@@ -111,6 +140,7 @@ This pipeline is:
 - [`iterator_map_filter.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_map_filter.ko) — `map` and `filter` usage
 - [`iterator_fold.ko`](https://github.com/rfunix/kodo/blob/main/examples/iterator_fold.ko) — `fold` for aggregation
 - [`closures_functional.ko`](https://github.com/rfunix/kodo/blob/main/examples/closures_functional.ko) — higher-order functions
+- [`list_functional.ko`](https://github.com/rfunix/kodo/blob/main/examples/list_functional.ko) — all functional combinators on List
 - [`word_counter.ko`](https://github.com/rfunix/kodo/blob/main/examples/word_counter.ko) — real-world pipeline with string ops and fold
 
 ## Next Steps
