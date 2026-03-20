@@ -4,7 +4,7 @@ sidebar:
   order: 1
 ---
 
-This guide walks you through installing the Kōdo compiler (currently **v0.17.0**) and running your first program.
+This guide walks you through installing the Kōdo compiler (currently **v1.0.0**) and running your first program.
 
 ## Installation
 
