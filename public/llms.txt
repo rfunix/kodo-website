@@ -55,7 +55,7 @@ Kōdo compiles to native code via Cranelift using a hand-written LL(1) recursive
 
 ## Optional
 
-- [Benchmarks](/docs/reference/benchmarks/): Transparent benchmark comparing identical Task Management APIs in Kōdo, Python, TypeScript, Rust, and Go. Measures compile-time safety (7 bug categories), error machine-readability, and agent-specific features. Includes full methodology, honest limitations, and reproducible open-source code
+- [Benchmarks](/docs/reference/benchmarks/): AI agent productivity benchmarks — qualitative workflow comparisons (error→fix loops, correctness by construction, trust propagation)
 - [Comparison](/docs/reference/comparison/): Feature comparison with Rust, Go, TypeScript, and Python
 - [Real-World Examples](/docs/guide/real-world-examples/): Complete working examples including REST APIs, CLI tools, and data processing
 - [Testing](/docs/guide/testing/): Built-in testing framework and test patterns
