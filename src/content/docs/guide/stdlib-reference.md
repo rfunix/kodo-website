@@ -1,9 +1,3 @@
----
-title: "Standard Library Reference"
-sidebar:
-  order: 23
----
-
 # Standard Library Reference
 
 This is the complete reference for all built-in functions and methods available in every Kōdo program without explicit imports.
@@ -344,7 +338,9 @@ let n: Int = 3.7.to_int()  // 3
 
 Converts a boolean to `"true"` or `"false"`.
 
-> **Not yet implemented.** Use `if b { "true" } else { "false" }` as a workaround.
+```rust
+let s: String = true.to_string()  // "true"
+```
 
 ## File I/O
 
@@ -375,8 +371,6 @@ let r: Result<Unit, String> = file_append("log.txt", "new line\n")
 ### `file_delete(path: String) -> Bool`
 
 Deletes a file. Returns `true` on success.
-
-> **Not yet linked in runtime.** Will produce a link error at build time.
 
 ```rust
 let ok: Bool = file_delete("temp.txt")
@@ -412,14 +406,12 @@ Lists are created and manipulated via free functions. Methods like `.iter()`, `.
 
 ### `list_new() -> List<T>`
 
-Creates a new empty list. The element type is inferred from the type annotation:
+Creates a new empty list. The element type is inferred from the type annotation.
 
 ```rust
 let nums: List<Int> = list_new()
 let names: List<String> = list_new()
 ```
-
-> **Note:** `List<String>` passes type checking. Some codegen operations on string lists (e.g., `println(list_get(names, 0))`) may require string interpolation as a workaround.
 
 ### `list_push(list: List<T>, value: T)`
 
@@ -456,8 +448,6 @@ let has: Bool = list_contains(nums, 42)
 ### `list_pop(list: List<T>) -> T`
 
 Removes and returns the last element.
-
-> **Not yet linked in runtime.** Will produce a link error at build time.
 
 ```rust
 let last: Int = list_pop(nums)
@@ -565,34 +555,104 @@ Removes the entry with the given key. Returns `true` on success.
 let ok: Bool = map_remove(scores, "alice")
 ```
 
-### `map_is_empty(map: Map<K, V>) -> Int`
+### `map_is_empty(map: Map<K, V>) -> Bool`
 
-Returns `1` if the map has no entries, `0` otherwise.
+Returns `true` if the map has no entries.
 
 ```rust
-let empty: Int = map_is_empty(scores)
+let empty: Bool = map_is_empty(scores)
 ```
 
 ### Map Iteration
 
-Use `for-in` to iterate over Map keys:
+Use `.keys()` and `.values()` with `for-in` to iterate:
 
 ```rust
-let m: Map<Int, Int> = map_new()
-map_insert(m, 1, 100)
-map_insert(m, 2, 200)
+for key in scores.keys() {
+    println(key)
+}
 
-for key in m {
-    print_int(key)
+for value in scores.values() {
+    print_int(value)
 }
 ```
 
-You can also use `map_contains_key` and `map_get` for direct lookups:
+## Set<T>
+
+An unordered collection of unique elements. Currently supports `Int` elements.
+
+### `Set::new() -> Set<T>`
+
+Creates a new empty set.
 
 ```rust
-if map_contains_key(m, 1) {
-    print_int(map_get(m, 1))  // 100
-}
+let s: Set<Int> = Set::new()
+```
+
+### `set.add(value: T)`
+
+Adds an element to the set. Duplicates are silently ignored.
+
+```rust
+s.add(1)
+s.add(2)
+s.add(2)  // no effect, already present
+```
+
+### `set.contains(value: T) -> Bool`
+
+Returns `true` if the set contains the given value.
+
+```rust
+let has_it: Bool = s.contains(1)  // true
+```
+
+### `set.remove(value: T) -> Bool`
+
+Removes the element from the set. Returns `true` if it was present.
+
+```rust
+let removed: Bool = s.remove(1)
+```
+
+### `set.length() -> Int`
+
+Returns the number of elements in the set.
+
+```rust
+let n: Int = s.length()
+```
+
+### `set.is_empty() -> Bool`
+
+Returns `true` if the set has no elements.
+
+```rust
+let empty: Bool = s.is_empty()
+```
+
+### `set.union(other: Set<T>) -> Set<T>`
+
+Returns a new set containing all elements from both sets.
+
+```rust
+let combined: Set<Int> = s1.union(s2)
+```
+
+### `set.intersection(other: Set<T>) -> Set<T>`
+
+Returns a new set containing only elements present in both sets.
+
+```rust
+let common: Set<Int> = s1.intersection(s2)
+```
+
+### `set.difference(other: Set<T>) -> Set<T>`
+
+Returns a new set containing elements in this set but not in the other.
+
+```rust
+let only_in_s1: Set<Int> = s1.difference(s2)
 ```
 
 ## JSON
@@ -672,7 +732,6 @@ let text: String = json_stringify(doc)
 ```
 
 ### Building
-
 
 ### `json_new_object() -> Int`
 
