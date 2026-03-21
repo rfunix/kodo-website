@@ -1,0 +1,108 @@
+---
+---
+
+<section class="relative py-12 md:py-16">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="reveal mb-4 text-center">
+      <p class="mb-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#818cf8]">Measured, Not Claimed</p>
+      <h2 class="mb-4 text-3xl font-bold tracking-tight md:text-4xl" style="font-family: var(--font-display)">Benchmarks</h2>
+      <p class="mx-auto max-w-2xl text-base text-[#94a3b8]">
+        Same Task Management API. Five languages. Real measurements.
+      </p>
+    </div>
+
+    <div class="reveal-stagger mt-10 grid gap-6 lg:grid-cols-3">
+
+      <!-- Safety per Token -->
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-7 text-center">
+        <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10">
+          <svg class="h-6 w-6 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+        </div>
+        <p class="mb-1 text-4xl font-bold text-[#f8fafc]" style="font-family: var(--font-display)">7/7</p>
+        <p class="text-sm font-medium text-[#818cf8]">Compile-Time Safety</p>
+        <p class="mt-2 text-[13px] text-[#94a3b8]/70">Bug classes caught before runtime. Rust: 4/7. TypeScript: 2/7. Python: 0/7.</p>
+      </div>
+
+      <!-- Error Readability -->
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-7 text-center">
+        <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10">
+          <svg class="h-6 w-6 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+        </div>
+        <p class="mb-1 text-4xl font-bold text-[#f8fafc]" style="font-family: var(--font-display)">5/5</p>
+        <p class="text-sm font-medium text-[#818cf8]">Error Machine-Readability</p>
+        <p class="mt-2 text-[13px] text-[#94a3b8]/70">JSON errors with auto-fix patches. Rust: 3/5. TypeScript: 2/5. Python: 1/5.</p>
+      </div>
+
+      <!-- Agent Features -->
+      <div class="rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-7 text-center">
+        <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10">
+          <svg class="h-6 w-6 text-[#818cf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+        </div>
+        <p class="mb-1 text-4xl font-bold text-[#f8fafc]" style="font-family: var(--font-display)">9/9</p>
+        <p class="text-sm font-medium text-[#818cf8]">Agent-Unique Features</p>
+        <p class="mt-2 text-[13px] text-[#94a3b8]/70">Contracts, traceability, intents, certificates, MCP. All others: 0/9.</p>
+      </div>
+
+    </div>
+
+    <!-- Safety per Token bar chart -->
+    <div class="reveal mt-10 rounded-2xl border border-white/[0.06] bg-[#0f1019]/50 p-7">
+      <h3 class="mb-5 text-base font-semibold text-[#f8fafc]" style="font-family: var(--font-display)">Safety per Token — fewer is better</h3>
+      <p class="mb-6 text-[13px] text-[#94a3b8]/70">Tokens needed per compile-time bug class caught. Lower = more safety per token.</p>
+      <div class="space-y-4">
+        <div>
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-sm font-medium text-[#818cf8]">Kōdo</span>
+            <span class="text-sm font-mono text-[#f8fafc]">721</span>
+          </div>
+          <div class="h-3 w-full rounded-full bg-white/[0.04]">
+            <div class="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-400" style="width: 31%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-sm font-medium text-[#94a3b8]/70">Rust</span>
+            <span class="text-sm font-mono text-[#94a3b8]">1,204</span>
+          </div>
+          <div class="h-3 w-full rounded-full bg-white/[0.04]">
+            <div class="h-3 rounded-full bg-[#94a3b8]/30" style="width: 52%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-sm font-medium text-[#94a3b8]/70">TypeScript</span>
+            <span class="text-sm font-mono text-[#94a3b8]">2,233</span>
+          </div>
+          <div class="h-3 w-full rounded-full bg-white/[0.04]">
+            <div class="h-3 rounded-full bg-[#94a3b8]/30" style="width: 96%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-sm font-medium text-[#94a3b8]/70">Go</span>
+            <span class="text-sm font-mono text-[#94a3b8]">2,327</span>
+          </div>
+          <div class="h-3 w-full rounded-full bg-white/[0.04]">
+            <div class="h-3 rounded-full bg-[#94a3b8]/30" style="width: 100%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-1 flex items-center justify-between">
+            <span class="text-sm font-medium text-[#94a3b8]/70">Python</span>
+            <span class="text-sm font-mono text-[#94a3b8]">∞</span>
+          </div>
+          <div class="h-3 w-full rounded-full bg-white/[0.04]">
+            <div class="h-3 rounded-full bg-red-400/30" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal mt-8 text-center">
+      <a href="/docs/reference/benchmarks/" class="inline-flex items-center gap-2 rounded-full border border-[#818cf8]/20 bg-[#818cf8]/5 px-5 py-2 text-sm font-medium text-[#818cf8] transition hover:bg-[#818cf8]/10">
+        Full benchmark results
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+  </div>
+</section>

@@ -181,13 +181,85 @@ No human in the loop. No hoping tests catch it. No "it works on my machine."
 
 ---
 
-## Quantitative benchmarks
+## Quantitative Benchmark: Task Management API
 
-Reproducible quantitative benchmarks are in development, measuring:
+We implemented identical Task Management APIs in five languages and measured what matters for AI agents.
 
-- **Cycles to clean compilation** — agent attempts until zero errors
-- **Time to first successful build** — wall clock from code generation to binary
-- **Contract coverage** — percentage of functions with verified pre/post-conditions
-- **Fix patch hit rate** — percentage of errors with machine-applicable patches
+### The Project
 
-Results will be published here as they become available. Want to contribute? [Open an issue on GitHub](https://github.com/rfunix/kodo/issues).
+A REST API with CRUD operations, priority validation (1–5), status workflow (pending → in_progress → done), JSON serialization, file persistence, and tests. Same functionality, idiomatic code in each language.
+
+### Token Count (GPT-4 Tokenizer)
+
+Fewer tokens = cheaper API calls, faster generation, less context window usage.
+
+| Metric | Kōdo | Python | TypeScript | Rust | Go |
+|--------|-----:|-------:|-----------:|-----:|---:|
+| **Tokens** | 5,053 | 2,230 | 4,467 | 4,819 | 4,655 |
+| Code Lines | 503 | 220 | 495 | 552 | 639 |
+
+Python is more concise in raw tokens — but those tokens buy you **zero** compile-time guarantees. The real question is: what does each token buy you?
+
+### Safety per Token
+
+| Language | Tokens | Bug Classes Caught | Cost per Class |
+|----------|-------:|-------------------:|---------------:|
+| **Kōdo** | 5,053 | **7/7** | **721** |
+| Rust | 4,819 | 4/7 | 1,204 |
+| TypeScript | 4,467 | 2/7 | 2,233 |
+| Go | 4,655 | 2/7 | 2,327 |
+| Python | 2,230 | 0/7 | ∞ |
+
+**Kōdo delivers the most safety per token of any language in the benchmark.**
+
+### Compile-Time Safety
+
+| Bug Class | Kōdo | Python | TypeScript | Rust | Go |
+|-----------|:----:|:------:|:----------:|:----:|:--:|
+| Null/None dereference | ✅ | ❌ | ✅ | ✅ | ❌ |
+| Type mismatch | ✅ | ❌ | ✅ | ✅ | ✅ |
+| Contract violation | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Invalid status transition | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Value out of range | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Missing error handling | ✅ | ❌ | ❌ | ✅ | ✅ |
+| Use after move | ✅ | ❌ | ❌ | ✅ | ❌ |
+| **Total** | **7/7** | **0/7** | **2/7** | **4/7** | **2/7** |
+
+### Machine-Readability of Errors
+
+| Criterion | Kōdo | Python | TypeScript | Rust | Go |
+|-----------|:----:|:------:|:----------:|:----:|:--:|
+| JSON parseable (+2) | +2 | — | — | — | — |
+| Exact source spans (+1) | +1 | +1 | +1 | +1 | +1 |
+| Suggests fix (+1) | +1 | — | — | +1 | — |
+| Unique error code (+1) | +1 | — | +1 | +1 | — |
+| **Total** | **5/5** | **1/5** | **2/5** | **3/5** | **1/5** |
+
+### Agent-Unique Features
+
+| Feature | Kōdo | Others |
+|---------|:----:|:------:|
+| Self-describing modules (meta) | ✅ | ❌ |
+| Agent traceability annotations | ✅ | ❌ |
+| Formal contract verification (Z3) | ✅ | ❌ |
+| Refinement types | ✅ | ❌ |
+| Intent-driven code generation | ✅ | ❌ |
+| Compilation certificates | ✅ | ❌ |
+| Machine-applicable fix patches | ✅ | ❌ |
+| Confidence propagation | ✅ | ❌ |
+| MCP server (native agent support) | ✅ | ❌ |
+
+**9 features that no other language provides** — because no other language was designed for AI agents.
+
+### Summary
+
+The question isn't "which language uses the fewest tokens?" — it's **"which language lets agents produce correct code with the least total effort?"**
+
+| Dimension | Winner | Why |
+|-----------|--------|-----|
+| **Safety per Token** | Kōdo | 721 tokens per bug class — best in benchmark |
+| **Compile-Time Safety** | Kōdo | 7/7 bug classes caught before runtime |
+| **Error Readability** | Kōdo | 5/5 — structured JSON with auto-fix patches |
+| **Agent Features** | Kōdo | 9/9 — purpose-built for AI agents |
+
+Full source code: [github.com/rfunix/kodo/benchmarks](https://github.com/rfunix/kodo/tree/main/benchmarks) and [examples/task_manager](https://github.com/rfunix/kodo/tree/main/examples/task_manager).
