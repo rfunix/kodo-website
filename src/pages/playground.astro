@@ -362,6 +362,30 @@ import '../styles/global.css';
         return 0
     }
 }` },
+          { name: "Reviewed by Human", file: "reviewed.ko", hasError: false, code: `module reviewed_code {
+    meta {
+        purpose: "Low confidence code approved by human review"
+        version: "1.0.0"
+    }
+
+    // confidence 0.6 is below 0.8 threshold
+    // but @reviewed_by satisfies the compiler
+    @authored_by(agent: "gpt-4", session: "exp-001")
+    @confidence(0.6)
+    @reviewed_by(human: "rafael")
+    fn experimental_algo(x: Int) -> Int
+        requires { x > 0 }
+    {
+        return (x * 31 + 17) % 100
+    }
+
+    @authored_by(agent: "claude", session: "s-2026")
+    @confidence(0.95)
+    fn main() -> Int {
+        print_int(experimental_algo(42))
+        return 0
+    }
+}` },
           { name: "Low Confidence (error)", file: "low_conf.ko", hasError: true, code: `module low_confidence {
     meta {
         purpose: "Low confidence without review"
