@@ -41,18 +41,16 @@ import '../styles/global.css';
       <!-- Header -->
       <header class="flex-shrink-0 border-b border-white/[0.06] bg-[#050507]/80 backdrop-blur-xl">
         <div class="flex items-center justify-between px-4 py-3 sm:px-6">
-          <!-- Left: Back + Title -->
-          <div class="flex items-center gap-4">
-            <a href="/" class="flex items-center gap-2 text-[13px] font-medium text-[#94a3b8] transition hover:text-white">
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-              <span class="hidden sm:inline">Back</span>
-            </a>
-            <div class="flex items-center gap-2.5">
+          <!-- Left: Logo + Title -->
+          <div class="flex items-center gap-2.5">
+            <a href="/" class="flex items-center gap-2.5 transition hover:opacity-80">
               <img src="/kodo.png" alt="Kōdo" class="h-6 w-6 rounded" />
-              <h1 class="text-sm font-bold tracking-tight sm:text-base" style="font-family: var(--font-display);">
-                Playground
-              </h1>
-            </div>
+              <span class="text-sm font-bold tracking-tight sm:text-base" style="font-family: var(--font-display);">Kōdo</span>
+            </a>
+            <span class="text-[#94a3b8]/40">|</span>
+            <h1 class="text-sm font-medium text-[#94a3b8] sm:text-base" style="font-family: var(--font-display);">
+              Playground
+            </h1>
           </div>
 
           <!-- Right: Status + Examples toggle -->
