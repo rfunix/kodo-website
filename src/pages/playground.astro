@@ -18,6 +18,23 @@ import '../styles/global.css';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <title>Playground — Kōdo</title>
+    <style>
+      .kd-keyword { color: #c792ea; }
+      .kd-type { color: #82aaff; }
+      .kd-annotation { color: #c3e88d; }
+      .kd-number { color: #f78c6c; }
+      .kd-string { color: #c3e88d; }
+      .kd-comment { color: #546e7a; }
+      .kd-bool { color: #f78c6c; }
+      #highlight-backdrop {
+        color: #e2e8f0;
+      }
+      #highlight-code {
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+      }
+    </style>
   </head>
   <body class="overflow-hidden bg-[#050507] text-[#f8fafc] antialiased" style="font-family: var(--font-body);">
     <div class="flex h-screen flex-col">
@@ -73,12 +90,20 @@ import '../styles/global.css';
             </div>
             <span class="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#94a3b8]/40">Editor</span>
           </div>
-          <!-- Textarea -->
+          <!-- Textarea with syntax highlight backdrop -->
           <div class="relative min-h-0 flex-1">
+            <!-- Highlighted backdrop -->
+            <pre
+              id="highlight-backdrop"
+              class="pointer-events-none absolute inset-0 h-full w-full overflow-auto border-0 bg-[#0a0a0f] p-4 text-[13px] leading-[1.7] sm:p-5 sm:text-[14px]"
+              style="font-family: var(--font-mono); tab-size: 4; white-space: pre-wrap; word-wrap: break-word; margin: 0;"
+              aria-hidden="true"
+            ><code id="highlight-code"></code></pre>
+            <!-- Transparent textarea on top -->
             <textarea
               id="editor"
-              class="h-full w-full resize-none border-0 bg-[#0a0a0f] p-4 text-[13px] leading-[1.7] text-[#e2e8f0] caret-[#818cf8] outline-none placeholder:text-[#94a3b8]/30 sm:p-5 sm:text-[14px]"
-              style="font-family: var(--font-mono); tab-size: 4;"
+              class="relative h-full w-full resize-none border-0 bg-transparent p-4 text-[13px] leading-[1.7] text-transparent caret-[#818cf8] outline-none placeholder:text-[#94a3b8]/30 sm:p-5 sm:text-[14px]"
+              style="font-family: var(--font-mono); tab-size: 4; white-space: pre-wrap; word-wrap: break-word;"
               spellcheck="false"
               autocomplete="off"
               autocorrect="off"
@@ -375,6 +400,8 @@ import '../styles/global.css';
       }
 
       // ── DOM refs ──────────────────────────────────
+      const highlightBackdrop = document.getElementById('highlight-backdrop');
+      const highlightCode = document.getElementById('highlight-code');
       const editor = document.getElementById('editor');
       const diagResults = document.getElementById('diag-results');
       const diagLoading = document.getElementById('diag-loading');
@@ -412,6 +439,7 @@ import '../styles/global.css';
             const name = btn.dataset.example;
             selectedExample = name;
             editor.value = EXAMPLE_MAP[name] || '';
+            highlightSyntax(editor.value);
             filenameLabel.textContent = FILENAMES[name] || 'untitled.ko';
             buildExamplesGrid();
             runCheck();
@@ -454,9 +482,11 @@ import '../styles/global.css';
 
       // ── Load initial example ──────────────────────
       editor.value = EXAMPLE_MAP["Hello World"];
+      highlightSyntax(editor.value);
 
       // ── Editor input with debounce ────────────────
       editor.addEventListener('input', () => {
+        highlightSyntax(editor.value);
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(runCheck, 300);
       });
@@ -469,6 +499,7 @@ import '../styles/global.css';
           const end = editor.selectionEnd;
           editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
           editor.selectionStart = editor.selectionEnd = start + 4;
+          highlightSyntax(editor.value);
           clearTimeout(debounceTimer);
           debounceTimer = setTimeout(runCheck, 300);
         }
@@ -634,6 +665,75 @@ import '../styles/global.css';
         div.textContent = str;
         return div.innerHTML;
       }
+
+      // ── Syntax highlighting ─────────────────────────
+      const KD_KEYWORDS = new Set([
+        'module','meta','fn','let','mut','if','else','while','for','in','return',
+        'match','struct','enum','trait','impl','pub','test','describe','requires',
+        'ensures','spawn','async','await','import','from','own','ref','is',
+        'break','continue','setup','teardown','forall'
+      ]);
+      const KD_TYPES = new Set([
+        'Int','Int8','Int16','Int32','Int64','Uint','Uint8','Uint16','Uint32','Uint64',
+        'Float32','Float64','Bool','String','Unit','Byte','List','Map','Set','Option',
+        'Result','Channel'
+      ]);
+      const KD_BOOLS = new Set(['true','false']);
+
+      function highlightSyntax(source) {
+        if (!source) {
+          highlightCode.innerHTML = '';
+          return;
+        }
+        // Tokenize the raw source to avoid coloring inside strings/comments
+        const TOKEN_RE = /(\/\/[^\n]*)|("(?:[^"\\]|\\.)*")|(@\w+)|(\b\d+(?:\.\d+)?\b)|(\b[a-zA-Z_]\w*\b)/g;
+        let result = '';
+        let lastIndex = 0;
+        let m;
+        while ((m = TOKEN_RE.exec(source)) !== null) {
+          // Append any text between matches (escaped)
+          if (m.index > lastIndex) {
+            result += escapeHtml(source.slice(lastIndex, m.index));
+          }
+          const text = m[0];
+          if (m[1]) {
+            // Comment
+            result += '<span class="kd-comment">' + escapeHtml(text) + '</span>';
+          } else if (m[2]) {
+            // String
+            result += '<span class="kd-string">' + escapeHtml(text) + '</span>';
+          } else if (m[3]) {
+            // Annotation
+            result += '<span class="kd-annotation">' + escapeHtml(text) + '</span>';
+          } else if (m[4]) {
+            // Number
+            result += '<span class="kd-number">' + escapeHtml(text) + '</span>';
+          } else if (m[5]) {
+            // Identifier — classify
+            if (KD_KEYWORDS.has(text)) {
+              result += '<span class="kd-keyword">' + escapeHtml(text) + '</span>';
+            } else if (KD_TYPES.has(text)) {
+              result += '<span class="kd-type">' + escapeHtml(text) + '</span>';
+            } else if (KD_BOOLS.has(text)) {
+              result += '<span class="kd-bool">' + escapeHtml(text) + '</span>';
+            } else {
+              result += escapeHtml(text);
+            }
+          }
+          lastIndex = TOKEN_RE.lastIndex;
+        }
+        // Append remaining text
+        if (lastIndex < source.length) {
+          result += escapeHtml(source.slice(lastIndex));
+        }
+        highlightCode.innerHTML = result;
+      }
+
+      // ── Scroll sync ─────────────────────────────────
+      editor.addEventListener('scroll', () => {
+        highlightBackdrop.scrollTop = editor.scrollTop;
+        highlightBackdrop.scrollLeft = editor.scrollLeft;
+      });
     </script>
   </body>
 </html>
