@@ -88,20 +88,12 @@ import '../styles/global.css';
             </div>
             <span class="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#94a3b8]/40">Editor</span>
           </div>
-          <!-- Textarea with syntax highlight backdrop -->
+          <!-- Editor area -->
           <div class="relative min-h-0 flex-1">
-            <!-- Highlighted backdrop -->
-            <pre
-              id="highlight-backdrop"
-              class="pointer-events-none absolute inset-0 h-full w-full overflow-auto border-0 bg-[#0a0a0f] p-4 text-[13px] leading-[1.7] sm:p-5 sm:text-[14px]"
-              style="font-family: var(--font-mono); tab-size: 4; white-space: pre-wrap; word-wrap: break-word; margin: 0;"
-              aria-hidden="true"
-            ><code id="highlight-code"></code></pre>
-            <!-- Transparent textarea on top -->
             <textarea
               id="editor"
-              class="relative h-full w-full resize-none border-0 bg-transparent p-4 text-[13px] leading-[1.7] text-transparent caret-[#818cf8] outline-none placeholder:text-[#94a3b8]/30 sm:p-5 sm:text-[14px]"
-              style="font-family: var(--font-mono); tab-size: 4; white-space: pre-wrap; word-wrap: break-word;"
+              class="h-full w-full resize-none border-0 bg-[#0a0a0f] p-4 text-[13px] leading-[1.7] text-[#e2e8f0] caret-[#818cf8] outline-none placeholder:text-[#94a3b8]/30 sm:p-5 sm:text-[14px]"
+              style="font-family: var(--font-mono); tab-size: 4;"
               spellcheck="false"
               autocomplete="off"
               autocorrect="off"
