@@ -38,21 +38,26 @@ import '../styles/global.css';
             </div>
           </div>
 
-          <!-- Right: Example selector + Status -->
+          <!-- Right: Status + Examples toggle -->
           <div class="flex items-center gap-3">
             <div id="wasm-status" class="flex items-center gap-1.5">
               <div class="h-2 w-2 animate-pulse rounded-full bg-[#fbbf24]"></div>
               <span class="text-[11px] text-[#94a3b8]">Loading WASM...</span>
             </div>
-            <select id="example-select" class="rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-[13px] text-[#f8fafc] outline-none transition hover:border-white/[0.15] hover:bg-white/[0.06] focus:border-[#818cf8]/40" style="font-family: var(--font-body);">
-              <option value="Hello World">Hello World</option>
-              <option value="Fibonacci">Fibonacci</option>
-              <option value="Contracts">Contracts</option>
-              <option value="Type Error">Type Error</option>
-            </select>
+            <button id="toggle-examples" class="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-[13px] text-[#f8fafc] transition hover:border-white/[0.15] hover:bg-white/[0.06]" style="font-family: var(--font-body);">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+              Examples
+            </button>
           </div>
         </div>
       </header>
+
+      <!-- Examples Sidebar (togglable) -->
+      <div id="examples-sidebar" class="hidden border-b border-white/[0.06] bg-[#0a0a0f]">
+        <div class="max-h-[40vh] overflow-y-auto px-4 py-3 lg:max-h-[50vh]">
+          <div class="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="examples-grid"></div>
+        </div>
+      </div>
 
       <!-- Main Content: Editor + Diagnostics -->
       <div class="flex min-h-0 flex-1 flex-col lg:flex-row">
@@ -121,16 +126,48 @@ import '../styles/global.css';
     <script type="module">
       import init, { check } from '/wasm/kodo_playground.js';
 
-      // ── Examples ──────────────────────────────────
-      const EXAMPLES = {
-        "Hello World": `module hello {
+      // ── Examples organized by category ──────────
+      const EXAMPLES = [
+        { category: "Basics", items: [
+          { name: "Hello World", file: "hello.ko", hasError: false, code: `module hello {
     meta { purpose: "Hello world", version: "1.0.0" }
     fn main() -> Int {
         println("Hello, Kōdo!")
         return 0
     }
-}`,
-        "Fibonacci": `module fibonacci {
+}` },
+          { name: "Variables & Expressions", file: "expressions.ko", hasError: false, code: `module expressions {
+    meta { purpose: "Variables and expressions", version: "1.0.0" }
+    fn main() -> Int {
+        let x: Int = 10
+        let y: Int = 20
+        let sum: Int = x + y
+        let product: Int = x * y
+        print_int(sum)
+        print_int(product)
+        return 0
+    }
+}` },
+          { name: "Control Flow", file: "control_flow.ko", hasError: false, code: `module control_flow {
+    meta { purpose: "If/else and while loops", version: "1.0.0" }
+    fn abs(x: Int) -> Int {
+        if x < 0 {
+            return 0 - x
+        } else {
+            return x
+        }
+    }
+    fn main() -> Int {
+        print_int(abs(-42))
+        let mut i: Int = 0
+        while i < 5 {
+            print_int(i)
+            i = i + 1
+        }
+        return 0
+    }
+}` },
+          { name: "Fibonacci", file: "fibonacci.ko", hasError: false, code: `module fibonacci {
     meta { purpose: "Fibonacci sequence", version: "1.0.0" }
     fn fib(n: Int) -> Int
         requires { n >= 0 }
@@ -142,9 +179,68 @@ import '../styles/global.css';
         print_int(fib(10))
         return 0
     }
-}`,
-        "Contracts": `module contracts {
-    meta { purpose: "Contract verification demo", version: "1.0.0" }
+}` },
+        ]},
+        { category: "Type System", items: [
+          { name: "Structs & Enums", file: "structs.ko", hasError: false, code: `module shapes {
+    meta { purpose: "Structs and enums", version: "1.0.0" }
+    struct Point { x: Int, y: Int }
+    enum Color { Red, Green, Blue }
+    fn distance(ref p: Point) -> Int {
+        return p.x * p.x + p.y * p.y
+    }
+    fn main() -> Int {
+        let p: Point = Point { x: 3, y: 4 }
+        print_int(distance(p))
+        return 0
+    }
+}` },
+          { name: "Generics", file: "generics.ko", hasError: false, code: `module generics {
+    meta { purpose: "Generic functions", version: "1.0.0" }
+    fn identity(x: Int) -> Int {
+        return x
+    }
+    fn max(a: Int, b: Int) -> Int {
+        if a > b { return a }
+        return b
+    }
+    fn main() -> Int {
+        print_int(max(10, 20))
+        return 0
+    }
+}` },
+          { name: "Pattern Matching", file: "matching.ko", hasError: false, code: `module matching {
+    meta { purpose: "Pattern matching", version: "1.0.0" }
+    enum Shape { Circle(Int), Rectangle(Int, Int) }
+    fn area(ref s: Shape) -> Int {
+        match s {
+            Shape::Circle(r) => { return r * r * 3 }
+            Shape::Rectangle(w, h) => { return w * h }
+        }
+    }
+    fn main() -> Int {
+        let c: Shape = Shape::Circle(5)
+        let r: Shape = Shape::Rectangle(3, 4)
+        print_int(area(c))
+        print_int(area(r))
+        return 0
+    }
+}` },
+          { name: "Closures", file: "closures.ko", hasError: false, code: `module closures {
+    meta { purpose: "Closures and HOF", version: "1.0.0" }
+    fn apply(x: Int, f: (Int) -> Int) -> Int {
+        return f(x)
+    }
+    fn main() -> Int {
+        let doubled: Int = apply(21, |x: Int| -> Int { x * 2 })
+        print_int(doubled)
+        return 0
+    }
+}` },
+        ]},
+        { category: "Contracts & Safety", items: [
+          { name: "Preconditions", file: "contracts.ko", hasError: false, code: `module contracts {
+    meta { purpose: "Contract verification", version: "1.0.0" }
     fn safe_divide(a: Int, b: Int) -> Int
         requires { b != 0 }
         ensures { true }
@@ -156,32 +252,178 @@ import '../styles/global.css';
         print_int(result)
         return 0
     }
-}`,
-        "Type Error": `module type_error {
-    meta { purpose: "Demonstrate type errors", version: "1.0.0" }
+}` },
+          { name: "Agent Traceability", file: "traceability.ko", hasError: false, code: `module traceability {
+    meta { purpose: "Agent annotations", version: "1.0.0" }
+    @authored_by(agent: "claude", session: "demo")
+    @confidence(0.95)
+    fn compute(x: Int) -> Int
+        requires { x > 0 }
+    {
+        return x * x
+    }
+    fn main() -> Int {
+        print_int(compute(7))
+        return 0
+    }
+}` },
+          { name: "Ownership", file: "ownership.ko", hasError: false, code: `module ownership {
+    meta { purpose: "Ownership semantics", version: "1.0.0" }
+    struct Data { value: Int }
+    fn consume(own d: Data) -> Int {
+        return d.value
+    }
+    fn inspect(ref d: Data) -> Int {
+        return d.value
+    }
+    fn main() -> Int {
+        let d: Data = Data { value: 42 }
+        let v: Int = inspect(d)
+        print_int(v)
+        let final: Int = consume(d)
+        print_int(final)
+        return 0
+    }
+}` },
+        ]},
+        { category: "Collections", items: [
+          { name: "List Operations", file: "lists.ko", hasError: false, code: `module lists {
+    meta { purpose: "List operations", version: "1.0.0" }
+    fn main() -> Int {
+        let nums: List<Int> = list_new()
+        list_push(nums, 10)
+        list_push(nums, 20)
+        list_push(nums, 30)
+        let doubled: List<Int> = nums.map(|x: Int| -> Int { x * 2 })
+        let total: Int = doubled.fold(0, |acc: Int, x: Int| -> Int { acc + x })
+        print_int(total)
+        return 0
+    }
+}` },
+          { name: "Set Operations", file: "sets.ko", hasError: false, code: `module sets {
+    meta { purpose: "Set operations", version: "1.0.0" }
+    fn main() -> Int {
+        let a: Set<Int> = set_new()
+        a.add(1)
+        a.add(2)
+        a.add(3)
+        let b: Set<Int> = set_new()
+        b.add(2)
+        b.add(3)
+        b.add(4)
+        let u: Set<Int> = a.union(b)
+        print_int(u.length())
+        let i: Set<Int> = a.intersection(b)
+        print_int(i.length())
+        return 0
+    }
+}` },
+        ]},
+        { category: "Errors (intentional)", items: [
+          { name: "Type Mismatch", file: "type_error.ko", hasError: true, code: `module type_error {
+    meta { purpose: "Type mismatch demo", version: "1.0.0" }
     fn main() -> Int {
         let x: Int = "hello"
         return x
     }
-}`
-      };
+}` },
+          { name: "Undefined Variable", file: "undefined.ko", hasError: true, code: `module undefined_var {
+    meta { purpose: "Undefined variable", version: "1.0.0" }
+    fn main() -> Int {
+        return unknown_variable
+    }
+}` },
+          { name: "Missing Meta", file: "no_meta.ko", hasError: true, code: `module no_meta {
+    fn main() -> Int {
+        return 42
+    }
+}` },
+          { name: "Arity Mismatch", file: "arity.ko", hasError: true, code: `module arity {
+    meta { purpose: "Wrong number of args", version: "1.0.0" }
+    fn add(a: Int, b: Int) -> Int {
+        return a + b
+    }
+    fn main() -> Int {
+        let result: Int = add(1, 2, 3)
+        return result
+    }
+}` },
+          { name: "Use After Move", file: "moved.ko", hasError: true, code: `module moved {
+    meta { purpose: "Use after move", version: "1.0.0" }
+    struct Data { value: Int }
+    fn consume(own d: Data) -> Int {
+        return d.value
+    }
+    fn main() -> Int {
+        let d: Data = Data { value: 1 }
+        let a: Int = consume(d)
+        let b: Int = consume(d)
+        return a + b
+    }
+}` },
+        ]},
+      ];
 
-      const FILENAMES = {
-        "Hello World": "hello.ko",
-        "Fibonacci": "fibonacci.ko",
-        "Contracts": "contracts.ko",
-        "Type Error": "type_error.ko"
-      };
+      // Build flat lookup and filenames
+      const EXAMPLE_MAP = {};
+      const FILENAMES = {};
+      for (const cat of EXAMPLES) {
+        for (const item of cat.items) {
+          EXAMPLE_MAP[item.name] = item.code;
+          FILENAMES[item.name] = item.file;
+        }
+      }
 
       // ── DOM refs ──────────────────────────────────
       const editor = document.getElementById('editor');
       const diagResults = document.getElementById('diag-results');
       const diagLoading = document.getElementById('diag-loading');
       const wasmStatus = document.getElementById('wasm-status');
-      const exampleSelect = document.getElementById('example-select');
       const filenameLabel = document.getElementById('filename-label');
       const errorCountBadge = document.getElementById('error-count-badge');
       const errorCountText = document.getElementById('error-count-text');
+      const toggleBtn = document.getElementById('toggle-examples');
+      const sidebar = document.getElementById('examples-sidebar');
+      const examplesGrid = document.getElementById('examples-grid');
+
+      // ── Build examples grid ─────────────────────────
+      let selectedExample = "Hello World";
+      function buildExamplesGrid() {
+        let html = '';
+        for (const cat of EXAMPLES) {
+          html += `<div class="col-span-full mb-1 mt-2 first:mt-0"><span class="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#94a3b8]/50">${cat.category}</span></div>`;
+          for (const item of cat.items) {
+            const isActive = item.name === selectedExample;
+            const activeCls = isActive ? 'border-[#818cf8]/40 bg-[#818cf8]/10' : 'border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.04]';
+            const icon = item.hasError
+              ? '<span class="text-[#ef4444]">&#x2717;</span>'
+              : '<span class="text-[#22c55e]">&#x2713;</span>';
+            html += `<button data-example="${item.name}" class="example-btn flex items-center gap-2 rounded-lg border ${activeCls} px-3 py-2 text-left text-[12px] transition" style="font-family: var(--font-body);">
+              <span class="flex-shrink-0 text-[11px]">${icon}</span>
+              <span class="truncate text-[#f8fafc]">${item.name}</span>
+            </button>`;
+          }
+        }
+        examplesGrid.innerHTML = html;
+
+        // Attach click handlers
+        for (const btn of document.querySelectorAll('.example-btn')) {
+          btn.addEventListener('click', () => {
+            const name = btn.dataset.example;
+            selectedExample = name;
+            editor.value = EXAMPLE_MAP[name] || '';
+            filenameLabel.textContent = FILENAMES[name] || 'untitled.ko';
+            buildExamplesGrid();
+            runCheck();
+          });
+        }
+      }
+      buildExamplesGrid();
+
+      // ── Toggle examples sidebar ─────────────────────
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+      });
 
       let wasmReady = false;
       let debounceTimer = null;
@@ -211,15 +453,7 @@ import '../styles/global.css';
       });
 
       // ── Load initial example ──────────────────────
-      editor.value = EXAMPLES["Hello World"];
-
-      // ── Example selector ──────────────────────────
-      exampleSelect.addEventListener('change', () => {
-        const name = exampleSelect.value;
-        editor.value = EXAMPLES[name] || '';
-        filenameLabel.textContent = FILENAMES[name] || 'untitled.ko';
-        runCheck();
-      });
+      editor.value = EXAMPLE_MAP["Hello World"];
 
       // ── Editor input with debounce ────────────────
       editor.addEventListener('input', () => {
