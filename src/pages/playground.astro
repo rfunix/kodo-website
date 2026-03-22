@@ -127,8 +127,13 @@ import '../styles/global.css';
       </footer>
     </div>
 
-    <script type="module">
-      import init, { check } from '/wasm/kodo_playground.js';
+    <script>
+      // CodeMirror imports (bundled by Astro/Vite)
+      import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightSpecialChars } from '@codemirror/view';
+      import { EditorState } from '@codemirror/state';
+      import { defaultKeymap, indentWithTab } from '@codemirror/commands';
+      import { HighlightStyle, syntaxHighlighting, StreamLanguage } from '@codemirror/language';
+      import { tags } from '@lezer/highlight';
 
       // ── Examples organized by category ──────────
       const EXAMPLES = [
@@ -378,13 +383,6 @@ import '../styles/global.css';
         }
       }
 
-      // ── CodeMirror imports ─────────────────────────
-      import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightSpecialChars } from '@codemirror/view';
-      import { EditorState } from '@codemirror/state';
-      import { defaultKeymap, indentWithTab } from '@codemirror/commands';
-      import { HighlightStyle, syntaxHighlighting, StreamLanguage } from '@codemirror/language';
-      import { tags } from '@lezer/highlight';
-
       // ── Kōdo language definition for CodeMirror ───
       const kodoLanguage = StreamLanguage.define({
         startState: () => ({ inString: false, inComment: false }),
@@ -509,11 +507,12 @@ import '../styles/global.css';
       });
 
       let wasmReady = false;
+      let wasmCheck = null;
       let debounceTimer = null;
 
       // ── Initialize WASM ───────────────────────────
-      init().then(() => {
-        wasmReady = true;
+      // Use globalThis to receive WASM from the inline script below
+      (async () => { while (!globalThis.__kodoWasm) await new Promise(r => setTimeout(r, 50)); wasmCheck = globalThis.__kodoWasm.check; wasmReady = true;
         wasmStatus.innerHTML = `
           <div class="h-2 w-2 rounded-full bg-[#22c55e]"></div>
           <span class="text-[11px] text-[#94a3b8]">Ready</span>
@@ -556,7 +555,7 @@ import '../styles/global.css';
 
         let result;
         try {
-          const raw = check(source);
+          const raw = wasmCheck(source);
           result = JSON.parse(raw);
         } catch (err) {
           diagResults.innerHTML = renderError('Check failed', err.message || String(err));
@@ -699,6 +698,14 @@ import '../styles/global.css';
       }
 
       // Syntax highlighting is handled by CodeMirror with the kodoLanguage definition.
+    </script>
+    <script is:inline type="module">
+      import init, { check } from '/wasm/kodo_playground.js';
+      init().then(() => {
+        globalThis.__kodoWasm = { check };
+      }).catch(err => {
+        console.error('WASM load failed:', err);
+      });
     </script>
   </body>
 </html>
