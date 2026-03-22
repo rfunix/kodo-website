@@ -511,17 +511,25 @@ import '../styles/global.css';
       let debounceTimer = null;
 
       // ── Initialize WASM ───────────────────────────
-      // Use globalThis to receive WASM from the inline script below
-      (async () => { while (!globalThis.__kodoWasm) await new Promise(r => setTimeout(r, 50)); wasmCheck = globalThis.__kodoWasm.check; wasmReady = true;
+      // Poll for WASM module loaded by the inline script below
+      async function initWasm() {
+        // Wait for the inline script to load and set globalThis.__kodoWasm
+        for (let i = 0; i < 200; i++) {
+          if (globalThis.__kodoWasm) break;
+          await new Promise(r => setTimeout(r, 50));
+        }
+        if (!globalThis.__kodoWasm) throw new Error('WASM module did not load within 10s');
+        wasmCheck = globalThis.__kodoWasm.check;
+        wasmReady = true;
         wasmStatus.innerHTML = `
           <div class="h-2 w-2 rounded-full bg-[#22c55e]"></div>
           <span class="text-[11px] text-[#94a3b8]">Ready</span>
         `;
         diagLoading.classList.add('hidden');
         diagResults.classList.remove('hidden');
-        // Run initial check
         runCheck();
-      }).catch((err) => {
+      }
+      initWasm().catch((err) => {
         wasmStatus.innerHTML = `
           <div class="h-2 w-2 rounded-full bg-[#ef4444]"></div>
           <span class="text-[11px] text-[#ef4444]">Failed to load</span>
