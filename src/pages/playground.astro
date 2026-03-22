@@ -295,6 +295,110 @@ import '../styles/global.css';
     }
 }` },
         ]},
+        { category: "Functions & Data", items: [
+          { name: "String Interpolation", file: "strings.ko", hasError: false, code: `module strings {
+    meta { purpose: "F-strings and string ops", version: "1.0.0" }
+    fn greet(ref name: String) -> String {
+        return f"Hello, {name}!"
+    }
+    fn main() -> Int {
+        let msg: String = greet("Kōdo")
+        println(msg)
+        let n: Int = 42
+        println(f"The answer is {n}")
+        return 0
+    }
+}` },
+          { name: "Option & Result", file: "option.ko", hasError: false, code: `module error_handling {
+    meta { purpose: "Option and Result types", version: "1.0.0" }
+    fn safe_get(idx: Int) -> Option<Int> {
+        if idx >= 0 {
+            return Option::Some(idx * 10)
+        }
+        return Option::None
+    }
+    fn main() -> Int {
+        let val: Option<Int> = safe_get(3)
+        match val {
+            Option::Some(x) => { print_int(x) }
+            Option::None => { println("not found") }
+        }
+        return 0
+    }
+}` },
+          { name: "Methods (impl)", file: "methods.ko", hasError: false, code: `module shapes {
+    meta { purpose: "Inherent methods", version: "1.0.0" }
+    struct Circle { radius: Int }
+    struct Rect { w: Int, h: Int }
+    impl Circle {
+        fn area(self) -> Int {
+            return self.radius * self.radius * 3
+        }
+    }
+    impl Rect {
+        fn area(self) -> Int {
+            return self.w * self.h
+        }
+    }
+    fn main() -> Int {
+        let c: Circle = Circle { radius: 5 }
+        let r: Rect = Rect { w: 3, h: 4 }
+        print_int(c.area())
+        print_int(r.area())
+        return 0
+    }
+}` },
+          { name: "For-in Loops", file: "for_in.ko", hasError: false, code: `module iteration {
+    meta { purpose: "For-in iteration", version: "1.0.0" }
+    fn main() -> Int {
+        let nums: List<Int> = list_new()
+        list_push(nums, 10)
+        list_push(nums, 20)
+        list_push(nums, 30)
+        let mut total: Int = 0
+        for x in nums {
+            total = total + x
+        }
+        print_int(total)
+        let evens: List<Int> = nums.filter(|x: Int| -> Bool { x > 15 })
+        print_int(evens.length())
+        return 0
+    }
+}` },
+        ]},
+        { category: "Testing", items: [
+          { name: "Built-in Tests", file: "testing.ko", hasError: false, code: `module math_tests {
+    meta { purpose: "Built-in test framework", version: "1.0.0" }
+
+    fn add(a: Int, b: Int) -> Int
+        requires { a >= 0 }
+        requires { b >= 0 }
+    {
+        return a + b
+    }
+
+    fn multiply(a: Int, b: Int) -> Int {
+        return a * b
+    }
+
+    test "add returns correct sum" {
+        assert(add(2, 3) == 5)
+    }
+
+    test "add with zero" {
+        assert(add(0, 42) == 42)
+    }
+
+    test "multiply basics" {
+        assert(multiply(3, 4) == 12)
+        assert(multiply(0, 100) == 0)
+    }
+
+    fn main() -> Int {
+        return 0
+    }
+}` },
+        ]},
         { category: "Collections", items: [
           { name: "List Operations", file: "lists.ko", hasError: false, code: `module lists {
     meta { purpose: "List operations", version: "1.0.0" }
