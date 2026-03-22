@@ -99,7 +99,7 @@ Kōdo is young. Here's what it does **not** do yet:
 
 - **No safety certification** — not suitable for DO-178C or similar regulatory contexts
 - **Concurrency is sequential in v1** — `spawn`/`async` compile but run on a single thread
-- **Ecosystem is small** — no package manager, limited third-party libraries
+- **Ecosystem is small** — built-in package manager (`kodoc init`, `kodoc add`, `kodoc remove`, `kodoc update`) with `kodo.toml` manifest, but limited third-party libraries
 - **Z3 verification is partial** — complex contracts may fall back to runtime checks
 - **String handling is byte-based** — not fully Unicode-aware yet
 
