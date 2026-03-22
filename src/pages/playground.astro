@@ -336,7 +336,7 @@ import '../styles/global.css';
     }
 
     @authored_by(agent: "claude", session: "s-2026-03")
-    @confidence(0.98)
+    @confidence(0.95)
     fn validate_input(x: Int) -> Bool
         requires { x >= 0 }
     {
@@ -344,7 +344,7 @@ import '../styles/global.css';
     }
 
     @authored_by(agent: "claude", session: "s-2026-03")
-    @confidence(0.75)
+    @confidence(0.85)
     fn process(x: Int) -> Int
         requires { x >= 0 }
         ensures { true }
@@ -352,7 +352,7 @@ import '../styles/global.css';
         return x * 2 + 1
     }
 
-    // Effective confidence of main is min(0.98, 0.75) = 0.75
+    // Effective confidence of main is min(0.95, 0.85) = 0.85
     // because it calls both functions
     fn main() -> Int {
         let input: Int = 42
