@@ -9,11 +9,24 @@ The Kōdo Language Server (`kodoc lsp`) brings real-time feedback directly into 
 
 ## VSCode Setup
 
-There is no VSCode extension on the marketplace yet. You can connect to the Kōdo LSP manually using a generic LSP client extension.
+### Option A: Install the Extension (Recommended)
 
-### Installation
+Download the `.vsix` file from the [latest release](https://github.com/rfunix/kodo/releases) and install it:
 
-1. **Install the Kōdo compiler** — follow the [Installation guide](/docs/getting-started/) to build or install `kodoc`.
+```bash
+# Download from GitHub releases
+code --install-extension kodo-lang-1.5.1.vsix
+```
+
+The extension provides:
+- Syntax highlighting (keywords, types, contracts, annotations)
+- LSP integration (diagnostics, hover, completions, go-to-definition)
+- Contract-aware hover (shows `requires`/`ensures` clauses)
+- Code actions from FixPatch
+
+### Option B: Manual Setup
+
+1. **Install the Kōdo compiler** — follow the [Installation guide](/docs/getting-started/).
 
 2. **Ensure `kodoc` is in your PATH**:
 
@@ -21,11 +34,14 @@ There is no VSCode extension on the marketplace yet. You can connect to the Kōd
    kodoc --version
    ```
 
-3. **Install a generic LSP client** — for example, [vscode-languageclient](https://marketplace.visualstudio.com/items?itemName=APerezGarcia.vscode-generic-lsp-client) or any extension that lets you configure a custom language server.
+3. **Open a `.ko` file** — the extension automatically starts the language server.
 
-4. **Configure the LSP server** — point it to `kodoc lsp` as the command. Associate `.ko` files with the server.
+### Settings
 
-5. **Open a `.ko` file** — you should see diagnostics, hover information, and completions.
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `kodo.serverPath` | `kodoc` | Path to the kodoc binary |
+| `kodo.trace.server` | `off` | Trace LSP communication |
 
 ### What You Get
 
