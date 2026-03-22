@@ -1,3 +1,7 @@
+---
+title: Standard Library Reference
+---
+
 # Standard Library Reference
 
 This is the complete reference for all built-in functions and methods available in every Kōdo program without explicit imports.

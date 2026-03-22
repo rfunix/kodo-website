@@ -4,6 +4,10 @@
 
 Kōdo compiles to native code via Cranelift using a hand-written LL(1) recursive descent parser. Current version: v1.3.1 with 2600+ tests, 140+ working examples, green threads with M:N work-stealing scheduler, LLVM backend, package manager, built-in testing framework with property-based testing, self-hosted lexer and parser (Kōdo can parse itself), and full collections support. The compiler toolchain includes an MCP server for AI agent integration and structured JSON error output for closed-loop repair.
 
+## Interactive
+
+- [Playground](/playground/): Try Kōdo in the browser — write code, see diagnostics instantly via WASM. No install required.
+
 ## Docs — Getting Started
 
 - [Getting Started](/docs/getting-started/): Installation, first program, and running the compiler
