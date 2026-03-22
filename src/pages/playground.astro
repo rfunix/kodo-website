@@ -328,46 +328,156 @@ import '../styles/global.css';
     }
 }` },
         ]},
-        { category: "Errors (intentional)", items: [
-          { name: "Type Mismatch", file: "type_error.ko", hasError: true, code: `module type_error {
-    meta { purpose: "Type mismatch demo", version: "1.0.0" }
+        { category: "AI Agent Features", items: [
+          { name: "Confidence Tracking", file: "confidence.ko", hasError: false, code: `module ai_pipeline {
+    meta {
+        purpose: "AI agent confidence tracking"
+        version: "1.0.0"
+    }
+
+    @authored_by(agent: "claude", session: "s-2026-03")
+    @confidence(0.98)
+    fn validate_input(x: Int) -> Bool
+        requires { x >= 0 }
+    {
+        return x < 1000
+    }
+
+    @authored_by(agent: "claude", session: "s-2026-03")
+    @confidence(0.75)
+    fn process(x: Int) -> Int
+        requires { x >= 0 }
+        ensures { true }
+    {
+        return x * 2 + 1
+    }
+
+    // Effective confidence of main is min(0.98, 0.75) = 0.75
+    // because it calls both functions
     fn main() -> Int {
-        let x: Int = "hello"
-        return x
+        let input: Int = 42
+        if validate_input(input) {
+            print_int(process(input))
+        }
+        return 0
     }
 }` },
-          { name: "Undefined Variable", file: "undefined.ko", hasError: true, code: `module undefined_var {
-    meta { purpose: "Undefined variable", version: "1.0.0" }
+          { name: "Low Confidence (error)", file: "low_conf.ko", hasError: true, code: `module low_confidence {
+    meta {
+        purpose: "Low confidence without review"
+        version: "1.0.0"
+    }
+
+    // ERROR: confidence < 0.8 requires @reviewed_by
+    @authored_by(agent: "gpt-4")
+    @confidence(0.5)
+    fn risky_function(x: Int) -> Int {
+        return x * x
+    }
+
     fn main() -> Int {
-        return unknown_variable
+        return risky_function(5)
     }
 }` },
-          { name: "Missing Meta", file: "no_meta.ko", hasError: true, code: `module no_meta {
+          { name: "Security Sensitive (error)", file: "security.ko", hasError: true, code: `module security {
+    meta {
+        purpose: "Security-sensitive without contracts"
+        version: "1.0.0"
+    }
+
+    // ERROR: @security_sensitive requires contracts
+    @security_sensitive
+    fn handle_payment(amount: Int) -> Int {
+        return amount
+    }
+
+    fn main() -> Int {
+        return handle_payment(100)
+    }
+}` },
+          { name: "Self-Describing Module", file: "self_desc.ko", hasError: false, code: `module data_processor {
+    meta {
+        purpose: "Transform and validate data records"
+        version: "2.1.0"
+        author: "engineering-team"
+    }
+
+    @authored_by(agent: "claude", session: "sprint-42")
+    @confidence(0.92)
+    fn transform(raw: Int) -> Int
+        requires { raw > 0 }
+        ensures { true }
+    {
+        return raw * 10
+    }
+
+    @authored_by(agent: "claude", session: "sprint-42")
+    @confidence(0.95)
+    @reviewed_by(human: "rafael")
+    fn validate(value: Int) -> Bool
+        requires { value >= 0 }
+    {
+        return value < 10000
+    }
+
+    fn main() -> Int {
+        let raw: Int = 42
+        let processed: Int = transform(raw)
+        if validate(processed) {
+            print_int(processed)
+        }
+        return 0
+    }
+}` },
+          { name: "Missing Meta (error)", file: "no_meta.ko", hasError: true, code: `module forgot_meta {
+    // ERROR: every module MUST have a meta block
+    // This is how Kōdo enforces self-describing code
     fn main() -> Int {
         return 42
     }
 }` },
-          { name: "Arity Mismatch", file: "arity.ko", hasError: true, code: `module arity {
-    meta { purpose: "Wrong number of args", version: "1.0.0" }
-    fn add(a: Int, b: Int) -> Int {
-        return a + b
-    }
+        ]},
+        { category: "Common Errors", items: [
+          { name: "Type Mismatch", file: "type_error.ko", hasError: true, code: `module type_error {
+    meta { purpose: "Type mismatch", version: "1.0.0" }
     fn main() -> Int {
-        let result: Int = add(1, 2, 3)
-        return result
+        // ERROR: String assigned to Int variable
+        let x: Int = "hello"
+        return x
     }
 }` },
           { name: "Use After Move", file: "moved.ko", hasError: true, code: `module moved {
     meta { purpose: "Use after move", version: "1.0.0" }
     struct Data { value: Int }
+
     fn consume(own d: Data) -> Int {
         return d.value
     }
+
     fn main() -> Int {
         let d: Data = Data { value: 1 }
         let a: Int = consume(d)
+        // ERROR: d was moved into consume()
         let b: Int = consume(d)
         return a + b
+    }
+}` },
+          { name: "Arity Mismatch", file: "arity.ko", hasError: true, code: `module arity {
+    meta { purpose: "Wrong argument count", version: "1.0.0" }
+    fn add(a: Int, b: Int) -> Int {
+        return a + b
+    }
+    fn main() -> Int {
+        // ERROR: add expects 2 args, got 3
+        let result: Int = add(1, 2, 3)
+        return result
+    }
+}` },
+          { name: "Undefined Variable", file: "undefined.ko", hasError: true, code: `module undefined_var {
+    meta { purpose: "Undefined variable", version: "1.0.0" }
+    fn main() -> Int {
+        // ERROR: unknown_variable not declared
+        return unknown_variable
     }
 }` },
         ]},
