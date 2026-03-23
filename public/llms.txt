@@ -2,7 +2,7 @@
 
 > Kōdo (コード) is a compiled, general-purpose programming language designed for AI agents to write, reason about, and maintain software — while remaining fully transparent and auditable by humans. It features Z3-verified contracts, linear ownership, agent traceability annotations, and compilation certificates.
 
-Kōdo compiles to native code via Cranelift using a hand-written LL(1) recursive descent parser. Current version: v1.6.0 with 2600+ tests, 140+ working examples, green threads with M:N work-stealing scheduler, LLVM backend, package manager, built-in testing framework with property-based testing, self-hosted lexer and parser (Kōdo can parse itself), and full collections support. The compiler toolchain includes an MCP server for AI agent integration and structured JSON error output for closed-loop repair.
+Kōdo compiles to native code via Cranelift and Inkwell (LLVM) using a hand-written LL(1) recursive descent parser. Current version: v1.7.0 with 2500+ tests, 142 working examples, green threads with M:N work-stealing scheduler, dual backends (Cranelift + LLVM/Inkwell), package manager, built-in testing framework with property-based testing, self-hosted lexer and parser (Kōdo can parse itself), and full collections support. Kōdo Inkwell is faster than Rust on recursive workloads (fib(35): 0.029s vs 0.04s). The compiler toolchain includes an MCP server for AI agent integration and structured JSON error output for closed-loop repair.
 
 ## Interactive
 
@@ -19,6 +19,7 @@ Kōdo compiles to native code via Cranelift using a hand-written LL(1) recursive
 - [Data Types](/docs/guide/data-types/): Primitives (Int, Float64, Bool, String), List, Map, Option, Result, enums, structs
 - [Error Handling](/docs/guide/error-handling/): Result types, match expressions, propagation — no exceptions
 - [Pattern Matching](/docs/guide/pattern-matching/): Match expressions, enum destructuring, exhaustiveness checking
+- [Collections](/docs/guide/collections/): List, Map, Set, and JSON — core methods, higher-order operations, for-in iteration
 - [String Interpolation](/docs/guide/string-interpolation/): Template strings with embedded expressions
 - [Modules & Imports](/docs/guide/modules-and-imports/): Module system, meta blocks, visibility, imports
 - [Methods](/docs/guide/methods/): Method definitions on structs and enums
