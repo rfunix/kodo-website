@@ -62,7 +62,8 @@ Inkwell consistently outperforms Cranelift thanks to LLVM's more aggressive
 optimization passes, including better register allocation, loop optimization,
 and function inlining.
 
-All 25 standard examples compile and run correctly on both backends.
+123 of 142 examples compile and run correctly with the Inkwell backend.
+All 142 examples work with the default Cranelift backend.
 
 **Build**: `cargo build -p kodoc --features llvm`
 **Use**: `kodoc build file.ko --backend=inkwell`
