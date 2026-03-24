@@ -149,7 +149,24 @@ The Kōdo LSP server communicates over stdin/stdout using the standard Language 
 
 ### Neovim
 
-Using [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), add a custom server configuration:
+Kōdo provides a Vim plugin (`editors/neovim/`) with syntax highlighting, indentation, and filetype detection, plus a tree-sitter grammar (`editors/tree-sitter-kodo/`) for advanced highlighting.
+
+#### Neovim 0.11+ (Native LSP)
+
+The simplest setup — no plugins required beyond filetype detection:
+
+```lua
+vim.filetype.add({ extension = { ko = 'kodo' } })
+
+vim.lsp.config.kodo = {
+  cmd = { 'kodoc', 'lsp' },
+  filetypes = { 'kodo' },
+  root_markers = { '.git' },
+}
+vim.lsp.enable('kodo')
+```
+
+#### nvim-lspconfig
 
 ```lua
 local lspconfig = require('lspconfig')
@@ -160,8 +177,7 @@ if not configs.kodo then
     default_config = {
       cmd = { 'kodoc', 'lsp' },
       filetypes = { 'kodo' },
-      root_dir = lspconfig.util.find_git_ancestor,
-      settings = {},
+      root_dir = lspconfig.util.root_pattern('.git', '.'),
     },
   }
 end
@@ -169,15 +185,71 @@ end
 lspconfig.kodo.setup({})
 ```
 
-You may also want to associate `.ko` files with the `kodo` filetype:
+You also need to associate `.ko` files with the `kodo` filetype:
 
 ```lua
-vim.filetype.add({
-  extension = {
-    ko = 'kodo',
-  },
-})
+vim.filetype.add({ extension = { ko = 'kodo' } })
 ```
+
+#### LazyVim
+
+LazyVim manages LSP servers through Mason. Since Kōdo is not in the Mason registry, you need to call `setup()` directly. Create `lua/plugins/kodo.lua`:
+
+```lua
+return {
+  {
+    "LazyVim/LazyVim",
+    init = function()
+      vim.filetype.add({ extension = { ko = "kodo" } })
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
+    opts = function(_, opts)
+      local lspconfig = require("lspconfig")
+      local configs = require("lspconfig.configs")
+
+      if not configs.kodo then
+        configs.kodo = {
+          default_config = {
+            cmd = { "kodoc", "lsp" },
+            filetypes = { "kodo" },
+            root_dir = lspconfig.util.root_pattern(".git", "."),
+          },
+        }
+      end
+
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        vim.lsp.protocol.make_client_capabilities(),
+        require("blink.cmp").get_lsp_capabilities()
+      )
+      lspconfig.kodo.setup({ capabilities = capabilities })
+    end,
+  },
+}
+```
+
+> If your LazyVim uses `nvim-cmp` instead of `blink.cmp`, replace the capabilities line with `require("cmp_nvim_lsp").default_capabilities()`.
+
+#### Tree-sitter (Optional)
+
+For advanced syntax highlighting, add the Kōdo tree-sitter grammar to nvim-treesitter:
+
+```lua
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.kodo = {
+  install_info = {
+    url = "https://github.com/kodo-lang/tree-sitter-kodo",
+    files = { "src/parser.c" },
+    branch = "main",
+  },
+  filetype = "kodo",
+}
+```
+
+Then run `:TSInstall kodo`.
 
 ### Helix
 
