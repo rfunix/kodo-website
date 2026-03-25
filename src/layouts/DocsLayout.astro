@@ -222,7 +222,7 @@ if (!currentSection) {
   <body class="bg-[#0a0a0c] text-[#f8fafc] antialiased" style="font-family: var(--font-body)">
     <!-- Top Nav -->
     <header class="fixed top-0 z-50 w-full border-b border-white/[0.06] bg-[#0a0a0c]/80 backdrop-blur-xl">
-      <nav class="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-4 sm:px-6">
+      <nav class="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6 2xl:px-8">
         <div class="flex items-center gap-4 sm:gap-8">
           <!-- Mobile sidebar toggle -->
           <button id="sidebar-toggle" class="flex h-9 w-9 items-center justify-center rounded-lg text-[#94a3b8] transition hover:bg-white/[0.05] hover:text-white lg:hidden" aria-label="Toggle navigation">
@@ -247,7 +247,7 @@ Kōdo
     <!-- Mobile sidebar backdrop -->
     <div id="sidebar-backdrop" class="fixed inset-0 z-40 hidden bg-black/60 backdrop-blur-sm lg:hidden"></div>
 
-    <div class="mx-auto flex max-w-[1440px] pt-14">
+    <div class="mx-auto flex max-w-[1600px] pt-14">
       <!-- Sidebar -->
       <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 hidden h-full w-72 -translate-x-full overflow-y-auto border-r border-white/[0.04] bg-[#050507] p-6 pt-20 transition-transform duration-300 ease-in-out lg:sticky lg:top-14 lg:z-auto lg:block lg:h-[calc(100vh-3.5rem)] lg:w-64 lg:translate-x-0 lg:pt-6">
         <!-- Search -->
@@ -369,7 +369,7 @@ Kōdo
           </nav>
         )}
 
-        <article class="docs-content max-w-3xl">
+        <article class="docs-content max-w-4xl">
           <slot />
         </article>
 
