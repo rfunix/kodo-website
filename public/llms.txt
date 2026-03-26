@@ -32,6 +32,7 @@ Kōdo compiles to native code via Cranelift and Inkwell (LLVM) using a hand-writ
 - [Closures](/docs/guide/closures/): First-class functions and closure expressions
 - [Iterators](/docs/guide/iterators/): Iterator protocol and lazy evaluation
 - [Contracts](/docs/guide/contracts/): requires/ensures blocks verified by Z3 SMT solver
+- [Refinement Types](/docs/guide/refinement-types/): Type constraints with requires, Z3 verification, domain modeling
 - [Functional Programming](/docs/guide/functional/): Functional patterns, composition, and higher-order functions
 
 ## Docs — Agent Features
