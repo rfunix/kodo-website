@@ -222,6 +222,7 @@ const next = navIndex < navOrder.length - 1 && navIndex >= 0 ? { label: navOrder
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.8125rem;
     line-height: 1.7;
+    overflow-x: auto;
   }
 
   .docs-prose .expressive-code pre code {
@@ -318,5 +319,24 @@ const next = navIndex < navOrder.length - 1 && navIndex >= 0 ? { label: navOrder
     border: none;
     border-top: 1px solid rgba(148, 163, 184, 0.06);
     margin: 2rem 0;
+  }
+
+  /* Mobile typography scaling */
+  @media (max-width: 640px) {
+    .docs-prose h2 {
+      font-size: 1.375rem;
+      margin-top: 2rem;
+    }
+    .docs-prose h3 {
+      font-size: 1.125rem;
+    }
+    .docs-prose p,
+    .docs-prose li {
+      font-size: 0.875rem;
+    }
+    .docs-prose .expressive-code pre {
+      font-size: 0.75rem;
+      padding: 1rem !important;
+    }
   }
 </style>
