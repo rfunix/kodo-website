@@ -1,3 +1,9 @@
+---
+title: "CLI Reference"
+sidebar:
+  order: 25
+---
+
 # CLI Reference
 
 `kodoc` is the Kōdo compiler. It compiles `.ko` source files to native executables and provides tools for inspecting the compilation pipeline.
