@@ -1,9 +1,3 @@
----
-title: "CLI Reference"
-sidebar:
-  order: 22
----
-
 # CLI Reference
 
 `kodoc` is the Kōdo compiler. It compiles `.ko` source files to native executables and provides tools for inspecting the compilation pipeline.
@@ -188,7 +182,7 @@ kodoc describe ./hello --json
 
 ### `kodoc test`
 
-Run tests defined in a Kōdo source file. See [Testing](../testing) for details on writing tests.
+Run tests defined in a Kōdo source file. See [Testing](testing.md) for details on writing tests.
 
 ```bash
 kodoc test <file> [options]
@@ -249,6 +243,44 @@ kodoc fmt <file>
 ```bash
 kodoc fmt my_program.ko
 # Output: Formatted output of my_program.ko
+```
+
+### `kodoc annotate`
+
+Suggest missing contracts for functions using heuristic-based static analysis. Analyzes function bodies to infer `requires`/`ensures` clauses, then validates suggestions.
+
+```bash
+kodoc annotate <file> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--json` | Output as JSON (for AI agent consumption) | `false` |
+| `--apply` | Apply suggested contracts to the source file (future) | `false` |
+
+**Heuristics (v1):**
+
+| Pattern | Suggestion |
+|---------|-----------|
+| Division/modulo by parameter | `requires { param != 0 }` |
+| List index by parameter | `requires { param >= 0 }` |
+| Parameter compared with 0 in guard | `requires { param > 0 }` |
+| Direct return of parameter | `ensures { result == param }` |
+
+**Examples:**
+
+```bash
+kodoc annotate payment.ko
+# Output:
+# payment.ko:5: fn process_payment()
+#   + requires { amount > 0 }    [verified: body checks `amount > 0`]
+#
+# 1 contract(s) suggested, 1 verified.
+
+kodoc annotate payment.ko --json
+# Output: JSON with suggestions array, verified_count, total_count
 ```
 
 ### `kodoc confidence-report`
@@ -357,6 +389,23 @@ A dedicated VSCode extension is available that connects to the Kōdo LSP server.
 - One-click installation from the VS Code marketplace
 
 To use it, install the extension and ensure `kodoc` is in your PATH. The extension automatically starts the LSP server when you open a `.ko` file.
+
+### Neovim
+
+Neovim support is provided through the `editors/neovim/` plugin (syntax, indent, ftdetect) and LSP via `kodoc lsp`.
+
+**Quick setup (Neovim 0.11+):**
+
+```lua
+vim.lsp.config.kodo = {
+  cmd = { 'kodoc', 'lsp' },
+  filetypes = { 'kodo' },
+  root_markers = { '.git' },
+}
+vim.lsp.enable('kodo')
+```
+
+For detailed instructions (nvim-lspconfig, LazyVim, tree-sitter), see [`editors/neovim/README.md`](../../editors/neovim/README.md).
 
 ### `kodoc audit`
 
