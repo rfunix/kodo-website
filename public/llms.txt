@@ -10,6 +10,7 @@ Kōdo compiles to native code via Cranelift and Inkwell (LLVM) using a hand-writ
 
 ## Docs — Getting Started
 
+- [Why Kōdo?](/docs/why-kodo/): Why a programming language designed for AI agents — contracts, ownership, traceability
 - [Getting Started](/docs/getting-started/): Installation, first program, and running the compiler
 - [A Tour of Kōdo](/docs/tour/): Complete language overview covering all major features
 
