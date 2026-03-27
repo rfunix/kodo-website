@@ -147,13 +147,34 @@ At each yield point, the runtime checks if the current green thread should yield
 ## Known Limitations
 
 - **Async execution**: In v1, `async fn` calls execute synchronously and return their result directly. The runtime infrastructure for true futures exists but is not yet wired end-to-end.
-- **No `select`**: Cannot wait on multiple channels simultaneously (planned for v2).
 - **Fixed stack size**: Each green thread gets 64KB. Deep recursion may overflow.
 - **No preemption**: A green thread in a tight loop without yield points (e.g., inline assembly) will not yield. Use `--no-green-threads` if this is a problem.
+
+## Channel Select
+
+Wait on multiple channels simultaneously with `select`:
+
+```rust
+let ch1: Channel<Int> = channel_new()
+let ch2: Channel<Int> = channel_new()
+
+spawn { channel_send(ch2, 42) }
+
+select {
+    ch1 => |val: Int| {
+        print_int(val)
+    }
+    ch2 => |val: Int| {
+        print_int(val)
+    }
+}
+```
+
+The runtime polls each channel using `channel_select_N()` and executes the arm for the first channel with data available. Supports 2-3 channels.
 
 ## Examples
 
 - [`examples/green_threads.ko`](https://github.com/rfunix/kodo/blob/main/examples/green_threads.ko) — basic spawn with green threads
 - [`examples/async_await.ko`](https://github.com/rfunix/kodo/blob/main/examples/async_await.ko) — async/await demonstration
 - [`examples/parallel_demo.ko`](https://github.com/rfunix/kodo/blob/main/examples/parallel_demo.ko) — parallel blocks with OS threads
-- [`examples/channel_demo.ko`](https://github.com/rfunix/kodo/blob/main/examples/channel_demo.ko) — channel communication
+- [`examples/channel_select.ko`](https://github.com/rfunix/kodo/blob/main/examples/channel_select.ko) — channel select multiplexing
