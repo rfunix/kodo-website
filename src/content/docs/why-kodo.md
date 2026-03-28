@@ -76,15 +76,16 @@ Agents don't guess fixes — they apply patches. This closes the error→fix→r
 
 ### Contract inference with `kodoc annotate`
 
-Don't write contracts manually — let the compiler suggest them:
+Don't write contracts manually — let the compiler suggest them. Use `--ai` for LLM-assisted inference beyond heuristics:
 
 ```bash
-$ kodoc annotate payment.ko
+$ kodoc annotate payment.ko --ai
 payment.ko:5: fn process_payment()
   + requires { amount > 0 }    [verified: body checks `amount > 0`]
   + requires { divisor != 0 }  [verified: parameter used as divisor]
+  + ensures { result >= 0 }    [AI: return value is always non-negative]
 
-2 contracts suggested, 2 verified.
+3 contracts suggested, 3 verified.
 ```
 
 ## What makes Kōdo different
@@ -95,7 +96,7 @@ payment.ko:5: fn process_payment()
 | Ownership (no GC) | ✅ own/ref/mut | ✅ | ❌ | ❌ |
 | Agent traceability | ✅ @authored_by | ❌ | ❌ | ❌ |
 | Machine-readable errors | ✅ JSON + patches | Partial | ❌ | Partial |
-| Contract inference | ✅ kodoc annotate | ❌ | ❌ | ❌ |
+| Contract inference | ✅ kodoc annotate --ai | ❌ | ❌ | ❌ |
 | SARIF diagnostics | ✅ | ❌ | ❌ | ❌ |
 
 ## Who is Kōdo for?
@@ -117,7 +118,7 @@ kodoc build src/main.ko
 ./my-project
 
 # Let the compiler suggest contracts
-kodoc annotate src/main.ko
+kodoc annotate --ai src/main.ko
 ```
 
 [Get Started →](/docs/getting-started/)
