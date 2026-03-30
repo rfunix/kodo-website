@@ -1102,6 +1102,79 @@ let r: Result<Int, String> = Result::Err("oops")
 let val: Int = r.unwrap_or(0)  // 0
 ```
 
+## Regex
+
+These built-in functions provide regular expression support using the [regex](https://docs.rs/regex) crate syntax (RE2-compatible — no backtracking, no lookahead/lookbehind).
+
+### `regex_match(pattern: String, text: String) -> Bool`
+
+Returns `true` if `pattern` matches anywhere in `text`.
+
+```kodo
+let matched: Bool = regex_match("\\d+", "abc123")
+// matched == true
+
+let no_match: Bool = regex_match("\\d+", "abcdef")
+// no_match == false
+```
+
+Use anchors to match the full string:
+
+```kodo
+let full: Bool = regex_match("^\\d+$", "12345")
+// full == true
+```
+
+### `regex_find(pattern: String, text: String) -> Option<String>`
+
+Returns the first match as `Option::Some(matched_string)`, or `Option::None` if no match is found.
+
+```kodo
+let found: Option<String> = regex_find("\\w+", "hello world")
+if found.is_some() {
+    let word: String = found.unwrap()
+    println(word)  // "hello"
+}
+
+let missing: Option<String> = regex_find("\\d+", "no digits here")
+if missing.is_none() {
+    println("none found")
+}
+```
+
+### `regex_replace(pattern: String, text: String, replacement: String) -> String`
+
+Replaces all non-overlapping matches of `pattern` in `text` with `replacement`. Returns the resulting string.
+
+```kodo
+let result: String = regex_replace("o", "hello world", "0")
+println(result)  // "hell0 w0rld"
+
+let cleaned: String = regex_replace("\\s+", "  too   many   spaces  ", " ")
+println(cleaned)  // " too many spaces "
+```
+
+**Note**: The argument order is `(pattern, text, replacement)` — pattern first, then the text to search, then the replacement string.
+
+### Pattern Syntax
+
+Kōdo uses RE2-compatible syntax. Common patterns:
+
+| Pattern | Matches |
+|---------|---------|
+| `\\d` | Digit (0–9) |
+| `\\w` | Word character (a-z, A-Z, 0-9, _) |
+| `\\s` | Whitespace |
+| `\\D`, `\\W`, `\\S` | Negated versions of the above |
+| `.` | Any character except newline |
+| `^`, `$` | Start/end of string |
+| `[abc]` | Character class |
+| `[^abc]` | Negated character class |
+| `a+`, `a*`, `a?` | Quantifiers |
+| `(a\|b)` | Alternation |
+
+Lookahead, lookbehind, and backreferences are **not supported** (RE2 constraint). Patterns are compiled at runtime on each call; for performance-critical code with a fixed pattern, consider caching via a variable.
+
 ## Test Assertions
 
 These functions are available inside `test` blocks.

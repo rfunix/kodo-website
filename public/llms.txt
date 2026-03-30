@@ -2,7 +2,7 @@
 
 > Kōdo (コード) is a compiled, general-purpose programming language designed for AI agents to write, reason about, and maintain software — while remaining fully transparent and auditable by humans. It features Z3-verified contracts, linear ownership, agent traceability annotations, and compilation certificates.
 
-Kōdo compiles to native code via Cranelift and Inkwell (LLVM) using a hand-written LL(1) recursive descent parser. Current version: v1.10.0 with 2500+ tests, 142 working examples, green threads with M:N work-stealing scheduler, `select {}` for channel multiplexing, dual backends (Cranelift + LLVM/Inkwell), package manager, built-in testing framework with property-based testing, self-hosted lexer and parser (Kōdo can parse itself), and full collections support. Kōdo Inkwell is faster than Rust on recursive workloads (fib(35): 0.029s vs 0.04s). The compiler toolchain includes an MCP server for AI agent integration, structured JSON error output for closed-loop repair, and `kodoc annotate` for heuristic-based contract suggestion with Z3 validation.
+Kōdo compiles to native code via Cranelift and Inkwell (LLVM) using a hand-written LL(1) recursive descent parser. Current version: v1.12.0 with 2800+ tests, 142 working examples, green threads with M:N work-stealing scheduler, growable stacks (1MB auto-expanding to 8MB via SIGSEGV handler), `select {}` for channel multiplexing, dual backends (Cranelift + LLVM/Inkwell), package manager, built-in testing framework with property-based testing, self-hosted lexer and parser (Kōdo can parse itself), full collections support, and regex builtins (`regex_match`, `regex_find`, `regex_replace`). Kōdo Inkwell is faster than Rust on recursive workloads (fib(35): 0.029s vs 0.04s). The compiler toolchain includes an MCP server for AI agent integration (7 tools including `kodo.annotate` for agent-driven contract inference), structured JSON error output for closed-loop repair, `kodoc annotate` for heuristic-based contract suggestion with Z3 validation, and `kodoc annotate --ai` for LLM-assisted contract inference via the Anthropic API.
 
 ## Interactive
 
@@ -54,6 +54,7 @@ Kōdo compiles to native code via Cranelift and Inkwell (LLVM) using a hand-writ
 ## Docs — Reference
 
 - [Standard Library Reference](/docs/guide/stdlib-reference/): Complete API reference for all built-in types and functions
+- [Regex Builtins](/docs/guide/stdlib-regex/): regex_match, regex_find, regex_replace — RE2-compatible pattern matching
 - [CLI Reference](/docs/guide/cli-reference/): All kodoc commands, flags, and JSON output formats
 - [Editor Setup](/docs/guide/editor-setup/): Configure the Kōdo Language Server for VSCode, Neovim, Helix
 - [Error Index](/docs/reference/errors/): Complete error code catalog (E0001–E0699) with explanations and fixes
