@@ -1,3 +1,7 @@
+---
+title: "Self-Hosted Mode"
+---
+
 # Self-Hosted Mode (`--self-hosted`)
 
 > **Status**: Experimental — Bootstrap Phase 4 (Kōdo roadmap v1.x)
