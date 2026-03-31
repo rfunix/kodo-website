@@ -483,12 +483,12 @@ import '../styles/global.css';
           { name: "JSON", file: "json.ko", hasError: false, code: `module json_demo {
     meta { purpose: "JSON parsing and serialization", version: "1.0.0" }
     fn main() -> Int {
-        let raw: String = "{\"version\": 12}"
+        let raw: String = "{\\\"version\\\": 12}"
         let doc: Int = json_parse(raw)
         let ver: Int = json_get_int(doc, "version")
         print_int(ver)
-        let name_raw: String = "{\"lang\": \"kodo\"}"
-        let doc2: Int = json_parse(name_raw)
+        let raw2: String = "{\\\"lang\\\": \\\"kodo\\\"}"
+        let doc2: Int = json_parse(raw2)
         let lang: String = json_get_string(doc2, "lang")
         println(lang)
         return 0
