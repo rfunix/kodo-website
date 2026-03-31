@@ -434,17 +434,17 @@ import '../styles/global.css';
           { name: "Map Operations", file: "maps.ko", hasError: false, code: `module maps {
     meta { purpose: "Map (hash map) operations", version: "1.0.0" }
     fn main() -> Int {
-        let scores: Map<String, Int> = map_new()
-        scores.insert("alice", 95)
-        scores.insert("bob", 87)
-        scores.insert("carol", 92)
-        print_int(scores.length())
-        let v: Option<Int> = scores.get("alice")
-        if v.is_some() {
-            print_int(v.unwrap())
+        let scores: Map<Int, Int> = map_new()
+        map_insert(scores, 1, 95)
+        map_insert(scores, 2, 87)
+        map_insert(scores, 3, 92)
+        print_int(map_length(scores))
+        let v: Int = map_get(scores, 1)
+        print_int(v)
+        let has: Bool = map_contains_key(scores, 2)
+        if has {
+            println("key 2 exists")
         }
-        scores.remove("bob")
-        print_int(scores.length())
         return 0
     }
 }` },
@@ -468,31 +468,29 @@ import '../styles/global.css';
     meta { purpose: "Higher-order list operations", version: "1.0.0" }
     fn main() -> Int {
         let nums: List<Int> = list_new()
-        nums.push(1)
-        nums.push(2)
-        nums.push(3)
-        nums.push(4)
-        nums.push(5)
-        let sum: Int = nums.fold(0, fn(acc: Int, x: Int) -> Int { return acc + x })
+        list_push(nums, 1)
+        list_push(nums, 2)
+        list_push(nums, 3)
+        list_push(nums, 4)
+        list_push(nums, 5)
+        let sum: Int = nums.fold(0, |acc: Int, x: Int| -> Int { acc + x })
         print_int(sum)
-        let evens: List<Int> = nums.filter(fn(x: Int) -> Bool { return x % 2 == 0 })
-        print_int(evens.length())
+        let big: List<Int> = nums.filter(|x: Int| -> Bool { x > 3 })
+        print_int(list_length(big))
         return 0
     }
 }` },
           { name: "JSON", file: "json.ko", hasError: false, code: `module json_demo {
     meta { purpose: "JSON parsing and serialization", version: "1.0.0" }
     fn main() -> Int {
-        let raw: String = "{\"name\": \"kodo\", \"version\": 12}"
-        let doc: Json = json_parse(raw)
-        let name: Option<String> = doc.get_string("name")
-        if name.is_some() {
-            println(name.unwrap())
-        }
-        let ver: Option<Int> = doc.get_int("version")
-        if ver.is_some() {
-            print_int(ver.unwrap())
-        }
+        let raw: String = "{\"version\": 12}"
+        let doc: Int = json_parse(raw)
+        let ver: Int = json_get_int(doc, "version")
+        print_int(ver)
+        let name_raw: String = "{\"lang\": \"kodo\"}"
+        let doc2: Int = json_parse(name_raw)
+        let lang: String = json_get_string(doc2, "lang")
+        println(lang)
         return 0
     }
 }` },
