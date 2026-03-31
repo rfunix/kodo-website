@@ -431,6 +431,125 @@ import '../styles/global.css';
         return 0
     }
 }` },
+          { name: "Map Operations", file: "maps.ko", hasError: false, code: `module maps {
+    meta { purpose: "Map (hash map) operations", version: "1.0.0" }
+    fn main() -> Int {
+        let scores: Map<String, Int> = map_new()
+        scores.insert("alice", 95)
+        scores.insert("bob", 87)
+        scores.insert("carol", 92)
+        print_int(scores.length())
+        let v: Option<Int> = scores.get("alice")
+        if v.is_some() {
+            print_int(v.unwrap())
+        }
+        scores.remove("bob")
+        print_int(scores.length())
+        return 0
+    }
+}` },
+          { name: "Regex", file: "regex.ko", hasError: false, code: `module regex {
+    meta { purpose: "Regex builtins: match, find, replace", version: "1.0.0" }
+    fn main() -> Int {
+        let matched: Bool = regex_match("\\\\d+", "abc123")
+        if matched {
+            println("found digits")
+        }
+        let found: Option<String> = regex_find("\\\\w+", "hello world")
+        if found.is_some() {
+            println(found.unwrap())
+        }
+        let result: String = regex_replace("o", "hello world", "0")
+        println(result)
+        return 0
+    }
+}` },
+          { name: "Iterators (fold/map)", file: "iterators.ko", hasError: false, code: `module iterators {
+    meta { purpose: "Higher-order list operations", version: "1.0.0" }
+    fn main() -> Int {
+        let nums: List<Int> = list_new()
+        nums.push(1)
+        nums.push(2)
+        nums.push(3)
+        nums.push(4)
+        nums.push(5)
+        let sum: Int = nums.fold(0, fn(acc: Int, x: Int) -> Int { return acc + x })
+        print_int(sum)
+        let evens: List<Int> = nums.filter(fn(x: Int) -> Bool { return x % 2 == 0 })
+        print_int(evens.length())
+        return 0
+    }
+}` },
+          { name: "JSON", file: "json.ko", hasError: false, code: `module json_demo {
+    meta { purpose: "JSON parsing and serialization", version: "1.0.0" }
+    fn main() -> Int {
+        let raw: String = "{\"name\": \"kodo\", \"version\": 12}"
+        let doc: Json = json_parse(raw)
+        let name: Option<String> = doc.get_string("name")
+        if name.is_some() {
+            println(name.unwrap())
+        }
+        let ver: Option<Int> = doc.get_int("version")
+        if ver.is_some() {
+            print_int(ver.unwrap())
+        }
+        return 0
+    }
+}` },
+          { name: "Channels", file: "channels.ko", hasError: false, code: `module channels {
+    meta { purpose: "Channel-based concurrency", version: "1.0.0" }
+    fn main() -> Int {
+        let ch: Channel<Int> = channel_new()
+        spawn {
+            channel_send(ch, 42)
+        }
+        let v: Int = channel_recv(ch)
+        print_int(v)
+        return 0
+    }
+}` },
+          { name: "Contracts (ensures)", file: "ensures.ko", hasError: false, code: `module contracts_full {
+    meta { purpose: "Preconditions and postconditions", version: "1.0.0" }
+    fn divide(a: Int, b: Int) -> Int
+        requires { b != 0 }
+        ensures  { result * b == a }
+    {
+        return a / b
+    }
+    fn abs_val(x: Int) -> Int
+        ensures { result >= 0 }
+    {
+        if x < 0 {
+            return -x
+        }
+        return x
+    }
+    fn main() -> Int {
+        print_int(divide(10, 2))
+        print_int(abs_val(-7))
+        return 0
+    }
+}` },
+          { name: "Refinement Types", file: "refinement.ko", hasError: false, code: `module refinement {
+    meta { purpose: "Value-level type constraints", version: "1.0.0" }
+    fn safe_sqrt(x: Int) -> Int
+        requires { x >= 0 }
+    {
+        if x == 0 { return 0 }
+        let r: Int = 1
+        let i: Int = 1
+        while i * i <= x {
+            r = i
+            i = i + 1
+        }
+        return r
+    }
+    fn main() -> Int {
+        print_int(safe_sqrt(16))
+        print_int(safe_sqrt(0))
+        return 0
+    }
+}` },
         ]},
         { category: "AI Agent Features", items: [
           { name: "Confidence Tracking", file: "confidence.ko", hasError: false, code: `module ai_pipeline {
