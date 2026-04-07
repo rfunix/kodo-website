@@ -509,6 +509,30 @@ error[E0262]: function `process_input` is marked `@security_sensitive` but has n
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ add `requires { ... }` or `ensures { ... }` to function `process_input`
 ```
 
+### E0263: Agent Claims Human Review
+A `@reviewed_by(human: "X")` annotation names an AI agent that appears in `[trust].known_agents` in `kodo.toml`. AI agents cannot claim human review status — use `@reviewed_by(agent: "X")` instead.
+
+```
+error[E0263]: function `process_payment`: reviewer `claude` is a known AI agent
+              and cannot claim human review
+  --> src/main.ko:5:1
+```
+
+**Fix**: Change `@reviewed_by(human: "claude")` to `@reviewed_by(agent: "claude")`.
+
+**Config**: `[trust].known_agents = ["claude", "gpt-4"]` in `kodo.toml`.
+
+### E0264: Reviewer Not in Allowlist
+A `@reviewed_by(human: "X")` annotation names a reviewer not present in `[trust].human_reviewers` in `kodo.toml`. When an allowlist is configured, only listed reviewers are accepted.
+
+```
+error[E0264]: function `process_payment`: reviewer `unknown_person` is not in the
+              `human_reviewers` allowlist
+  --> src/main.ko:5:1
+```
+
+**Fix**: Add the reviewer to `[trust].human_reviewers` in `kodo.toml`, or use an authorized reviewer.
+
 ### E0281: Closure Capture After Move
 A closure captures a variable that has already been moved. Once a variable is moved (e.g., into another closure or by assignment), it cannot be captured again.
 
