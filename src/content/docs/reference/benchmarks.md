@@ -179,6 +179,64 @@ No human in the loop. No hoping tests catch it. No "it works on my machine."
 
 ---
 
+## kodo-bench: Quantitative Agent Evaluation
+
+**Scenario**: Give Claude an LLM-readable language reference and 150 Kōdo coding tasks. Measure how often it produces correct code on the first try (pass@1).
+
+### Setup
+
+- **Model**: claude-sonnet-4-20250514
+- **Runs per task**: 3 (pass@1 computed with the unbiased Codex estimator)
+- **Validation**: `kodoc check` → `kodoc build` → run binary → compare stdout
+- **System prompt**: [`bench/kodo-reference.md`](https://github.com/rfunix/kodo/blob/main/bench/kodo-reference.md) (~2000 tokens)
+
+### Results by Category
+
+| Category | pass@1 | compile_rate | Notes |
+|---|---|---|---|
+| ownership | **0.867** | 0.911 | own/ref/mut, borrow semantics |
+| modules | **0.800** | 0.933 | pub fn/struct, meta blocks, encapsulation |
+| agent-traceability | **0.800** | 0.956 | @confidence, @authored_by, @reviewed_by |
+| basics | **0.800** | 0.900 | loops, structs, conditionals |
+| traits-generics | 0.689 | 0.844 | trait/impl, generic functions |
+| contracts-advanced | 0.667 | 0.711 | requires/ensures, refinement types |
+| contracts | 0.417 | 0.958 | basic preconditions / postconditions |
+| error-handling-advanced | 0.422 | 0.689 | Result chains, custom error enums |
+| error-handling | 0.143 | 0.524 | Result/Option, unwrap-or |
+| intents | 0.133 | 0.089 | http_server, database, cache, cli |
+| concurrency | 0.083 | 0.208 | spawn / channels (sequential in v1) |
+| patterns | 0.074 | 0.370 | closures, higher-order fns, string interp |
+| data-structures | 0.000 | 0.375 | Set, Map edge cases |
+
+### Aggregate
+
+| Metric | Value |
+|--------|-------|
+| **pass@1 (150 tasks)** | **0.502** |
+| compile_rate | 0.647 |
+| easy tasks (n=44) | 0.712 |
+| medium tasks (n=78) | 0.402 |
+| hard tasks (n=28) | 0.452 |
+
+### Interpretation
+
+**What works well**: The three features that are most distinctive to Kōdo — ownership, agent traceability annotations, and contract-aware modules — are also the three categories where agents score highest. Agents pick up the Kōdo idioms for these quickly from the reference.
+
+**What drags the score down**:
+- `intents` (0.133): Intent block syntax is unfamiliar and the reference needs richer examples. compile_rate of 0.089 shows agents use wrong syntax.
+- `concurrency` (0.083): `spawn`/`async`/`await` execute sequentially in v1; agents expect parallel semantics and produce wrong output.
+- `patterns` (0.074): Closures, tuple destructuring, and string interpolation have Kōdo-specific syntax that differs from Python/Rust conventions.
+
+**The verdict**: A 50.2% pass@1 on a cold start from a 2000-token reference is a strong baseline. The goal is to reach 70%+ as we improve the reference and address the known v1 limitations.
+
+```bash
+# Reproduce these results
+export ANTHROPIC_API_KEY=your_key
+python3 bench/agent-eval.py --model claude-sonnet-4-20250514 --runs 3
+```
+
+---
+
 ## Real-world example
 
 We built a complete [Task Management API](https://github.com/rfunix/kodo/tree/main/examples/task_manager) in Kōdo that exercises all of these features in a single file — contracts, refinement types, agent traceability, closures, JSON serialization, HTTP server, and inline tests. The same project is also implemented in [Python, TypeScript, Rust, and Go](https://github.com/rfunix/kodo/tree/main/benchmarks) for reference.
