@@ -192,42 +192,42 @@ No human in the loop. No hoping tests catch it. No "it works on my machine."
 
 ### Results by Category
 
-| Category | pass@1 | compile_rate | Notes |
-|---|---|---|---|
-| ownership | **0.867** | 0.911 | own/ref/mut, borrow semantics |
-| modules | **0.800** | 0.933 | pub fn/struct, meta blocks, encapsulation |
-| agent-traceability | **0.800** | 0.956 | @confidence, @authored_by, @reviewed_by |
-| basics | **0.800** | 0.900 | loops, structs, conditionals |
-| traits-generics | 0.689 | 0.844 | trait/impl, generic functions |
-| contracts-advanced | 0.667 | 0.711 | requires/ensures, refinement types |
-| contracts | 0.417 | 0.958 | basic preconditions / postconditions |
-| error-handling-advanced | 0.422 | 0.689 | Result chains, custom error enums |
-| error-handling | 0.143 | 0.524 | Result/Option, unwrap-or |
-| intents | 0.133 | 0.089 | http_server, database, cache, cli |
-| concurrency | 0.083 | 0.208 | spawn / channels (sequential in v1) |
-| patterns | 0.074 | 0.370 | closures, higher-order fns, string interp |
-| data-structures | 0.000 | 0.375 | Set, Map edge cases |
+| Category | pass@1 | Notes |
+|---|---|---|
+| modules | **0.967** | pub fn/struct, meta blocks, encapsulation |
+| ownership | **0.911** | own/ref/mut, borrow semantics |
+| basics | **0.900** | loops, structs, conditionals |
+| agent-traceability | **0.867** | @confidence, @authored_by, @reviewed_by |
+| error-handling-advanced | 0.822 | Result chains, custom error enums |
+| traits-generics | 0.733 | trait/impl, generic functions |
+| contracts-advanced | 0.667 | requires/ensures, refinement types |
+| intents | 0.400 | http_server, database, cache, cli |
+| contracts | 0.292 | basic preconditions / postconditions |
+| patterns | 0.185 | closures, higher-order fns, string interp |
+| data-structures | 0.125 | Set, Map edge cases |
+| concurrency | 0.083 | spawn / channels (sequential in v1) |
+| error-handling | 0.000 | Result/Option patterns (stdlib API mismatch) |
 
 ### Aggregate
 
 | Metric | Value |
 |--------|-------|
-| **pass@1 (150 tasks)** | **0.502** |
-| compile_rate | 0.647 |
-| easy tasks (n=44) | 0.712 |
-| medium tasks (n=78) | 0.402 |
-| hard tasks (n=28) | 0.452 |
+| **pass@1 (150 tasks)** | **0.602** |
+| compile_rate | 0.864 |
+| easy tasks (n=44) | 0.841 |
+| medium tasks (n=78) | 0.504 |
+| hard tasks (n=28) | 0.500 |
 
 ### Interpretation
 
-**What works well**: The three features that are most distinctive to Kōdo — ownership, agent traceability annotations, and contract-aware modules — are also the three categories where agents score highest. Agents pick up the Kōdo idioms for these quickly from the reference.
+**What works well**: The features most distinctive to Kōdo — ownership, agent traceability annotations, contract-aware modules, and advanced error handling — are also where agents score highest. Once agents have the reference, Kōdo idioms click quickly. The improvement from the first run (0.502) to the current baseline (0.602) came entirely from fixing the reference — better examples for intents, closures, tuples, and the correct stdlib APIs.
 
 **What drags the score down**:
-- `intents` (0.133): Intent block syntax is unfamiliar and the reference needs richer examples. compile_rate of 0.089 shows agents use wrong syntax.
+- `error-handling` (0.000): The basic Result/Option stdlib API (e.g. `Option::Some(v)` pattern matching) has a known mismatch in this task set — under investigation.
 - `concurrency` (0.083): `spawn`/`async`/`await` execute sequentially in v1; agents expect parallel semantics and produce wrong output.
-- `patterns` (0.074): Closures, tuple destructuring, and string interpolation have Kōdo-specific syntax that differs from Python/Rust conventions.
+- `intents` (0.400): Intent block syntax is unfamiliar; richer examples in the reference improved compile_rate from 0.089 to 0.333.
 
-**The verdict**: A 50.2% pass@1 on a cold start from a 2000-token reference is a strong baseline. The goal is to reach 70%+ as we improve the reference and address the known v1 limitations.
+**The verdict**: 60.2% pass@1 from a 2000-token reference. The goal is 70%+ as we fix the error-handling task set and address v1 concurrency limitations.
 
 ```bash
 # Reproduce these results
